@@ -1,23 +1,231 @@
-nfl_stats/
-├── docs/                           # GitHub Pages site
-│   ├── index.html                 # Homepage with navigation
-│   ├── player_stats.html          # Player stats dashboard
-│   ├── team_stats.html            # Team stats dashboard
-│   ├── trends.html                # Trends analysis
-│   ├── mvp_predictions.html        # MVP predictions
-│   ├── *.png                      # Generated charts & visualizations
-│   ├── *.html                     # Generated data tables
-│   └── last_updated_*.txt         # Timestamp files for each data source
-├── archive/                       # Historical data for trends
-│   ├── player_*.csv               # Daily player archives
-│   └── team_*.csv                 # Weekly team archives
-├── .github/workflows/            # Automation pipeline
-│   ├── update-player-stats.yml    # Daily player stats updates
-│   ├── update-team-stats.yml      # Weekly team stats updates
-│   ├── update-mvp-predictions.yml # Daily MVP predictions
-│   └── update-all.yml             # Master workflow (complete rebuild)
-├── player_stats_chart.py          # Player stats processor
-├── team_stats_chart.py            # Team stats processor
-├── mvp_predictions.py              # MVP prediction engine
-├── requirements.txt               # Python dependencies
-└── README.md                      # Project documentation
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Stats Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --accent-color: #007bff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border-radius: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .nav-tab {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab:hover, .nav-tab.active {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .chart-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        
+        .last-updated {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .nav-tab {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏈 NFL Stats Dashboard</h1>
+            <p>Real-time NFL statistics, trends, and analysis</p>
+        </header>
+        
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('overview')">Overview</div>
+            <div class="nav-tab" onclick="showTab('players')">Players</div>
+            <div class="nav-tab" onclick="showTab('teams')">Teams</div>
+            <div class="nav-tab" onclick="showTab('standings')">Standings</div>
+            <div class="nav-tab" onclick="showTab('awards')">Awards</div>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>🎯 Top Passers</h3>
+                    <div class="chart-container">
+                        <img src="passing_stats.png" alt="Passing Statistics" onerror="this.style.display='none'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🏃 Top Rushers</h3>
+                    <div class="chart-container">
+                        <img src="rushing_stats.png" alt="Rushing Statistics" onerror="this.style.display='none'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>📊 Team Performance</h3>
+                    <div class="chart-container">
+                        <img src="team_stats.png" alt="Team Statistics" onerror="this.style.display='none'">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="players" class="tab-content">
+            <h2>Player Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Passing Leaders</h3>
+                    <div id="passing-stats">Loading...</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Rushing Leaders</h3>
+                    <div id="rushing-stats">Loading...</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Receiving Leaders</h3>
+                    <div id="receiving-stats">Loading...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="teams" class="tab-content">
+            <h2>Team Statistics</h2>
+            <div class="chart-container">
+                <img src="team_stats.png" alt="Team Statistics" onerror="this.innerHTML='<p>Team statistics chart not available</p>'">
+            </div>
+        </div>
+        
+        <div id="standings" class="tab-content">
+            <h2>NFL Standings</h2>
+            <div id="standings-content">
+                <p>Standings data will be loaded here...</p>
+            </div>
+        </div>
+        
+        <div id="awards" class="tab-content">
+            <h2>Award Predictions</h2>
+            <div id="awards-content">
+                <p>Award predictions will be loaded here...</p>
+            </div>
+        </div>
+        
+        <div class="last-updated">
+            <p>Last updated: <span id="last-update">Loading...</span></p>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        // Load last updated timestamp
+        fetch('last_updated_teams.txt')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('last-update').textContent = data;
+            })
+            .catch(error => {
+                document.getElementById('last-update').textContent = 'Unknown';
+            });
+    </script>
+</body>
+</html>

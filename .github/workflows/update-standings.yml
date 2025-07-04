@@ -1,24 +1,43 @@
-nfl_stats/
-├── docs/                           # GitHub Pages site
-│   ├── index.html                 # Homepage with navigation
-│   ├── player_stats.html          # Player stats dashboard
-│   ├── team_stats.html            # Team stats dashboard
-│   ├── standings.html              # Team standings
-│   ├── award_predictions.html      # Award predictions
-│   ├── *.png                      # Generated charts & visualizations
-│   ├── *.html                     # Generated data tables
-│   └── last_updated_*.txt         # Timestamp files for each data source
-├── archive/                       # Historical data for trends
-│   ├── player_stats_*.csv         # Daily player stats archives
-│   └── team_stats_*.csv           # Weekly team stats archives
-├── .github/workflows/            # Automation pipeline
-│   ├── update-player-stats.yml    # Daily player stats updates
-│   ├── update-team-stats.yml      # Weekly team stats updates
-│   ├── update-standings.yml       # Daily standings updates
-│   └── update-award-predictions.yml # Daily award predictions
-├── player_stats_chart.py          # Player stats data processor
-├── team_stats_chart.py            # Team stats data processor
-├── standings_chart.py              # Standings processor
-├── award_predictions_calculator.py # Award prediction engine
-├── requirements.txt               # Python dependencies
-└── README.md                      # Project documentation
+name: Update NFL Standings
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'  # Every 4 hours during season
+  workflow_dispatch:
+
+jobs:
+  update-standings:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Create directories
+      run: |
+        mkdir -p docs archive
+        
+    - name: Update standings
+      run: |
+        python src/data-processors/team-stats.py
+      continue-on-error: true
+        
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add docs/ archive/
+        git diff --staged --quiet || git commit -m "Update NFL standings - $(date)"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
