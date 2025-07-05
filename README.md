@@ -1,35 +1,30 @@
 # 🏈 NFL Stats Dashboard
 
-A comprehensive, automated NFL statistics dashboard that provides real-time player stats, team performance metrics, standings, and award predictions. Built with Python and deployed via GitHub Pages.
+A comprehensive, automated NFL statistics dashboard that provides real-time player stats, team performance metrics, and visualizations. Built with Python and deployed via GitHub Pages.
 
 ## 🚀 Features
 
-- **Player Statistics**: Passing, rushing, receiving, and defensive stats
-- **Team Analysis**: Win/loss records, points scored/allowed, and performance metrics
-- **Live Standings**: Current division standings and playoff picture
-- **Award Predictions**: MVP, Offensive/Defensive Player of the Year calculations
-- **Historical Trends**: Track player and team performance over time
-- **Automated Updates**: Regular data refreshes via GitHub Actions
-- **Responsive Design**: Works on desktop and mobile devices
-- **Dark Mode**: Easy on the eyes for extended viewing
+- **Player Statistics**: Passing, rushing, receiving, and defensive stats with top 10 leaderboards
+- **Team Analysis**: Win/loss records, points scored/allowed, point differential, and performance metrics
+- **Automated Data Collection**: Web scraping from Pro Football Reference
+- **Visual Charts**: Dark-themed matplotlib charts for all statistics
+- **Data Archiving**: Historical data storage with timestamps
+- **Automated Updates**: Regular data refreshes via GitHub Actions every 6 hours
+- **Responsive Web Dashboard**: Clean, dark-mode interface with tabbed navigation
 
 ## 📊 Dashboard Sections
 
 ### Player Stats
-- **Passing Leaders**: Yards, TDs, completion percentage
-- **Rushing Leaders**: Yards, TDs, yards per carry
-- **Receiving Leaders**: Receptions, yards, TDs
-- **Defensive Leaders**: Tackles, sacks, interceptions
+- **Passing Leaders**: Yards, TDs, completion percentage, QB rating
+- **Rushing Leaders**: Yards, TDs, yards per attempt, total attempts
+- **Receiving Leaders**: Receptions, yards, TDs, yards per reception
+- **Defensive Leaders**: Tackles, sacks, interceptions, pass deflections
 
 ### Team Analytics
-- **Performance Metrics**: Points for/against, win percentage
-- **Efficiency Stats**: Yards per play, turnover differential
-- **Head-to-Head Comparisons**: Team vs team analysis
-
-### Standings & Playoffs
-- **Division Standings**: Current records and rankings
-- **Playoff Picture**: Wild card and division race tracking
-- **Strength of Schedule**: Remaining games difficulty
+- **Points Analysis**: Points for vs points against scatter plot with team labels
+- **Win Percentage**: Ranked bar chart of all teams
+- **Point Differential**: Positive/negative differential with color coding
+- **Win/Loss Comparison**: Side-by-side wins vs losses for all teams
 
 ## 🛠️ Installation & Setup
 
@@ -71,29 +66,41 @@ A comprehensive, automated NFL statistics dashboard that provides real-time play
 
 ### Data Sources
 The dashboard pulls data from:
-- Pro Football Reference (primary)
-- ESPN (backup)
-- NFL.com (official stats)
+- Pro Football Reference (primary source)
+- Automated web scraping with proper user-agent headers
+- Error handling for failed requests
 
 ### Update Frequency
-- **Player Stats**: Every 6 hours during season
-- **Team Stats**: Daily
-- **Standings**: Every 4 hours
-- **Awards**: Daily
+- **All Stats**: Every 6 hours during season via GitHub Actions
+- **Manual Trigger**: Available through GitHub Actions interface
+- **Data Archiving**: Every update saves timestamped copies
 
-### Customization
-Edit the configuration in each processor file:
-- `src/data-processors/player-stats.py`
-- `src/data-processors/team-stats.py`
-- `src/data-processors/standings.py`
-- `src/data-processors/awards-tracker.py`
+### File Structure
+```
+nfl-stats-dashboard/
+├── src/data-processors/
+│   ├── player-stats.py          # Player statistics processor
+│   └── team-stats.py            # Team statistics processor
+├── docs/                        # GitHub Pages deployment
+│   ├── index.html              # Main dashboard
+│   ├── *_stats.png             # Generated charts
+│   ├── *_stats.csv             # Data tables
+│   └── last_updated_*.txt      # Timestamps
+├── archive/                     # Historical data
+├── .github/workflows/           # Automation
+│   └── update-stats.yml        # Main update workflow
+├── requirements.txt            # Python dependencies
+└── README.md                   # This file
+```
 
 ## 📈 Data Processing Pipeline
 
 ```
-Data Sources → Python Processors → CSV/JSON → Charts → HTML Dashboard
-     ↓              ↓                 ↓          ↓         ↓
-  NFL APIs    →  Data Cleaning  →  Storage  →  Matplotlib → GitHub Pages
+Pro Football Reference → Web Scraping → Data Cleaning → Chart Generation → File Output
+                                    ↓
+                               CSV Storage → GitHub Pages → Web Dashboard
+                                    ↓
+                            Archive with Timestamps
 ```
 
 ## 🤖 Automation
@@ -103,45 +110,62 @@ The dashboard uses GitHub Actions for automated updates:
 - **Schedule**: Runs every 6 hours during NFL season
 - **Manual Trigger**: Can be triggered manually via GitHub interface
 - **Error Handling**: Continues with partial data if some sources fail
-- **Notifications**: Logs all update attempts and results
+- **File Management**: Automatically creates directories and manages outputs
 
-## 📱 Responsive Design
+## 📱 Dashboard Features
 
-The dashboard adapts to different screen sizes:
-- **Desktop**: Full grid layout with multiple charts
-- **Tablet**: Stacked layout with optimized charts
-- **Mobile**: Single column with touch-friendly navigation
+### Current Implementation
+- **Responsive Design**: Works on desktop and mobile devices
+- **Dark Mode**: Optimized for extended viewing
+- **Tabbed Navigation**: Overview, Players, Teams, Standings, Awards
+- **Dynamic Content**: JavaScript-powered tab switching
+- **Error Handling**: Graceful fallbacks for missing images
 
-## 🎨 Styling
+### Chart Types
+- **Bar Charts**: Top 10 leaderboards for all stat categories
+- **Scatter Plots**: Points for vs points against analysis
+- **Comparative Charts**: Win/loss side-by-side comparisons
+- **Color-coded Visuals**: Positive/negative indicators
 
-- **Color Scheme**: Dark mode optimized for extended viewing
-- **Typography**: Clean, readable fonts with proper contrast
-- **Charts**: High-contrast colors for accessibility
-- **Layout**: Grid-based responsive design
+## 🎨 Technical Details
+
+### Python Libraries Used
+- **requests**: Web scraping with proper headers
+- **pandas**: Data manipulation and CSV handling
+- **matplotlib**: Chart generation with dark themes
+- **seaborn**: Enhanced statistical visualizations
+- **pathlib**: Modern file path handling
+
+### Data Processing Features
+- **Robust Error Handling**: Graceful failures with informative messages
+- **Data Validation**: Numeric conversion with error handling
+- **Column Flexibility**: Handles different table structures
+- **User-Agent Spoofing**: Prevents blocking by target websites
 
 ## 🔍 Troubleshooting
 
 ### Common Issues
 
 1. **Data not updating**
-   - Check GitHub Actions logs
-   - Verify API endpoints are accessible
+   - Check GitHub Actions logs in the Actions tab
+   - Verify Pro Football Reference is accessible
    - Ensure file permissions are correct
 
 2. **Charts not displaying**
-   - Verify matplotlib is installed
-   - Check file paths in HTML
-   - Ensure PNG files are generated
+   - Verify matplotlib is installed correctly
+   - Check that PNG files are generated in docs/
+   - Ensure proper file paths in HTML
 
 3. **Missing data**
    - Check internet connection
-   - Verify data source availability
-   - Review error logs in processor files
+   - Verify Pro Football Reference site structure hasn't changed
+   - Review error logs in processor output
 
 ### Debug Mode
-Run processors with debug output:
+Run processors individually to see detailed output:
 ```bash
-python src/data-processors/player-stats.py --debug
+python src/data-processors/player-stats.py
+python src/data-processors/team-stats.py
 ```
 
 ## 🤝 Contributing
@@ -167,10 +191,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For questions or issues:
 - Open an issue on GitHub
 - Check the troubleshooting guide above
-- Review the automated workflow logs
+- Review the automated workflow logs in GitHub Actions
 
 ---
 
-**Last Updated**: Automatically updated via GitHub Actions
-**Data Sources**: Pro Football Reference, ESPN, NFL.com
-**Update Frequency**: Every 6 hours during NFL season
+**Last Updated**: Automatically updated via GitHub Actions  
+**Data Source**: Pro Football Reference  
+**Update Frequency**: Every 6 hours during NFL season  
+**Current Season**: 2024 NFL Season
