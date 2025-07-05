@@ -32,8 +32,8 @@
 - [x] **Responsive Design**: Mobile-friendly layout with media queries
 - [x] **Error Handling**: Graceful fallbacks for missing images
 
-### Automation
-- [x] **GitHub Actions**: Automated workflow for regular updates
+### Automation Setup
+- [x] **GitHub Actions Workflows**: Created multiple workflow files
 - [x] **Scheduling**: Every 6 hours during NFL season
 - [x] **Manual Triggers**: Workflow dispatch for on-demand updates
 - [x] **Directory Management**: Automatic creation of required folders
@@ -46,11 +46,24 @@
 
 ## 🔄 IN PROGRESS
 
-### Testing & Validation
-- [ ] **Data Accuracy**: Verify scraped data matches source websites
-- [ ] **Chart Validation**: Ensure all chart types render correctly
-- [ ] **Cross-browser Testing**: Test dashboard across different browsers
-- [ ] **Mobile Testing**: Verify responsive design on various devices
+### GitHub Actions Issues
+- [ ] **Requirements.txt Fix**: ✅ FIXED - Removed directory structure from requirements.txt
+- [ ] **Workflow Testing**: Test GitHub Actions after requirements.txt fix
+- [ ] **Error Handling**: Verify continue-on-error works properly in workflows
+
+## 🚨 URGENT - HIGH PRIORITY
+
+### GitHub Actions Deployment
+- [ ] **Workflow Validation**: Confirm all workflows run successfully
+- [ ] **GitHub Pages Setup**: Configure repository for GitHub Pages deployment
+- [ ] **Permissions**: Ensure GitHub Actions has proper write permissions
+- [ ] **Token Configuration**: Verify GITHUB_TOKEN is properly configured
+
+### Data Validation
+- [ ] **First Run Testing**: Verify scripts work in GitHub Actions environment
+- [ ] **Chart Generation**: Confirm charts are generated and saved properly
+- [ ] **File Paths**: Ensure all file paths work in GitHub Actions runners
+- [ ] **Data Accessibility**: Test that Pro Football Reference is accessible from GitHub
 
 ## 📋 TODO - HIGH PRIORITY
 
@@ -120,6 +133,12 @@
 
 ## 🐛 KNOWN ISSUES
 
+### GitHub Actions
+- [x] **Requirements.txt Error**: ✅ FIXED - Removed directory structure
+- [ ] **Workflow Dependencies**: Verify all Python packages install correctly
+- [ ] **File Permissions**: Ensure GitHub Actions can write to docs/ and archive/
+- [ ] **Git Push**: Verify automated commits and pushes work
+
 ### Data Collection
 - [ ] **Column Variations**: Handle different column names across weeks
 - [ ] **Missing Data**: Some players may have incomplete stats
@@ -149,8 +168,16 @@
 - [ ] **Contributing Guide**: Guidelines for contributors
 - [ ] **Code Examples**: More usage examples
 
+## 🎯 NEXT STEPS
+
+1. **Immediate**: Fix requirements.txt (✅ DONE)
+2. **Today**: Test GitHub Actions workflow manually
+3. **This Week**: Set up GitHub Pages
+4. **Next Week**: Add more comprehensive error handling
+
 ---
 
 **Last Updated**: December 2024  
-**Priority**: Focus on HIGH priority items first  
-**Review Frequency**: Update this list weekly during active development
+**Current Status**: Fixing GitHub Actions deployment issues  
+**Next Milestone**: Get automated updates working  
+**Priority**: Focus on URGENT items first
