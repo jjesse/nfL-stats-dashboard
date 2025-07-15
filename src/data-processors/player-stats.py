@@ -9,12 +9,25 @@ from pathlib import Path
 class NFLPlayerStats:
     def __init__(self):
         self.base_url = "https://www.pro-football-reference.com"
-        self.current_season = datetime.now().year
+        self.current_season = self.get_current_nfl_season()
         self.docs_dir = Path(__file__).parent.parent.parent / "docs"
         self.archive_dir = Path(__file__).parent.parent.parent / "archive"
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
+        print(f"Initialized NFL Player Stats processor for {self.current_season}-{self.current_season + 1} season")
+        
+    def get_current_nfl_season(self):
+        """Determine the current/most recent NFL season"""
+        now = datetime.now()
+        
+        # NFL season typically runs September to February
+        # If we're in January-July, use previous year
+        # If we're in August-December, use current year
+        if now.month <= 7:
+            return now.year - 1
+        else:
+            return now.year
         
     def fetch_player_stats(self, stat_type='passing'):
         """Fetch player statistics from Pro Football Reference"""
