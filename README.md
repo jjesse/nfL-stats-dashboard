@@ -63,7 +63,8 @@ A comprehensive, automated NFL statistics dashboard that provides real-time play
 5. **Generate initial data:**
    ```bash
    python src/data-processors/player-stats.py
-   python src/data-processors/team-stats.py
+   python src/data-processors/team-weekly-trends.py
+   python src/charts/team-charts.py
    ```
 
 6. **View the dashboard:**
@@ -83,20 +84,24 @@ The dashboard includes five main sections:
 
 ### ✅ **Completed Features**
 - ✅ Player statistics processor (passing, rushing, receiving, defense)
+- ✅ Team weekly trends processor (momentum, recent form, win streaks)
 - ✅ Professional chart generation with dark theme
 - ✅ CSV data export and archiving
 - ✅ HTML dashboard with responsive design
 - ✅ GitHub Actions automation workflow
 - ✅ Error handling and logging
+- ✅ Cross-platform font compatibility (DejaVu Sans standard)
+- ✅ Emoji-free chart generation
 - ✅ Season detection (automatically uses 2024 season for July 2025)
 
-### 🚧 **In Progress**
-- 🚧 Team statistics processor (partially complete)
-- 🚧 Advanced team analytics
-- 🚧 GitHub Pages deployment
+### 🧪 **Testing Phase**
+- 🧪 Team advanced analytics processor (needs testing)
+- 🧪 Team basic stats processor (needs testing)
+- 🧪 Awards prediction system (needs testing)
+- 🧪 Player stats processor (needs font fix verification)
 
 ### 📋 **Planned Features**
-- 📋 Award predictions (MVP, OROY, DROY)
+- 📋 GitHub Pages deployment
 - 📋 Playoff probability calculations
 - 📋 Player comparison tools
 - 📋 Historical trend analysis
@@ -130,6 +135,8 @@ nfL-stats-dashboard/
 - `defense_stats.png` - Defensive player metrics
 - `team_stats.png` - Team performance overview
 - `team_advanced_analytics.png` - Advanced team metrics
+- `team_weekly_trends.png` - Team momentum and recent form analysis
+- `awards_predictions.png` - MVP, OROY, DROY predictions
 
 ## 🤝 Contributing
 
@@ -150,9 +157,11 @@ The dashboard automatically updates every 6 hours during the NFL season via GitH
 
 ## 🐛 Known Issues
 
+- Font configuration has been standardized to DejaVu Sans for cross-platform compatibility
 - Web scraping may occasionally fail due to website changes
 - Large historical datasets may impact performance
 - Some advanced statistics require manual verification
+- Processors are in testing phase - not all have been verified to work end-to-end
 
 ## 📄 License
 

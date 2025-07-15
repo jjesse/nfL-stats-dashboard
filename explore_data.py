@@ -26,7 +26,7 @@ def explore_nfl_data():
     
     base_url = "https://www.pro-football-reference.com"
     current_season = get_current_nfl_season()
-    print(f"Using NFL season: {current_season}-{current_season + 1}")
+    print(f"Initial season guess: {current_season}")
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
     }
@@ -38,25 +38,31 @@ def explore_nfl_data():
     
     # 1. Test multiple seasons to find available data
     print(f"\n🔍 Testing Season Data Availability...")
-    test_seasons = [current_season, current_season - 1, current_season - 2]
+    test_seasons = [current_season, current_season - 1, current_season - 2, 2023, 2022]
     
     working_season = None
     for season in test_seasons:
         try:
+            print(f"\nTesting season {season}...")
             url = f"{base_url}/years/{season}/"
             response = requests.get(url, headers=headers, timeout=10)
-            print(f"Season {season}: Status {response.status_code}")
+            print(f"  Status: {response.status_code}")
             
             if response.status_code == 200:
-                tables = pd.read_html(response.content)
-                if tables and len(tables) > 0:
-                    print(f"  ✓ Found {len(tables)} data tables")
-                    working_season = season
-                    break
+                # Check if it's actually NFL data by looking for team tables
+                content = response.text
+                if 'AFC East' in content or 'Buffalo Bills' in content or 'standings' in content.lower():
+                    tables = pd.read_html(response.content)
+                    if tables and len(tables) > 0:
+                        print(f"  ✓ Found {len(tables)} data tables")
+                        working_season = season
+                        break
+                    else:
+                        print(f"  ⚠️ No data tables found")
                 else:
-                    print(f"  ⚠️ No data tables found")
+                    print(f"  ⚠️ Page exists but doesn't contain NFL data")
             else:
-                print(f"  ✗ Page not accessible")
+                print(f"  ✗ Page not accessible (Status: {response.status_code})")
                 
         except Exception as e:
             print(f"  ✗ Error: {e}")
@@ -65,6 +71,10 @@ def explore_nfl_data():
     
     if not working_season:
         print("❌ Could not find any working season data!")
+        print("This might be because:")
+        print("  - Pro Football Reference website structure changed")
+        print("  - Network connectivity issues") 
+        print("  - The site is blocking automated requests")
         return
     
     print(f"\n✅ Using Season {working_season} for exploration")
@@ -114,24 +124,37 @@ def explore_nfl_data():
     
     time.sleep(1)
     
-    # 3. Advanced stats - Red Zone
+    # 3. Advanced stats - Red Zone (try different endpoints)
     print(f"\n🔴 Exploring Red Zone Stats...")
-    try:
-        url = f"{base_url}/years/{current_season}/redzone.htm"
-        response = requests.get(url, headers=headers)
-        print(f"Status: {response.status_code}")
-        
-        if response.status_code == 200:
-            tables = pd.read_html(response.content)
-            print(f"✓ Found {len(tables)} red zone tables")
+    red_zone_urls = [
+        f"{base_url}/years/{current_season}/redzone.htm",
+        f"{base_url}/teams/redzone/{current_season}.htm",
+        f"{base_url}/years/{current_season}/opp.htm#team_stats"
+    ]
+    
+    for url in red_zone_urls:
+        try:
+            print(f"Trying: {url}")
+            response = requests.get(url, headers=headers)
+            print(f"Status: {response.status_code}")
             
-            for i, table in enumerate(tables[:2]):
-                print(f"\nRed Zone Table {i + 1}:")
-                print(f"  Shape: {table.shape}")
-                print(f"  Columns: {list(table.columns)}")
+            if response.status_code == 200:
+                tables = pd.read_html(response.content)
+                print(f"✓ Found {len(tables)} tables")
                 
-    except Exception as e:
-        print(f"Error exploring red zone stats: {e}")
+                if tables:
+                    for i, table in enumerate(tables[:2]):
+                        print(f"\nTable {i + 1}:")
+                        print(f"  Shape: {table.shape}")
+                        print(f"  Columns: {list(table.columns)[:5]}")
+                    break
+            else:
+                print(f"  ✗ Failed with status {response.status_code}")
+                
+        except Exception as e:
+            print(f"  Error: {e}")
+        
+        time.sleep(0.5)
     
     time.sleep(1)
     

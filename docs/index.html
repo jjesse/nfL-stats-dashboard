@@ -160,16 +160,34 @@
                 </div>
                 
                 <div class="stat-card">
-                    <h3>📊 Team Performance</h3>
+                    <h3>📊 Team Standings</h3>
+                    <p><small>Division leaders and conference standings</small></p>
                     <div class="chart-container">
                         <img src="team_stats.png" alt="Team Statistics" onerror="this.innerHTML='<p>Team stats chart not available yet</p>'">
                     </div>
                 </div>
                 
                 <div class="stat-card">
-                    <h3>🔬 Advanced Analytics</h3>
+                    <h3>� Team Trends</h3>
+                    <p><small>Weekly momentum and recent form</small></p>
+                    <div class="chart-container">
+                        <img src="team_weekly_trends.png" alt="Team Weekly Trends" onerror="this.innerHTML='<p>Team trends chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>�🔬 Advanced Team Analytics</h3>
+                    <p><small>Conference comparisons and deep analysis</small></p>
                     <div class="chart-container">
                         <img src="team_advanced_analytics.png" alt="Advanced Team Analytics" onerror="this.innerHTML='<p>Advanced analytics not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🏆 Award Predictions</h3>
+                    <p><small>MVP, OROY, DROY predictions</small></p>
+                    <div class="chart-container">
+                        <img src="awards_predictions.png" alt="Awards Predictions" onerror="this.innerHTML='<p>Awards predictions not available yet</p>'">
                     </div>
                 </div>
             </div>
@@ -221,26 +239,57 @@
         </div>
         
         <div id="teams" class="tab-content">
-            <h2>Team Statistics</h2>
+            <h2>Team Statistics & Analytics</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3>📊 Team Performance</h3>
+                    <h3>📊 Basic Team Stats</h3>
+                    <p><small>Division standings, top offenses/defenses, point differential</small></p>
                     <div class="chart-container">
-                        <img src="team_stats.png" alt="Team Statistics" onerror="this.innerHTML='<p>Team statistics chart not available</p>'">
+                        <img src="team_stats.png" alt="Basic Team Statistics" onerror="this.innerHTML='<p>Basic team stats chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>📈 Weekly Trends</h3>
+                    <p><small>Team momentum, hot/cold streaks, recent form analysis</small></p>
+                    <div class="chart-container">
+                        <img src="team_weekly_trends.png" alt="Team Weekly Trends" onerror="this.innerHTML='<p>Weekly trends chart not available yet</p>'">
                     </div>
                 </div>
                 
                 <div class="stat-card">
                     <h3>🔬 Advanced Analytics</h3>
+                    <p><small>Conference comparisons, advanced metrics, deep analysis</small></p>
                     <div class="chart-container">
-                        <img src="team_advanced_analytics.png" alt="Advanced Team Analytics" onerror="this.innerHTML='<p>Advanced analytics chart not available</p>'">
+                        <img src="team_advanced_analytics.png" alt="Advanced Team Analytics" onerror="this.innerHTML='<p>Advanced analytics chart not available yet</p>'">
                     </div>
                 </div>
                 
                 <div class="stat-card">
-                    <h3>📈 Team Standings</h3>
+                    <h3>� Current Standings</h3>
+                    <p><small>Raw team data and standings table</small></p>
                     <div id="team-standings-data">
-                        <p>Loading team standings...</p>
+                        <p>Loading team standings data...</p>
+                        <a href="team_standings.csv" download style="color: #007bff;">📥 Download CSV</a>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>⚡ Quick Stats</h3>
+                    <div id="team-quick-stats">
+                        <p><strong>🏆 Best Record:</strong> <span id="best-team">Loading...</span></p>
+                        <p><strong>🎯 Top Offense:</strong> <span id="top-offense">Loading...</span></p>
+                        <p><strong>🛡️ Best Defense:</strong> <span id="best-defense">Loading...</span></p>
+                        <p><strong>⚖️ Biggest Differential:</strong> <span id="point-diff">Loading...</span></p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🕒 Last Updated</h3>
+                    <div id="team-update-times">
+                        <p><strong>Basic Stats:</strong> <span id="basic-update">Loading...</span></p>
+                        <p><strong>Trends:</strong> <span id="trends-update">Loading...</span></p>
+                        <p><strong>Advanced:</strong> <span id="advanced-update">Loading...</span></p>
                     </div>
                 </div>
             </div>
@@ -311,10 +360,11 @@
         // Load last updated timestamp
         function loadLastUpdated() {
             // Try to load the most recent timestamp from team stats
-            fetch('last_updated_team_standings.txt')
+            fetch('last_updated_team_charts.txt')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('last-update').textContent = data;
+                    document.getElementById('advanced-update').textContent = data;
                 })
                 .catch(error => {
                     // Fallback to legacy timestamp file
@@ -327,11 +377,103 @@
                             document.getElementById('last-update').textContent = 'No data available yet';
                         });
                 });
+            
+            // Load basic team stats timestamp
+            fetch('last_updated_team_standings.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('basic-update').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('basic-update').textContent = 'Not available';
+                });
+            
+            // Load trends timestamp (same as basic for now)
+            fetch('last_updated_team_standings.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('trends-update').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('trends-update').textContent = 'Not available';
+                });
+        }
+
+        // Load team quick stats from CSV
+        function loadTeamQuickStats() {
+            fetch('team_standings.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const lines = data.split('\n');
+                    if (lines.length > 1) {
+                        const headers = lines[0].split(',');
+                        const teams = lines.slice(1).filter(line => line.trim()).map(line => {
+                            const values = line.split(',');
+                            const team = {};
+                            headers.forEach((header, index) => {
+                                team[header.trim()] = values[index] ? values[index].trim() : '';
+                            });
+                            return team;
+                        });
+                        
+                        // Find best stats
+                        if (teams.length > 0) {
+                            // Best record (assuming W and Win_Pct columns exist)
+                            if (teams[0].W && teams[0].L) {
+                                const bestRecord = teams.reduce((best, team) => {
+                                    const wins = parseInt(team.W) || 0;
+                                    const losses = parseInt(team.L) || 0;
+                                    const bestWins = parseInt(best.W) || 0;
+                                    const bestLosses = parseInt(best.L) || 0;
+                                    const winPct = wins / (wins + losses);
+                                    const bestWinPct = bestWins / (bestWins + bestLosses);
+                                    return winPct > bestWinPct ? team : best;
+                                });
+                                document.getElementById('best-team').textContent = 
+                                    `${bestRecord.Tm} (${bestRecord.W}-${bestRecord.L})`;
+                            }
+                            
+                            // Top offense (highest PF)
+                            if (teams[0].PF) {
+                                const topOffense = teams.reduce((best, team) => {
+                                    return (parseInt(team.PF) || 0) > (parseInt(best.PF) || 0) ? team : best;
+                                });
+                                document.getElementById('top-offense').textContent = 
+                                    `${topOffense.Tm} (${topOffense.PF} pts)`;
+                            }
+                            
+                            // Best defense (lowest PA)
+                            if (teams[0].PA) {
+                                const bestDefense = teams.reduce((best, team) => {
+                                    return (parseInt(team.PA) || 999) < (parseInt(best.PA) || 999) ? team : best;
+                                });
+                                document.getElementById('best-defense').textContent = 
+                                    `${bestDefense.Tm} (${bestDefense.PA} allowed)`;
+                            }
+                            
+                            // Biggest point differential
+                            if (teams[0].PF && teams[0].PA) {
+                                const biggestDiff = teams.reduce((best, team) => {
+                                    const diff = (parseInt(team.PF) || 0) - (parseInt(team.PA) || 0);
+                                    const bestDiff = (parseInt(best.PF) || 0) - (parseInt(best.PA) || 0);
+                                    return diff > bestDiff ? team : best;
+                                });
+                                const diff = (parseInt(biggestDiff.PF) || 0) - (parseInt(biggestDiff.PA) || 0);
+                                document.getElementById('point-diff').textContent = 
+                                    `${biggestDiff.Tm} (+${diff})`;
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log('Could not load team quick stats:', error);
+                });
         }
 
         // Load timestamps when page loads
         document.addEventListener('DOMContentLoaded', function() {
             loadLastUpdated();
+            loadTeamQuickStats();
         });
     </script>
 </body>
