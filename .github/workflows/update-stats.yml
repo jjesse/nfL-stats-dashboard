@@ -36,6 +36,11 @@ jobs:
       run: |
         python src/data-processors/team-stats.py
       continue-on-error: true
+      
+    - name: Update awards predictions
+      run: |
+        python src/data-processors/awards-tracker.py
+      continue-on-error: true
         
     - name: Commit and push changes
       run: |

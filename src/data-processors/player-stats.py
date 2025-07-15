@@ -242,22 +242,42 @@ class NFLPlayerStats:
     
     def process_all_stats(self):
         """Process all player stat types"""
+        print("=" * 60)
+        print("🏈 NFL PLAYER STATISTICS PROCESSOR")
+        print("=" * 60)
+        print(f"Processing {self.current_season} NFL season data...")
+        
         stat_types = ['passing', 'rushing', 'receiving', 'defense']
         
         for stat_type in stat_types:
-            print(f"Processing {stat_type} stats...")
-            df = self.fetch_player_stats(stat_type)
-            if not df.empty:
-                self.create_player_charts(df, stat_type)
-                self.save_data(df, stat_type)
-                print(f"✓ {stat_type.title()} stats processed successfully")
-            else:
-                print(f"✗ Failed to process {stat_type} stats")
+            print(f"\nProcessing {stat_type} stats...")
+            try:
+                df = self.fetch_player_stats(stat_type)
+                if not df.empty:
+                    print(f"✓ Found {len(df)} {stat_type} records")
+                    self.create_player_charts(df, stat_type)
+                    self.save_data(df, stat_type)
+                    print(f"✓ {stat_type.title()} stats processed successfully")
+                else:
+                    print(f"✗ No {stat_type} data found")
+            except Exception as e:
+                print(f"✗ Error processing {stat_type} stats: {e}")
+                continue
+        
+        print("\n" + "=" * 60)
+        print("🏆 PLAYER STATISTICS PROCESSING COMPLETE!")
+        print("=" * 60)
 
 if __name__ == "__main__":
-    # Ensure directories exist
-    os.makedirs("docs", exist_ok=True)
-    os.makedirs("archive", exist_ok=True)
-    
+    # Ensure directories exist using Path objects for better cross-platform support
     processor = NFLPlayerStats()
+    
+    # Create directories using the processor's path objects
+    processor.docs_dir.mkdir(parents=True, exist_ok=True)
+    processor.archive_dir.mkdir(parents=True, exist_ok=True)
+    
+    print(f"📁 Created directories:")
+    print(f"  Docs: {processor.docs_dir}")
+    print(f"  Archive: {processor.archive_dir}")
+    
     processor.process_all_stats()
