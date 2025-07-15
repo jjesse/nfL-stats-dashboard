@@ -134,21 +134,42 @@
                 <div class="stat-card">
                     <h3>🎯 Top Passers</h3>
                     <div class="chart-container">
-                        <img src="passing_stats.png" alt="Passing Statistics" onerror="this.style.display='none'">
+                        <img src="passing_stats.png" alt="Passing Statistics" onerror="this.innerHTML='<p>Passing stats chart not available yet</p>'">
                     </div>
                 </div>
                 
                 <div class="stat-card">
                     <h3>🏃 Top Rushers</h3>
                     <div class="chart-container">
-                        <img src="rushing_stats.png" alt="Rushing Statistics" onerror="this.style.display='none'">
+                        <img src="rushing_stats.png" alt="Rushing Statistics" onerror="this.innerHTML='<p>Rushing stats chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🎯 Top Receivers</h3>
+                    <div class="chart-container">
+                        <img src="receiving_stats.png" alt="Receiving Statistics" onerror="this.innerHTML='<p>Receiving stats chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🛡️ Defense Leaders</h3>
+                    <div class="chart-container">
+                        <img src="defense_stats.png" alt="Defense Statistics" onerror="this.innerHTML='<p>Defense stats chart not available yet</p>'">
                     </div>
                 </div>
                 
                 <div class="stat-card">
                     <h3>📊 Team Performance</h3>
                     <div class="chart-container">
-                        <img src="team_stats.png" alt="Team Statistics" onerror="this.style.display='none'">
+                        <img src="team_stats.png" alt="Team Statistics" onerror="this.innerHTML='<p>Team stats chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🔬 Advanced Analytics</h3>
+                    <div class="chart-container">
+                        <img src="team_advanced_analytics.png" alt="Advanced Team Analytics" onerror="this.innerHTML='<p>Advanced analytics not available yet</p>'">
                     </div>
                 </div>
             </div>
@@ -158,26 +179,70 @@
             <h2>Player Statistics</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3>Passing Leaders</h3>
-                    <div id="passing-stats">Loading...</div>
+                    <h3>🎯 Passing Leaders</h3>
+                    <div class="chart-container">
+                        <img src="passing_stats.png" alt="Passing Statistics" onerror="this.innerHTML='<p>Passing stats not available yet</p>'">
+                    </div>
+                    <div id="passing-stats">
+                        <p><small>Loading passing data...</small></p>
+                    </div>
                 </div>
                 
                 <div class="stat-card">
-                    <h3>Rushing Leaders</h3>
-                    <div id="rushing-stats">Loading...</div>
+                    <h3>🏃 Rushing Leaders</h3>
+                    <div class="chart-container">
+                        <img src="rushing_stats.png" alt="Rushing Statistics" onerror="this.innerHTML='<p>Rushing stats not available yet</p>'">
+                    </div>
+                    <div id="rushing-stats">
+                        <p><small>Loading rushing data...</small></p>
+                    </div>
                 </div>
                 
                 <div class="stat-card">
-                    <h3>Receiving Leaders</h3>
-                    <div id="receiving-stats">Loading...</div>
+                    <h3>🎯 Receiving Leaders</h3>
+                    <div class="chart-container">
+                        <img src="receiving_stats.png" alt="Receiving Statistics" onerror="this.innerHTML='<p>Receiving stats not available yet</p>'">
+                    </div>
+                    <div id="receiving-stats">
+                        <p><small>Loading receiving data...</small></p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🛡️ Defensive Leaders</h3>
+                    <div class="chart-container">
+                        <img src="defense_stats.png" alt="Defense Statistics" onerror="this.innerHTML='<p>Defense stats not available yet</p>'">
+                    </div>
+                    <div id="defense-stats">
+                        <p><small>Loading defensive data...</small></p>
+                    </div>
                 </div>
             </div>
         </div>
         
         <div id="teams" class="tab-content">
             <h2>Team Statistics</h2>
-            <div class="chart-container">
-                <img src="team_stats.png" alt="Team Statistics" onerror="this.innerHTML='<p>Team statistics chart not available</p>'">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>📊 Team Performance</h3>
+                    <div class="chart-container">
+                        <img src="team_stats.png" alt="Team Statistics" onerror="this.innerHTML='<p>Team statistics chart not available</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🔬 Advanced Analytics</h3>
+                    <div class="chart-container">
+                        <img src="team_advanced_analytics.png" alt="Advanced Team Analytics" onerror="this.innerHTML='<p>Advanced analytics chart not available</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>📈 Team Standings</h3>
+                    <div id="team-standings-data">
+                        <p>Loading team standings...</p>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -218,14 +283,30 @@
         }
         
         // Load last updated timestamp
-        fetch('last_updated_teams.txt')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('last-update').textContent = data;
-            })
-            .catch(error => {
-                document.getElementById('last-update').textContent = 'Unknown';
-            });
+        function loadLastUpdated() {
+            // Try to load the most recent timestamp from team stats
+            fetch('last_updated_team_standings.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('last-update').textContent = data;
+                })
+                .catch(error => {
+                    // Fallback to legacy timestamp file
+                    fetch('last_updated_teams.txt')
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById('last-update').textContent = data;
+                        })
+                        .catch(error => {
+                            document.getElementById('last-update').textContent = 'No data available yet';
+                        });
+                });
+        }
+
+        // Load timestamps when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLastUpdated();
+        });
     </script>
 </body>
 </html>
