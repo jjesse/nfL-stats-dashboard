@@ -1,11 +1,11 @@
-Player,MVP_Score
-Joe Burrow,107.7375
-Lamar Jackson,104.075
-Baker Mayfield,94.125
-Jared Goff,90.93125
-Sam Darnold,84.99375
-Josh Allen,73.31875
-Bo Nix,69.59375
-Aaron Rodgers,69.35625
-Justin Herbert,67.1875
-Patrick Mahomes,65.55
+Player,MVP_Score,TD,Yds,Rate
+Joe Burrow,140.114,43.0,4918.0,108.5
+Lamar Jackson,138.852,41.0,4172.0,119.6
+Baker Mayfield,128.188,41.0,4500.0,106.8
+Jared Goff,122.975,37.0,4629.0,111.8
+Sam Darnold,115.757,35.0,4319.0,102.5
+Josh Allen,101.81700000000001,28.0,3731.0,101.4
+Bo Nix,98.25299999999999,29.0,3775.0,93.3
+Aaron Rodgers,96.57100000000001,28.0,3897.0,90.5
+Justin Herbert,92.682,23.0,3870.0,101.7
+Patrick Mahomes,92.34399999999998,26.0,3928.0,93.5

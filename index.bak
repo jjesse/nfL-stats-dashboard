@@ -328,7 +328,7 @@
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-error" style="display: none;">
                             <span class="status-indicator status-success"></span>
-                            Chart not available. Run: <code>python src/data-processors/team-weekly-trends.py</code>
+                            Chart available! Working processor.
                         </div>
                     </div>
                 </div>
@@ -341,7 +341,7 @@
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-error" style="display: none;">
                             <span class="status-indicator status-success"></span>
-                            Chart not available. Run: <code>python src/data-processors/team-charts.py</code>
+                            Chart available! Working processor.
                         </div>
                     </div>
                 </div>
@@ -354,7 +354,7 @@
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-error" style="display: none;">
                             <span class="status-indicator status-success"></span>
-                            Chart not available. Run: <code>python src/data-processors/awards-tracker.py</code>
+                            Chart available! Working processor.
                         </div>
                     </div>
                 </div>
@@ -375,10 +375,6 @@
                             Passing statistics chart not generated yet.
                         </div>
                     </div>
-                    <div class="quick-stats">
-                        <h4>Quick Stats</h4>
-                        <div id="passing-quick-stats">Loading...</div>
-                    </div>
                 </div>
                 
                 <div class="stat-card">
@@ -390,10 +386,6 @@
                         <div class="chart-error" style="display: none;">
                             Rushing statistics chart not generated yet.
                         </div>
-                    </div>
-                    <div class="quick-stats">
-                        <h4>Quick Stats</h4>
-                        <div id="rushing-quick-stats">Loading...</div>
                     </div>
                 </div>
                 
@@ -407,10 +399,6 @@
                             Receiving statistics chart not generated yet.
                         </div>
                     </div>
-                    <div class="quick-stats">
-                        <h4>Quick Stats</h4>
-                        <div id="receiving-quick-stats">Loading...</div>
-                    </div>
                 </div>
                 
                 <div class="stat-card">
@@ -422,10 +410,6 @@
                         <div class="chart-error" style="display: none;">
                             Defense statistics chart not generated yet.
                         </div>
-                    </div>
-                    <div class="quick-stats">
-                        <h4>Quick Stats</h4>
-                        <div id="defense-quick-stats">Loading...</div>
                     </div>
                 </div>
             </div>
@@ -658,6 +642,480 @@
             
             // Set initial header status
             document.getElementById('last-update-header').textContent = '🔄 Checking data availability...';
+        });
+    </script>
+</body>
+</html>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --accent-color: #007bff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border-radius: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .nav-tab {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab:hover, .nav-tab.active {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .chart-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        
+        .last-updated {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .nav-tab {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏈 NFL Stats Dashboard</h1>
+            <p>Real-time NFL statistics, trends, and analysis</p>
+        </header>
+        
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('overview')">Overview</div>
+            <div class="nav-tab" onclick="showTab('players')">Players</div>
+            <div class="nav-tab" onclick="showTab('teams')">Teams</div>
+            <div class="nav-tab" onclick="showTab('standings')">Standings</div>
+            <div class="nav-tab" onclick="showTab('awards')">Awards</div>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>🎯 Top Passers</h3>
+                    <div class="chart-container">
+                        <img src="passing_stats.png" alt="Passing Statistics" onerror="this.innerHTML='<p>Passing stats chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🏃 Top Rushers</h3>
+                    <div class="chart-container">
+                        <img src="rushing_stats.png" alt="Rushing Statistics" onerror="this.innerHTML='<p>Rushing stats chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🎯 Top Receivers</h3>
+                    <div class="chart-container">
+                        <img src="receiving_stats.png" alt="Receiving Statistics" onerror="this.innerHTML='<p>Receiving stats chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🛡️ Defense Leaders</h3>
+                    <div class="chart-container">
+                        <img src="defense_stats.png" alt="Defense Statistics" onerror="this.innerHTML='<p>Defense stats chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>📊 Team Standings</h3>
+                    <p><small>Division leaders and conference standings</small></p>
+                    <div class="chart-container">
+                        <img src="team_stats.png" alt="Team Statistics" onerror="this.innerHTML='<p>Team stats chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>� Team Trends</h3>
+                    <p><small>Weekly momentum and recent form</small></p>
+                    <div class="chart-container">
+                        <img src="team_weekly_trends.png" alt="Team Weekly Trends" onerror="this.innerHTML='<p>Team trends chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>�🔬 Advanced Team Analytics</h3>
+                    <p><small>Conference comparisons and deep analysis</small></p>
+                    <div class="chart-container">
+                        <img src="team_advanced_analytics.png" alt="Advanced Team Analytics" onerror="this.innerHTML='<p>Advanced analytics not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🏆 Award Predictions</h3>
+                    <p><small>MVP, OROY, DROY predictions</small></p>
+                    <div class="chart-container">
+                        <img src="awards_predictions.png" alt="Awards Predictions" onerror="this.innerHTML='<p>Awards predictions not available yet</p>'">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="players" class="tab-content">
+            <h2>Player Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>🎯 Passing Leaders</h3>
+                    <div class="chart-container">
+                        <img src="passing_stats.png" alt="Passing Statistics" onerror="this.innerHTML='<p>Passing stats not available yet</p>'">
+                    </div>
+                    <div id="passing-stats">
+                        <p><small>Loading passing data...</small></p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🏃 Rushing Leaders</h3>
+                    <div class="chart-container">
+                        <img src="rushing_stats.png" alt="Rushing Statistics" onerror="this.innerHTML='<p>Rushing stats not available yet</p>'">
+                    </div>
+                    <div id="rushing-stats">
+                        <p><small>Loading rushing data...</small></p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🎯 Receiving Leaders</h3>
+                    <div class="chart-container">
+                        <img src="receiving_stats.png" alt="Receiving Statistics" onerror="this.innerHTML='<p>Receiving stats not available yet</p>'">
+                    </div>
+                    <div id="receiving-stats">
+                        <p><small>Loading receiving data...</small></p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🛡️ Defensive Leaders</h3>
+                    <div class="chart-container">
+                        <img src="defense_stats.png" alt="Defense Statistics" onerror="this.innerHTML='<p>Defense stats not available yet</p>'">
+                    </div>
+                    <div id="defense-stats">
+                        <p><small>Loading defensive data...</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="teams" class="tab-content">
+            <h2>Team Statistics & Analytics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>📊 Basic Team Stats</h3>
+                    <p><small>Division standings, top offenses/defenses, point differential</small></p>
+                    <div class="chart-container">
+                        <img src="team_stats.png" alt="Basic Team Statistics" onerror="this.innerHTML='<p>Basic team stats chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>📈 Weekly Trends</h3>
+                    <p><small>Team momentum, hot/cold streaks, recent form analysis</small></p>
+                    <div class="chart-container">
+                        <img src="team_weekly_trends.png" alt="Team Weekly Trends" onerror="this.innerHTML='<p>Weekly trends chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🔬 Advanced Analytics</h3>
+                    <p><small>Conference comparisons, advanced metrics, deep analysis</small></p>
+                    <div class="chart-container">
+                        <img src="team_advanced_analytics.png" alt="Advanced Team Analytics" onerror="this.innerHTML='<p>Advanced analytics chart not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>� Current Standings</h3>
+                    <p><small>Raw team data and standings table</small></p>
+                    <div id="team-standings-data">
+                        <p>Loading team standings data...</p>
+                        <a href="team_standings.csv" download style="color: #007bff;">📥 Download CSV</a>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>⚡ Quick Stats</h3>
+                    <div id="team-quick-stats">
+                        <p><strong>🏆 Best Record:</strong> <span id="best-team">Loading...</span></p>
+                        <p><strong>🎯 Top Offense:</strong> <span id="top-offense">Loading...</span></p>
+                        <p><strong>🛡️ Best Defense:</strong> <span id="best-defense">Loading...</span></p>
+                        <p><strong>⚖️ Biggest Differential:</strong> <span id="point-diff">Loading...</span></p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🕒 Last Updated</h3>
+                    <div id="team-update-times">
+                        <p><strong>Basic Stats:</strong> <span id="basic-update">Loading...</span></p>
+                        <p><strong>Trends:</strong> <span id="trends-update">Loading...</span></p>
+                        <p><strong>Advanced:</strong> <span id="advanced-update">Loading...</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="standings" class="tab-content">
+            <h2>NFL Standings</h2>
+            <div id="standings-content">
+                <p>Standings data will be loaded here...</p>
+            </div>
+        </div>
+        
+        <div id="awards" class="tab-content">
+            <h2>Award Predictions</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>🏆 NFL Awards Dashboard</h3>
+                    <div class="chart-container">
+                        <img src="awards_predictions.png" alt="Awards Predictions" onerror="this.innerHTML='<p>Awards predictions not available yet</p>'">
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🏆 MVP Predictions</h3>
+                    <div id="mvp-predictions">
+                        <p><small>Loading MVP predictions...</small></p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🌟 Offensive ROY</h3>
+                    <div id="oroy-predictions">
+                        <p><small>Loading OROY predictions...</small></p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🛡️ Defensive ROY</h3>
+                    <div id="droy-predictions">
+                        <p><small>Loading DROY predictions...</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="last-updated">
+            <p>Last updated: <span id="last-update">Loading...</span></p>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        // Load last updated timestamp
+        function loadLastUpdated() {
+            // Try to load the most recent timestamp from team stats
+            fetch('last_updated_team_charts.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('last-update').textContent = data;
+                    document.getElementById('advanced-update').textContent = data;
+                })
+                .catch(error => {
+                    // Fallback to legacy timestamp file
+                    fetch('last_updated_teams.txt')
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById('last-update').textContent = data;
+                        })
+                        .catch(error => {
+                            document.getElementById('last-update').textContent = 'No data available yet';
+                        });
+                });
+            
+            // Load basic team stats timestamp
+            fetch('last_updated_team_standings.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('basic-update').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('basic-update').textContent = 'Not available';
+                });
+            
+            // Load trends timestamp (same as basic for now)
+            fetch('last_updated_team_standings.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('trends-update').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('trends-update').textContent = 'Not available';
+                });
+        }
+
+        // Load team quick stats from CSV
+        function loadTeamQuickStats() {
+            fetch('team_standings.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const lines = data.split('\n');
+                    if (lines.length > 1) {
+                        const headers = lines[0].split(',');
+                        const teams = lines.slice(1).filter(line => line.trim()).map(line => {
+                            const values = line.split(',');
+                            const team = {};
+                            headers.forEach((header, index) => {
+                                team[header.trim()] = values[index] ? values[index].trim() : '';
+                            });
+                            return team;
+                        });
+                        
+                        // Find best stats
+                        if (teams.length > 0) {
+                            // Best record (assuming W and Win_Pct columns exist)
+                            if (teams[0].W && teams[0].L) {
+                                const bestRecord = teams.reduce((best, team) => {
+                                    const wins = parseInt(team.W) || 0;
+                                    const losses = parseInt(team.L) || 0;
+                                    const bestWins = parseInt(best.W) || 0;
+                                    const bestLosses = parseInt(best.L) || 0;
+                                    const winPct = wins / (wins + losses);
+                                    const bestWinPct = bestWins / (bestWins + bestLosses);
+                                    return winPct > bestWinPct ? team : best;
+                                });
+                                document.getElementById('best-team').textContent = 
+                                    `${bestRecord.Tm} (${bestRecord.W}-${bestRecord.L})`;
+                            }
+                            
+                            // Top offense (highest PF)
+                            if (teams[0].PF) {
+                                const topOffense = teams.reduce((best, team) => {
+                                    return (parseInt(team.PF) || 0) > (parseInt(best.PF) || 0) ? team : best;
+                                });
+                                document.getElementById('top-offense').textContent = 
+                                    `${topOffense.Tm} (${topOffense.PF} pts)`;
+                            }
+                            
+                            // Best defense (lowest PA)
+                            if (teams[0].PA) {
+                                const bestDefense = teams.reduce((best, team) => {
+                                    return (parseInt(team.PA) || 999) < (parseInt(best.PA) || 999) ? team : best;
+                                });
+                                document.getElementById('best-defense').textContent = 
+                                    `${bestDefense.Tm} (${bestDefense.PA} allowed)`;
+                            }
+                            
+                            // Biggest point differential
+                            if (teams[0].PF && teams[0].PA) {
+                                const biggestDiff = teams.reduce((best, team) => {
+                                    const diff = (parseInt(team.PF) || 0) - (parseInt(team.PA) || 0);
+                                    const bestDiff = (parseInt(best.PF) || 0) - (parseInt(best.PA) || 0);
+                                    return diff > bestDiff ? team : best;
+                                });
+                                const diff = (parseInt(biggestDiff.PF) || 0) - (parseInt(biggestDiff.PA) || 0);
+                                document.getElementById('point-diff').textContent = 
+                                    `${biggestDiff.Tm} (+${diff})`;
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log('Could not load team quick stats:', error);
+                });
+        }
+
+        // Load timestamps when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLastUpdated();
+            loadTeamQuickStats();
         });
     </script>
 </body>

@@ -3,10 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFL Rushing Stats</title>
+    <title>🏃 NFL Rushing Statistics</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --accent-color: #007bff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border-radius: 10px;
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 16px;
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .stats-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .chart-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        
+        .chart-error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid #E74C3C;
+            border-radius: 8px;
+            padding: 15px;
+            color: #E74C3C;
+            text-align: center;
+        }
+        
+        .data-table {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .stat-leaders {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .leader-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .leader-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .last-updated {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
-    <h1>NFL Rushing Statistics</h1>
-    <p>Rushing statistics will be loaded here...</p>
+    <div class="container">
+        <header>
+            <h1>🏃 NFL Rushing Statistics</h1>
+            <p>Comprehensive running back performance analysis and leaderboards</p>
+        </header>
+        
+        <div class="nav-links">
+            <a href="index.html">← Back to Dashboard</a>
+            <a href="passing.html">Passing</a>
+            <a href="receiving.html">Receiving</a>
+            <a href="defense.html">Defense</a>
+            <a href="rushing_stats.csv" download>📥 Download Raw Data</a>
+        </div>
+        
+        <div class="stats-section">
+            <h2>📊 Rushing Statistics Visualization</h2>
+            <p>Top performing running backs across all major rushing categories</p>
+            <div class="chart-container">
+                <img src="rushing_stats.png" alt="NFL Rushing Statistics" 
+                     onerror="this.style.display='none'; document.getElementById('chart-error').style.display='block';">
+                <div id="chart-error" class="chart-error" style="display: none;">
+                    <h3>⚠️ Rushing Statistics Chart Not Available</h3>
+                    <p>Run the following command to generate charts:</p>
+                    <code>python src/data-processors/player-stats.py</code>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-section">
+            <h2>🏆 Rushing Leaders</h2>
+            <div class="stat-leaders">
+                <div class="leader-card">
+                    <h4>🥇 Rushing Yards Leader</h4>
+                    <div id="yards-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>🏃 Touchdowns Leader</h4>
+                    <div id="td-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>⚡ Yards per Attempt Leader</h4>
+                    <div id="ypa-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>💪 Most Attempts</h4>
+                    <div id="attempts-leader">Loading...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-section">
+            <h2>📋 Complete Rushing Data</h2>
+            <div class="data-table">
+                <div id="rushing-table">
+                    <p>Loading rushing statistics table...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="last-updated">
+            <p>Last updated: <span id="last-update">Loading...</span></p>
+        </div>
+    </div>
+    
+    <script>
+        // Load last updated timestamp
+        function loadLastUpdated() {
+            fetch('last_updated_rushing.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('last-update').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('last-update').textContent = 'No data available yet';
+                });
+        }
+        
+        // Load and display rushing data table
+        function loadRushingData() {
+            fetch('rushing_stats.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const lines = data.split('\n');
+                    if (lines.length > 1) {
+                        const headers = lines[0].split(',');
+                        const players = lines.slice(1).filter(line => line.trim());
+                        
+                        // Create table
+                        let tableHTML = '<table>';
+                        tableHTML += '<thead><tr>';
+                        headers.forEach(header => {
+                            tableHTML += `<th>${header.trim()}</th>`;
+                        });
+                        tableHTML += '</tr></thead><tbody>';
+                        
+                        players.slice(0, 20).forEach(player => {  // Show top 20
+                            const values = player.split(',');
+                            tableHTML += '<tr>';
+                            values.forEach(value => {
+                                tableHTML += `<td>${value.trim()}</td>`;
+                            });
+                            tableHTML += '</tr>';
+                        });
+                        
+                        tableHTML += '</tbody></table>';
+                        document.getElementById('rushing-table').innerHTML = tableHTML;
+                        
+                        // Update stat leaders
+                        if (players.length > 0) {
+                            updateStatLeaders(headers, players);
+                        }
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('rushing-table').innerHTML = 
+                        '<p>Could not load rushing data. Please run the player stats processor first.</p>';
+                });
+        }
+        
+        // Update stat leader cards
+        function updateStatLeaders(headers, players) {
+            try {
+                const playerData = players.map(line => {
+                    const values = line.split(',');
+                    return headers.reduce((obj, header, index) => {
+                        obj[header.trim()] = values[index] ? values[index].trim() : '';
+                        return obj;
+                    }, {});
+                });
+                
+                // Find leaders
+                const yardsLeader = findLeader(playerData, 'Yds');
+                const tdLeader = findLeader(playerData, 'TD');
+                const ypaLeader = findLeader(playerData, 'Y/A');
+                const attLeader = findLeader(playerData, 'Att');
+                
+                // Update UI
+                if (yardsLeader) {
+                    document.getElementById('yards-leader').innerHTML = 
+                        `<strong>${yardsLeader.Player}</strong><br>${yardsLeader.Yds} yards`;
+                }
+                if (tdLeader) {
+                    document.getElementById('td-leader').innerHTML = 
+                        `<strong>${tdLeader.Player}</strong><br>${tdLeader.TD} TDs`;
+                }
+                if (ypaLeader) {
+                    document.getElementById('ypa-leader').innerHTML = 
+                        `<strong>${ypaLeader.Player}</strong><br>${ypaLeader['Y/A']} Y/A`;
+                }
+                if (attLeader) {
+                    document.getElementById('attempts-leader').innerHTML = 
+                        `<strong>${attLeader.Player}</strong><br>${attLeader.Att} attempts`;
+                }
+            } catch (error) {
+                console.error('Error updating stat leaders:', error);
+            }
+        }
+        
+        // Find leader in a specific stat
+        function findLeader(data, statColumn) {
+            return data.reduce((leader, player) => {
+                const value = parseFloat(player[statColumn]) || 0;
+                const leaderValue = parseFloat(leader[statColumn]) || 0;
+                return value > leaderValue ? player : leader;
+            }, data[0] || {});
+        }
+        
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLastUpdated();
+            loadRushingData();
+        });
+    </script>
 </body>
 </html>

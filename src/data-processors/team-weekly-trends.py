@@ -12,6 +12,16 @@ import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 
+import requests
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+from datetime import datetime
+import time
+from pathlib import Path
+import warnings
+
 # COMPREHENSIVE warning suppression
 warnings.filterwarnings("ignore")
 
