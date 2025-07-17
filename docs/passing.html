@@ -1,23 +1,425 @@
-nfl_stats/
-├── docs/                           # Web dashboard files
-│   ├── index.html                 # Homepage
-│   ├── player_stats.html          # Player statistics dashboard
-│   ├── team_stats.html            # Team statistics dashboard
-│   ├── standings.html              # Team standings
-│   ├── award_predictions.html      # Award predictions
-│   ├── *.png                      # Generated charts
-│   └── last_updated_*.txt         # Timestamp files
-├── archive/                       # Historical data for trends
-│   ├── player_stats_*.csv         # Daily player stats archives
-│   └── team_stats_*.csv           # Weekly team stats archives
-├── .github/workflows/            # Automation pipeline
-│   ├── update_player_stats.yml    # Daily player stats updates
-│   ├── update_team_stats.yml      # Weekly team stats updates
-│   ├── update_standings.yml       # Daily standings updates
-│   └── update_award_predictions.yml # Daily award predictions
-├── player_stats_chart.py          # Player stats processor
-├── team_stats_chart.py            # Team stats processor
-├── standings_chart.py              # Standings processor
-├── award_predictions_calculator.py # Award prediction engine
-├── requirements.txt               # Python dependencies
-└── README.md                      # Project documentation
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 NFL Passing Statistics</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --accent-color: #007bff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border-radius: 10px;
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 16px;
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .stats-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .chart-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        
+        .chart-error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid #E74C3C;
+            border-radius: 8px;
+            padding: 15px;
+            color: #E74C3C;
+            text-align: center;
+        }
+        
+        .data-table {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .stat-leaders {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .leader-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .leader-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .last-updated {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        .qb-rating {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .efficiency-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .metric-box {
+            background: rgba(0, 123, 255, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 NFL Passing Statistics</h1>
+            <p>Comprehensive quarterback performance analysis and leaderboards</p>
+        </header>
+        
+        <div class="nav-links">
+            <a href="index.html">← Back to Dashboard</a>
+            <a href="rushing.html">Rushing</a>
+            <a href="receiving.html">Receiving</a>
+            <a href="defense.html">Defense</a>
+            <a href="passing_stats.csv" download>📥 Download Raw Data</a>
+        </div>
+        
+        <div class="stats-section">
+            <h2>📊 Passing Statistics Visualization</h2>
+            <p>Top performing quarterbacks across all major passing categories</p>
+            <div class="chart-container">
+                <img src="passing_stats.png" alt="NFL Passing Statistics" 
+                     onerror="this.style.display='none'; document.getElementById('chart-error').style.display='block';">
+                <div id="chart-error" class="chart-error" style="display: none;">
+                    <h3>⚠️ Passing Statistics Chart Not Available</h3>
+                    <p>Run the following command to generate charts:</p>
+                    <code>python src/data-processors/player-stats.py</code>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-section">
+            <h2>🏆 Passing Leaders</h2>
+            <div class="stat-leaders">
+                <div class="leader-card">
+                    <h4>🥇 Passing Yards Leader</h4>
+                    <div id="yards-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>🎯 Touchdown Passes Leader</h4>
+                    <div id="td-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>🎖️ Highest QB Rating</h4>
+                    <div id="rating-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>📈 Completion % Leader</h4>
+                    <div id="completion-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>⚡ Yards per Attempt Leader</h4>
+                    <div id="ypa-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>🛡️ Fewest Interceptions</h4>
+                    <div id="int-leader">Loading...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-section">
+            <h2>📈 QB Efficiency Metrics</h2>
+            <p>Advanced quarterback performance indicators</p>
+            <div class="efficiency-metrics">
+                <div class="metric-box">
+                    <h4>🎯 Elite Accuracy</h4>
+                    <div id="elite-accuracy">Loading...</div>
+                    <small>Completion % > 70%</small>
+                </div>
+                <div class="metric-box">
+                    <h4>🚀 Big Arm</h4>
+                    <div id="big-arm">Loading...</div>
+                    <small>Yards per Attempt > 8.0</small>
+                </div>
+                <div class="metric-box">
+                    <h4>🏆 Premium Rating</h4>
+                    <div id="premium-rating">Loading...</div>
+                    <small>QB Rating > 100</small>
+                </div>
+                <div class="metric-box">
+                    <h4>🎰 TD Machine</h4>
+                    <div id="td-machine">Loading...</div>
+                    <small>TD Passes > 25</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-section">
+            <h2>📋 Complete Passing Data</h2>
+            <div class="data-table">
+                <div id="passing-table">
+                    <p>Loading passing statistics table...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="last-updated">
+            <p>Last updated: <span id="last-update">Loading...</span></p>
+        </div>
+    </div>
+    
+    <script>
+        // Load last updated timestamp
+        function loadLastUpdated() {
+            fetch('last_updated_passing.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('last-update').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('last-update').textContent = 'No data available yet';
+                });
+        }
+        
+        // Load and display passing data table
+        function loadPassingData() {
+            fetch('passing_stats.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const lines = data.split('\n');
+                    if (lines.length > 1) {
+                        const headers = lines[0].split(',');
+                        const players = lines.slice(1).filter(line => line.trim());
+                        
+                        // Create table
+                        let tableHTML = '<table>';
+                        tableHTML += '<thead><tr>';
+                        headers.forEach(header => {
+                            tableHTML += `<th>${header.trim()}</th>`;
+                        });
+                        tableHTML += '</tr></thead><tbody>';
+                        
+                        players.slice(0, 25).forEach(player => {  // Show top 25 QBs
+                            const values = player.split(',');
+                            tableHTML += '<tr>';
+                            values.forEach((value, index) => {
+                                let cellContent = value.trim();
+                                // Highlight QB ratings > 100
+                                if (headers[index] && headers[index].trim() === 'Rate' && parseFloat(cellContent) > 100) {
+                                    cellContent = `<span class="qb-rating">${cellContent}</span>`;
+                                }
+                                tableHTML += `<td>${cellContent}</td>`;
+                            });
+                            tableHTML += '</tr>';
+                        });
+                        
+                        tableHTML += '</tbody></table>';
+                        document.getElementById('passing-table').innerHTML = tableHTML;
+                        
+                        // Update stat leaders and efficiency metrics
+                        if (players.length > 0) {
+                            updateStatLeaders(headers, players);
+                            updateEfficiencyMetrics(headers, players);
+                        }
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('passing-table').innerHTML = 
+                        '<p>Could not load passing data. Please run the player stats processor first.</p>';
+                });
+        }
+        
+        // Update stat leader cards
+        function updateStatLeaders(headers, players) {
+            try {
+                const playerData = players.map(line => {
+                    const values = line.split(',');
+                    return headers.reduce((obj, header, index) => {
+                        obj[header.trim()] = values[index] ? values[index].trim() : '';
+                        return obj;
+                    }, {});
+                });
+                
+                // Find leaders
+                const yardsLeader = findLeader(playerData, 'Yds');
+                const tdLeader = findLeader(playerData, 'TD');
+                const ratingLeader = findLeader(playerData, 'Rate');
+                const completionLeader = findLeader(playerData, 'Cmp%');
+                const ypaLeader = findLeader(playerData, 'Y/A');
+                const intLeader = findLowest(playerData, 'Int');
+                
+                // Update UI
+                if (yardsLeader) {
+                    document.getElementById('yards-leader').innerHTML = 
+                        `<strong>${yardsLeader.Player}</strong><br>${yardsLeader.Yds} yards`;
+                }
+                if (tdLeader) {
+                    document.getElementById('td-leader').innerHTML = 
+                        `<strong>${tdLeader.Player}</strong><br>${tdLeader.TD} TDs`;
+                }
+                if (ratingLeader) {
+                    document.getElementById('rating-leader').innerHTML = 
+                        `<strong>${ratingLeader.Player}</strong><br><span class="qb-rating">${ratingLeader.Rate}</span> rating`;
+                }
+                if (completionLeader) {
+                    document.getElementById('completion-leader').innerHTML = 
+                        `<strong>${completionLeader.Player}</strong><br>${completionLeader['Cmp%']}% completion`;
+                }
+                if (ypaLeader) {
+                    document.getElementById('ypa-leader').innerHTML = 
+                        `<strong>${ypaLeader.Player}</strong><br>${ypaLeader['Y/A']} Y/A`;
+                }
+                if (intLeader) {
+                    document.getElementById('int-leader').innerHTML = 
+                        `<strong>${intLeader.Player}</strong><br>${intLeader.Int} INTs`;
+                }
+            } catch (error) {
+                console.error('Error updating stat leaders:', error);
+            }
+        }
+        
+        // Update efficiency metrics
+        function updateEfficiencyMetrics(headers, players) {
+            try {
+                const playerData = players.map(line => {
+                    const values = line.split(',');
+                    return headers.reduce((obj, header, index) => {
+                        obj[header.trim()] = values[index] ? values[index].trim() : '';
+                        return obj;
+                    }, {});
+                });
+                
+                // Count QBs meeting criteria
+                const eliteAccuracy = playerData.filter(p => parseFloat(p['Cmp%']) > 70).length;
+                const bigArm = playerData.filter(p => parseFloat(p['Y/A']) > 8.0).length;
+                const premiumRating = playerData.filter(p => parseFloat(p['Rate']) > 100).length;
+                const tdMachine = playerData.filter(p => parseFloat(p['TD']) > 25).length;
+                
+                document.getElementById('elite-accuracy').textContent = `${eliteAccuracy} QBs`;
+                document.getElementById('big-arm').textContent = `${bigArm} QBs`;
+                document.getElementById('premium-rating').textContent = `${premiumRating} QBs`;
+                document.getElementById('td-machine').textContent = `${tdMachine} QBs`;
+                
+            } catch (error) {
+                console.error('Error updating efficiency metrics:', error);
+            }
+        }
+        
+        // Find leader in a specific stat (highest)
+        function findLeader(data, statColumn) {
+            return data.reduce((leader, player) => {
+                const value = parseFloat(player[statColumn]) || 0;
+                const leaderValue = parseFloat(leader[statColumn]) || 0;
+                return value > leaderValue ? player : leader;
+            }, data[0] || {});
+        }
+        
+        // Find leader in a specific stat (lowest - for interceptions)
+        function findLowest(data, statColumn) {
+            return data.reduce((leader, player) => {
+                const value = parseFloat(player[statColumn]) || 999;
+                const leaderValue = parseFloat(leader[statColumn]) || 999;
+                return value < leaderValue ? player : leader;
+            }, data[0] || {});
+        }
+        
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLastUpdated();
+            loadPassingData();
+        });
+    </script>
+</body>
+</html>

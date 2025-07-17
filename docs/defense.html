@@ -3,10 +3,459 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFL Defense Stats</title>
+    <title>🛡️ NFL Defense Statistics</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --accent-color: #dc3545;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            border-radius: 10px;
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 16px;
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .stats-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .chart-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        
+        .chart-error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid #E74C3C;
+            border-radius: 8px;
+            padding: 15px;
+            color: #E74C3C;
+            text-align: center;
+        }
+        
+        .data-table {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background: var(--accent-color);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .stat-leaders {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .leader-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .leader-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .last-updated {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        .defensive-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .category-card {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .category-card h5 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        
+        .category-leaders {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .category-leader {
+            background: var(--card-bg);
+            padding: 8px 12px;
+            border-radius: 5px;
+            border-left: 3px solid var(--accent-color);
+        }
+    </style>
 </head>
 <body>
-    <h1>NFL Defensive Statistics</h1>
-    <p>Defensive statistics will be loaded here...</p>
+    <div class="container">
+        <header>
+            <h1>🛡️ NFL Defense Statistics</h1>
+            <p>Elite defensive players and game-changing performances</p>
+        </header>
+        
+        <div class="nav-links">
+            <a href="index.html">← Back to Dashboard</a>
+            <a href="passing.html">Passing</a>
+            <a href="rushing.html">Rushing</a>
+            <a href="receiving.html">Receiving</a>
+            <a href="defense_stats.csv" download>📥 Download Raw Data</a>
+        </div>
+        
+        <div class="stats-section">
+            <h2>📊 Defense Statistics Visualization</h2>
+            <p>Top defensive players across all major defensive categories</p>
+            <div class="chart-container">
+                <img src="defense_stats.png" alt="NFL Defense Statistics" 
+                     onerror="this.style.display='none'; document.getElementById('chart-error').style.display='block';">
+                <div id="chart-error" class="chart-error" style="display: none;">
+                    <h3>⚠️ Defense Statistics Chart Not Available</h3>
+                    <p>Run the following command to generate charts:</p>
+                    <code>python src/data-processors/player-stats.py</code>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-section">
+            <h2>🏆 Defensive Leaders</h2>
+            <div class="stat-leaders">
+                <div class="leader-card">
+                    <h4>💪 Tackles Leader</h4>
+                    <div id="tackles-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>⚡ Sacks Leader</h4>
+                    <div id="sacks-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>🎯 Interceptions Leader</h4>
+                    <div id="int-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>🚫 Pass Deflections Leader</h4>
+                    <div id="pd-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>💨 Forced Fumbles Leader</h4>
+                    <div id="ff-leader">Loading...</div>
+                </div>
+                <div class="leader-card">
+                    <h4>🔥 Fumble Recoveries Leader</h4>
+                    <div id="fr-leader">Loading...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-section">
+            <h2>📋 Defensive Categories</h2>
+            <p>Elite performers by defensive specialization</p>
+            <div class="defensive-categories">
+                <div class="category-card">
+                    <h5>🦍 Pass Rush Specialists</h5>
+                    <div class="category-leaders" id="pass-rush-leaders">
+                        <div>Loading pass rushers...</div>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <h5>🛡️ Coverage Specialists</h5>
+                    <div class="category-leaders" id="coverage-leaders">
+                        <div>Loading coverage players...</div>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <h5>⚡ Run Stoppers</h5>
+                    <div class="category-leaders" id="run-stop-leaders">
+                        <div>Loading run defenders...</div>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <h5>🎯 Ball Hawks</h5>
+                    <div class="category-leaders" id="ball-hawk-leaders">
+                        <div>Loading ball hawks...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-section">
+            <h2>📋 Complete Defense Data</h2>
+            <div class="data-table">
+                <div id="defense-table">
+                    <p>Loading defensive statistics table...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="last-updated">
+            <p>Last updated: <span id="last-update">Loading...</span></p>
+        </div>
+    </div>
+    
+    <script>
+        // Load last updated timestamp
+        function loadLastUpdated() {
+            fetch('last_updated_defense.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('last-update').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('last-update').textContent = 'No data available yet';
+                });
+        }
+        
+        // Load and display defense data table
+        function loadDefenseData() {
+            fetch('defense_stats.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const lines = data.split('\n');
+                    if (lines.length > 1) {
+                        const headers = lines[0].split(',');
+                        const players = lines.slice(1).filter(line => line.trim());
+                        
+                        // Create table
+                        let tableHTML = '<table>';
+                        tableHTML += '<thead><tr>';
+                        headers.forEach(header => {
+                            tableHTML += `<th>${header.trim()}</th>`;
+                        });
+                        tableHTML += '</tr></thead><tbody>';
+                        
+                        players.slice(0, 30).forEach(player => {  // Show top 30 defenders
+                            const values = player.split(',');
+                            tableHTML += '<tr>';
+                            values.forEach(value => {
+                                tableHTML += `<td>${value.trim()}</td>`;
+                            });
+                            tableHTML += '</tr>';
+                        });
+                        
+                        tableHTML += '</tbody></table>';
+                        document.getElementById('defense-table').innerHTML = tableHTML;
+                        
+                        // Update stat leaders
+                        if (players.length > 0) {
+                            updateStatLeaders(headers, players);
+                            updateDefensiveCategories(headers, players);
+                        }
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('defense-table').innerHTML = 
+                        '<p>Could not load defense data. Please run the player stats processor first.</p>';
+                });
+        }
+        
+        // Update stat leader cards
+        function updateStatLeaders(headers, players) {
+            try {
+                const playerData = players.map(line => {
+                    const values = line.split(',');
+                    return headers.reduce((obj, header, index) => {
+                        obj[header.trim()] = values[index] ? values[index].trim() : '';
+                        return obj;
+                    }, {});
+                });
+                
+                // Find leaders (trying multiple possible column names for each stat)
+                const tacklesLeader = findLeader(playerData, 'Tkl') || findLeader(playerData, 'Tackles');
+                const sacksLeader = findLeader(playerData, 'Sk') || findLeader(playerData, 'Sacks');
+                const intLeader = findLeader(playerData, 'Int') || findLeader(playerData, 'Interceptions');
+                const pdLeader = findLeader(playerData, 'PD') || findLeader(playerData, 'Pass Def');
+                const ffLeader = findLeader(playerData, 'FF') || findLeader(playerData, 'Forced Fumbles');
+                const frLeader = findLeader(playerData, 'FR') || findLeader(playerData, 'Fumble Rec');
+                
+                // Update UI
+                if (tacklesLeader) {
+                    document.getElementById('tackles-leader').innerHTML = 
+                        `<strong>${tacklesLeader.Player}</strong><br>${tacklesLeader.Tkl || tacklesLeader.Tackles} tackles`;
+                }
+                if (sacksLeader) {
+                    document.getElementById('sacks-leader').innerHTML = 
+                        `<strong>${sacksLeader.Player}</strong><br>${sacksLeader.Sk || sacksLeader.Sacks} sacks`;
+                }
+                if (intLeader) {
+                    document.getElementById('int-leader').innerHTML = 
+                        `<strong>${intLeader.Player}</strong><br>${intLeader.Int || intLeader.Interceptions} INTs`;
+                }
+                if (pdLeader) {
+                    document.getElementById('pd-leader').innerHTML = 
+                        `<strong>${pdLeader.Player}</strong><br>${pdLeader.PD || pdLeader['Pass Def']} PDs`;
+                }
+                if (ffLeader) {
+                    document.getElementById('ff-leader').innerHTML = 
+                        `<strong>${ffLeader.Player}</strong><br>${ffLeader.FF || ffLeader['Forced Fumbles']} FFs`;
+                }
+                if (frLeader) {
+                    document.getElementById('fr-leader').innerHTML = 
+                        `<strong>${frLeader.Player}</strong><br>${frLeader.FR || frLeader['Fumble Rec']} FRs`;
+                }
+            } catch (error) {
+                console.error('Error updating stat leaders:', error);
+            }
+        }
+        
+        // Update defensive categories
+        function updateDefensiveCategories(headers, players) {
+            try {
+                const playerData = players.map(line => {
+                    const values = line.split(',');
+                    return headers.reduce((obj, header, index) => {
+                        obj[header.trim()] = values[index] ? values[index].trim() : '';
+                        return obj;
+                    }, {});
+                });
+                
+                // Pass Rush Specialists (top sack leaders)
+                const passRushers = playerData
+                    .filter(p => parseFloat(p.Sk || p.Sacks || 0) > 0)
+                    .sort((a, b) => (parseFloat(b.Sk || b.Sacks || 0)) - (parseFloat(a.Sk || a.Sacks || 0)))
+                    .slice(0, 5);
+                
+                document.getElementById('pass-rush-leaders').innerHTML = passRushers.map(p => 
+                    `<div class="category-leader">${p.Player} - ${p.Sk || p.Sacks || 0} sacks</div>`
+                ).join('');
+                
+                // Coverage Specialists (interceptions + pass deflections)
+                const coverageSpecs = playerData
+                    .filter(p => (parseFloat(p.Int || p.Interceptions || 0) + parseFloat(p.PD || p['Pass Def'] || 0)) > 0)
+                    .sort((a, b) => {
+                        const aTotal = (parseFloat(a.Int || a.Interceptions || 0)) + (parseFloat(a.PD || a['Pass Def'] || 0));
+                        const bTotal = (parseFloat(b.Int || b.Interceptions || 0)) + (parseFloat(b.PD || b['Pass Def'] || 0));
+                        return bTotal - aTotal;
+                    })
+                    .slice(0, 5);
+                
+                document.getElementById('coverage-leaders').innerHTML = coverageSpecs.map(p => {
+                    const ints = p.Int || p.Interceptions || 0;
+                    const pds = p.PD || p['Pass Def'] || 0;
+                    return `<div class="category-leader">${p.Player} - ${ints} INTs, ${pds} PDs</div>`;
+                }).join('');
+                
+                // Run Stoppers (tackle leaders)
+                const runStoppers = playerData
+                    .sort((a, b) => (parseFloat(b.Tkl || b.Tackles || 0)) - (parseFloat(a.Tkl || a.Tackles || 0)))
+                    .slice(0, 5);
+                
+                document.getElementById('run-stop-leaders').innerHTML = runStoppers.map(p => 
+                    `<div class="category-leader">${p.Player} - ${p.Tkl || p.Tackles || 0} tackles</div>`
+                ).join('');
+                
+                // Ball Hawks (interception leaders)
+                const ballHawks = playerData
+                    .filter(p => parseFloat(p.Int || p.Interceptions || 0) > 0)
+                    .sort((a, b) => (parseFloat(b.Int || b.Interceptions || 0)) - (parseFloat(a.Int || a.Interceptions || 0)))
+                    .slice(0, 5);
+                
+                document.getElementById('ball-hawk-leaders').innerHTML = ballHawks.map(p => 
+                    `<div class="category-leader">${p.Player} - ${p.Int || p.Interceptions || 0} INTs</div>`
+                ).join('');
+                
+            } catch (error) {
+                console.error('Error updating defensive categories:', error);
+            }
+        }
+        
+        // Find leader in a specific stat
+        function findLeader(data, statColumn) {
+            return data.reduce((leader, player) => {
+                const value = parseFloat(player[statColumn]) || 0;
+                const leaderValue = parseFloat(leader[statColumn]) || 0;
+                return value > leaderValue ? player : leader;
+            }, data[0] || {});
+        }
+        
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLastUpdated();
+            loadDefenseData();
+        });
+    </script>
 </body>
 </html>
