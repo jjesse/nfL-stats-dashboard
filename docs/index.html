@@ -208,6 +208,108 @@
             border-bottom: none;
         }
         
+        /* Schedule Tab Styles */
+        .weekly-games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .game-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-card.final {
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .game-card.scheduled {
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #888;
+        }
+        
+        .game-matchup {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+        
+        .team {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .team-name {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .team-score {
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        
+        .vs {
+            margin: 0 15px;
+            font-weight: bold;
+            color: #888;
+        }
+        
+        .game-winner {
+            text-align: center;
+            margin-top: 10px;
+            padding: 5px;
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 4px;
+            color: var(--success-color);
+        }
+        
+        .game-status {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #888;
+        }
+        
+        .status-final {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .status-scheduled {
+            color: var(--warning-color);
+            font-weight: bold;
+        }
+        
+        .game-row.winner {
+            background: rgba(40, 167, 69, 0.1);
+        }
+        
+        .game-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -230,6 +332,26 @@
             .stats-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .weekly-games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-matchup {
+                flex-direction: column;
+            }
+            
+            .vs {
+                margin: 10px 0;
+            }
+            
+            .data-table {
+                font-size: 0.9em;
+            }
+            
+            .data-table table {
+                font-size: 0.8em;
+            }
         }
     </style>
 </head>
@@ -245,6 +367,7 @@
         
         <div class="nav-tabs">
             <div class="nav-tab active" onclick="showTab('overview')">📊 Overview</div>
+            <div class="nav-tab" onclick="showTab('schedule')">📅 Schedule</div>
             <div class="nav-tab" onclick="showTab('players')">👤 Players</div>
             <div class="nav-tab" onclick="showTab('teams')">🏈 Teams</div>
             <div class="nav-tab" onclick="showTab('standings')">📋 Standings</div>
@@ -532,6 +655,73 @@
             </div>
         </div>
         
+        <!-- Schedule Tab -->
+        <div id="schedule" class="tab-content">
+            <h2 style="margin-bottom: 20px; color: var(--accent-color);">📅 NFL Season Schedule & Results</h2>
+            
+            <!-- Season Summary -->
+            <div class="stats-section">
+                <h3>� Season Summary</h3>
+                <div id="season-progress" style="display: flex; justify-content: center; gap: 40px; margin: 20px 0; flex-wrap: wrap;">
+                    <div style="text-align: center; background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <strong>Games Completed</strong><br>
+                        <span id="completed-games" style="font-size: 1.5em; color: var(--success-color);">Loading...</span>
+                    </div>
+                    <div style="text-align: center; background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <strong>Games Remaining</strong><br>
+                        <span id="remaining-games" style="font-size: 1.5em; color: var(--warning-color);">Loading...</span>
+                    </div>
+                    <div style="text-align: center; background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <strong>Current Week</strong><br>
+                        <span id="current-week" style="font-size: 1.5em; color: var(--accent-color);">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Week Selector -->
+            <div class="stats-section" style="margin-top: 20px;">
+                <h3>📅 Weekly Schedule</h3>
+                <div style="margin-bottom: 20px; text-align: center;">
+                    <label for="week-select" style="margin-right: 10px;">Select Week:</label>
+                    <select id="week-select" onchange="displayWeeklyGames()" style="padding: 8px; border-radius: 5px; background: #2d2d2d; color: white; border: 1px solid #444;">
+                        <option value="">Loading weeks...</option>
+                    </select>
+                </div>
+                
+                <!-- Weekly Games Display -->
+                <div id="weekly-games-container">
+                    <p style="text-align: center; color: #888;">Select a week to view games</p>
+                </div>
+            </div>
+            
+            <!-- All Games Table -->
+            <div class="stats-section">
+                <h3>📋 Complete Season Schedule</h3>
+                <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <label for="team-filter" style="margin-right: 10px;">Filter by Team:</label>
+                        <select id="team-filter" onchange="filterGames()" style="padding: 8px; border-radius: 5px; background: #2d2d2d; color: white; border: 1px solid #444;">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="status-filter" style="margin-right: 10px;">Filter by Status:</label>
+                        <select id="status-filter" onchange="filterGames()" style="padding: 8px; border-radius: 5px; background: #2d2d2d; color: white; border: 1px solid #444;">
+                            <option value="">All Games</option>
+                            <option value="Final">Completed</option>
+                            <option value="Scheduled">Scheduled</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="data-table">
+                    <div id="schedule-table">
+                        <p>Loading schedule data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="last-updated">
             <p><strong>Dashboard Status:</strong> <span id="overall-status">Loading...</span></p>
             <p><strong>Last Updated:</strong> <span id="last-update">Loading...</span></p>
@@ -660,11 +850,233 @@
                 });
         }
         
+        // Global variables for schedule data
+        let allGames = [];
+        let weeklyGames = {};
+        let allTeams = [];
+        
+        // Load schedule data
+        function loadScheduleData() {
+            fetch('schedule_results.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const lines = data.split('\n');
+                    if (lines.length > 1) {
+                        const headers = lines[0].split(',');
+                        const games = lines.slice(1).filter(line => line.trim());
+                        
+                        allGames = games.map(line => {
+                            const values = line.split(',');
+                            return headers.reduce((obj, header, index) => {
+                                obj[header.trim()] = values[index] ? values[index].trim() : '';
+                                return obj;
+                            }, {});
+                        });
+                        
+                        processScheduleData();
+                        displayScheduleTable();
+                        updateSeasonProgress();
+                        populateWeekSelector();
+                        populateTeamFilter();
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('schedule-table').innerHTML = 
+                        '<p>Could not load schedule data. Please run the schedule processor first.</p>';
+                    console.error('Error loading schedule data:', error);
+                });
+        }
+        
+        // Process schedule data
+        function processScheduleData() {
+            // Group games by week
+            weeklyGames = {};
+            allTeams = new Set();
+            
+            allGames.forEach(game => {
+                const week = game.Week;
+                if (!weeklyGames[week]) {
+                    weeklyGames[week] = [];
+                }
+                weeklyGames[week].push(game);
+                
+                // Add teams to set
+                if (game.Home_Team) allTeams.add(game.Home_Team);
+                if (game.Away_Team) allTeams.add(game.Away_Team);
+            });
+            
+            allTeams = Array.from(allTeams).sort();
+        }
+        
+        // Display schedule table
+        function displayScheduleTable() {
+            let tableHTML = '<table>';
+            tableHTML += '<thead><tr>';
+            tableHTML += '<th>Week</th><th>Date</th><th>Time</th>';
+            tableHTML += '<th>Away Team</th><th>Away Score</th>';
+            tableHTML += '<th>Home Team</th><th>Home Score</th>';
+            tableHTML += '<th>Winner</th><th>Status</th>';
+            tableHTML += '</tr></thead><tbody>';
+            
+            allGames.forEach(game => {
+                const winnerClass = game.Status === 'Final' ? 'winner' : '';
+                tableHTML += `<tr class="game-row ${winnerClass}">`;
+                tableHTML += `<td>${game.Week}</td>`;
+                tableHTML += `<td>${game.Date}</td>`;
+                tableHTML += `<td>${game.Time}</td>`;
+                tableHTML += `<td>${game.Away_Team}</td>`;
+                tableHTML += `<td>${game.Away_Score}</td>`;
+                tableHTML += `<td>${game.Home_Team}</td>`;
+                tableHTML += `<td>${game.Home_Score}</td>`;
+                tableHTML += `<td><strong>${game.Winner}</strong></td>`;
+                tableHTML += `<td><span class="status-${game.Status.toLowerCase()}">${game.Status}</span></td>`;
+                tableHTML += '</tr>';
+            });
+            
+            tableHTML += '</tbody></table>';
+            document.getElementById('schedule-table').innerHTML = tableHTML;
+        }
+        
+        // Update season progress
+        function updateSeasonProgress() {
+            const completedGames = allGames.filter(game => game.Status === 'Final').length;
+            const remainingGames = allGames.filter(game => game.Status === 'Scheduled').length;
+            
+            document.getElementById('completed-games').textContent = completedGames;
+            document.getElementById('remaining-games').textContent = remainingGames;
+            
+            // Find current week (first week with scheduled games)
+            const currentWeekGame = allGames.find(game => game.Status === 'Scheduled');
+            const currentWeek = currentWeekGame ? currentWeekGame.Week : 'Season Complete';
+            document.getElementById('current-week').textContent = currentWeek;
+        }
+        
+        // Populate week selector
+        function populateWeekSelector() {
+            const weekSelect = document.getElementById('week-select');
+            weekSelect.innerHTML = '<option value="">Select Week</option>';
+            
+            const weeks = Object.keys(weeklyGames).sort((a, b) => {
+                if (a === 'WildCard' || a === 'Division' || a === 'ConfChamp' || a === 'SuperBowl') return 1;
+                if (b === 'WildCard' || b === 'Division' || b === 'ConfChamp' || b === 'SuperBowl') return -1;
+                return parseInt(a) - parseInt(b);
+            });
+            
+            weeks.forEach(week => {
+                const option = document.createElement('option');
+                option.value = week;
+                option.textContent = `Week ${week}`;
+                weekSelect.appendChild(option);
+            });
+        }
+        
+        // Populate team filter
+        function populateTeamFilter() {
+            const teamFilter = document.getElementById('team-filter');
+            teamFilter.innerHTML = '<option value="">All Teams</option>';
+            
+            allTeams.forEach(team => {
+                const option = document.createElement('option');
+                option.value = team;
+                option.textContent = team;
+                teamFilter.appendChild(option);
+            });
+        }
+        
+        // Display weekly games
+        function displayWeeklyGames() {
+            const selectedWeek = document.getElementById('week-select').value;
+            const container = document.getElementById('weekly-games-container');
+            
+            if (!selectedWeek || !weeklyGames[selectedWeek]) {
+                container.innerHTML = '<p style="text-align: center; color: #888;">Select a week to view games</p>';
+                return;
+            }
+            
+            const games = weeklyGames[selectedWeek];
+            let html = `<h4>Week ${selectedWeek} Games</h4>`;
+            html += '<div class="weekly-games-grid">';
+            
+            games.forEach(game => {
+                const gameStatus = game.Status === 'Final' ? 'final' : 'scheduled';
+                html += `<div class="game-card ${gameStatus}">`;
+                html += `<div class="game-header">`;
+                html += `<span class="game-date">${game.Date}</span>`;
+                html += `<span class="game-time">${game.Time}</span>`;
+                html += `</div>`;
+                html += `<div class="game-matchup">`;
+                html += `<div class="team away-team">`;
+                html += `<span class="team-name">${game.Away_Team}</span>`;
+                html += `<span class="team-score">${game.Away_Score}</span>`;
+                html += `</div>`;
+                html += `<div class="vs">@</div>`;
+                html += `<div class="team home-team">`;
+                html += `<span class="team-name">${game.Home_Team}</span>`;
+                html += `<span class="team-score">${game.Home_Score}</span>`;
+                html += `</div>`;
+                html += `</div>`;
+                if (game.Winner) {
+                    html += `<div class="game-winner">Winner: <strong>${game.Winner}</strong></div>`;
+                }
+                html += `<div class="game-status">${game.Status}</div>`;
+                html += `</div>`;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        // Filter games
+        function filterGames() {
+            const teamFilter = document.getElementById('team-filter').value;
+            const statusFilter = document.getElementById('status-filter').value;
+            
+            let filteredGames = allGames;
+            
+            if (teamFilter) {
+                filteredGames = filteredGames.filter(game => 
+                    game.Home_Team === teamFilter || game.Away_Team === teamFilter
+                );
+            }
+            
+            if (statusFilter) {
+                filteredGames = filteredGames.filter(game => game.Status === statusFilter);
+            }
+            
+            // Display filtered games
+            let tableHTML = '<table>';
+            tableHTML += '<thead><tr>';
+            tableHTML += '<th>Week</th><th>Date</th><th>Time</th>';
+            tableHTML += '<th>Away Team</th><th>Away Score</th>';
+            tableHTML += '<th>Home Team</th><th>Home Score</th>';
+            tableHTML += '<th>Winner</th><th>Status</th>';
+            tableHTML += '</tr></thead><tbody>';
+            
+            filteredGames.forEach(game => {
+                const winnerClass = game.Status === 'Final' ? 'winner' : '';
+                tableHTML += `<tr class="game-row ${winnerClass}">`;
+                tableHTML += `<td>${game.Week}</td>`;
+                tableHTML += `<td>${game.Date}</td>`;
+                tableHTML += `<td>${game.Time}</td>`;
+                tableHTML += `<td>${game.Away_Team}</td>`;
+                tableHTML += `<td>${game.Away_Score}</td>`;
+                tableHTML += `<td>${game.Home_Team}</td>`;
+                tableHTML += `<td>${game.Home_Score}</td>`;
+                tableHTML += `<td><strong>${game.Winner}</strong></td>`;
+                tableHTML += `<td><span class="status-${game.Status.toLowerCase()}">${game.Status}</span></td>`;
+                tableHTML += '</tr>';
+            });
+            
+            tableHTML += '</tbody></table>';
+            document.getElementById('schedule-table').innerHTML = tableHTML;
+        }
+        
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
             loadDataStatus();
             loadLastUpdated();
             loadStandingsTable();
+            loadScheduleData();
             
             // Set initial header status
             document.getElementById('last-update-header').textContent = '🔄 Checking data availability...';
