@@ -1,198 +1,180 @@
 # 🏈 NFL Stats Dashboard
 
-A comprehensive, automated NFL statistics dashboard that provides real-time player and team analytics with beautiful visualizations.
+A comprehensive, interactive NFL statistics dashboard that provides real-time player stats, team analytics, season schedules, and award predictions with professional-grade visualizations.
 
 ## ✨ Features
 
-### 📊 **Player Statistics**
-- **Passing Stats**: Yards, TDs, completion %, QB rating
-- **Rushing Stats**: Yards, TDs, attempts, yards per carry
-- **Receiving Stats**: Catches, yards, TDs, yards per reception
-- **Defensive Stats**: Tackles, sacks, interceptions, pass deflections
+### 📊 **Interactive Dashboard**
+- **Tabbed Interface**: Overview, Schedule, Players, Teams, Standings, Awards
+- **Interactive Charts**: Hover tooltips, zoom controls, and fullscreen viewing
+- **Mobile Responsive**: Optimized for all devices
+- **Real-time Data**: Automated updates with GitHub Actions
 
-### 🏆 **Team Analytics**
-- Win/loss records and standings
-- Points for/against analysis
-- Advanced team metrics
-- Conference comparisons
-- Pythagorean win expectation
+### 🏈 **Comprehensive NFL Data**
+- **Player Statistics**: Passing, rushing, receiving, and defensive stats
+- **Team Analytics**: Win/loss records, standings, and performance metrics
+- **Season Schedule**: Complete game results with weekly breakdowns
+- **Award Predictions**: MVP, OROY, DROY with accuracy tracking
 
-### 🎨 **Visualizations**
-- Dark-themed professional charts
-- Top 10 leaderboards for all categories
-- High-resolution PNG exports (300 DPI)
-- Responsive web dashboard
+### 🎯 **Specialized Pages**
+- **📅 Schedule Tab**: Complete season schedule with game results and weekly filters
+- **🏃 Rushing Stats**: Comprehensive rushing leaders and analytics
+- **🎯 Receiving Stats**: Top receivers with detailed performance metrics
+- **🛡️ Defense Stats**: Defensive leaders across all major categories
+- **📊 Passing Stats**: Quarterback performance and efficiency metrics
+- **📋 Standings**: Team standings with playoff indicators and division races
 
-### 🤖 **Automation**
-- GitHub Actions for data updates every 6 hours
-- Historical data archiving
-- Automatic chart regeneration
-- Error handling and logging
+### 🔧 **Technical Features**
+- **Automated Data Processing**: Multi-source data collection and validation
+- **High-Quality Visualizations**: 300 DPI charts with dark theme styling
+- **Error Handling**: Graceful fallbacks and comprehensive logging
+- **Cross-Platform**: Works on Windows, macOS, and Linux
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.9+
-- Ubuntu/Linux system (recommended)
-- Internet connection for data fetching
+- Python 3.8+
+- Git
 
 ### Installation
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/nfL-stats-dashboard.git
+cd nfL-stats-dashboard
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/nfL-stats-dashboard.git
-   cd nfL-stats-dashboard
-   ```
+# Install dependencies
+pip install -r requirements.txt
 
-2. **Set up the environment:**
-   ```bash
-   chmod +x setup.sh
-   ./setup.sh
-   ```
+# Generate data and charts
+python src/data-processors/run_all_processors.py
 
-3. **Activate virtual environment:**
-   ```bash
-   source nfl_dashboard_env/bin/activate
-   ```
+# Start local web server
+cd docs
+python -m http.server 8000
 
-4. **Set up directories:**
-   ```bash
-   python setup_directories.py
-   ```
+# Open browser to http://localhost:8000
+```
 
-5. **Generate initial data:**
-   ```bash
-   python src/data-processors/player-stats.py
-   python src/data-processors/team-weekly-trends.py
-   python src/charts/team-charts.py
-   ```
+## 📁 Project Structure
 
-6. **View the dashboard:**
-   Open `docs/index.html` in your browser or set up GitHub Pages.
-
-## 📱 Dashboard
-
-The dashboard includes five main sections:
-
-- **Overview**: Key statistics at a glance
-- **Players**: Detailed player statistics and charts
-- **Teams**: Team performance and analytics
-- **Standings**: League standings and rankings
-- **Awards**: Award predictions (coming soon)
-
-## 🔄 Current Status
-
-### ✅ **Completed Features**
-- ✅ Player statistics processor (passing, rushing, receiving, defense)
-- ✅ Team weekly trends processor (momentum, recent form, win streaks)
-- ✅ Professional chart generation with dark theme
-- ✅ CSV data export and archiving
-- ✅ HTML dashboard with responsive design
-- ✅ GitHub Actions automation workflow
-- ✅ Error handling and logging
-- ✅ Cross-platform font compatibility (DejaVu Sans standard)
-- ✅ Emoji-free chart generation
-- ✅ Season detection (automatically uses 2024 season for July 2025)
-
-### 🧪 **Testing Phase**
-- 🧪 Team advanced analytics processor (needs testing)
-- 🧪 Team basic stats processor (needs testing)
-- 🧪 Awards prediction system (needs testing)
-- 🧪 Player stats processor (needs font fix verification)
-
-### 📋 **Planned Features**
-- 📋 GitHub Pages deployment
-- 📋 Playoff probability calculations
-- 📋 Player comparison tools
-- 📋 Historical trend analysis
-
-## 🛠️ Technical Details
-
-### Data Sources
-- **Pro Football Reference**: Primary data source for all NFL statistics
-- **Season Detection**: Automatically detects current/most recent completed season
-- **Rate Limiting**: Respectful scraping with delays between requests
-
-### Architecture
 ```
 nfL-stats-dashboard/
-├── docs/                    # GitHub Pages website
-│   ├── index.html          # Main dashboard
-│   ├── *.png              # Generated charts
-│   ├── *.csv              # Data exports
-│   └── last_updated_*.txt # Timestamps
-├── archive/                # Historical data
-├── src/
-│   └── data-processors/   # Python scripts
-├── .github/workflows/     # Automation
-└── requirements.txt       # Dependencies
+├── 📄 README.md                 # Project documentation
+├── 📋 TODO.md                   # Development roadmap
+├── 📦 requirements.txt          # Python dependencies
+├── 🗂️ src/
+│   ├── 📊 data-processors/      # Data collection and processing
+│   │   ├── 🏃 player-stats.py   # Player statistics processor
+│   │   ├── 🏈 team-stats-basic.py # Team statistics processor
+│   │   ├── 📅 schedule-processor.py # Schedule and results processor
+│   │   ├── 🏆 awards-tracker.py # Award predictions processor
+│   │   ├── 📈 team-weekly-trends.py # Team momentum analysis
+│   │   └── ⚙️ run_all_processors.py # Master processor script
+│   ├── 📊 charts/               # Chart generation utilities
+│   └── 🛠️ utils/               # Utility functions and helpers
+├── 📱 docs/                     # Web dashboard files
+│   ├── 🏠 index.html            # Main dashboard
+│   ├── 🏃 rushing.html          # Rushing statistics page
+│   ├── 🎯 receiving.html        # Receiving statistics page
+│   ├── 🛡️ defense.html          # Defense statistics page
+│   ├── 📊 passing.html          # Passing statistics page
+│   ├── 📋 standings.html        # Team standings page
+│   ├── ⚡ js/interactive-charts.js # Interactive chart enhancements
+│   └── 📊 *.png, *.csv          # Generated charts and data
+└── 🔄 .github/workflows/       # GitHub Actions automation
 ```
 
-### Charts Generated
-- `passing_stats.png` - Quarterback performance metrics
-- `rushing_stats.png` - Running back statistics
-- `receiving_stats.png` - Wide receiver and tight end stats
-- `defense_stats.png` - Defensive player metrics
-- `team_stats.png` - Team performance overview
-- `team_advanced_analytics.png` - Advanced team metrics
-- `team_weekly_trends.png` - Team momentum and recent form analysis
-- `awards_predictions.png` - MVP, OROY, DROY predictions
+## 🎮 Usage
+
+### Data Generation
+```bash
+# Generate all NFL data and charts
+python src/data-processors/run_all_processors.py
+
+# Generate specific data types
+python src/data-processors/player-stats.py      # Player statistics
+python src/data-processors/team-stats-basic.py  # Team standings
+python src/data-processors/schedule-processor.py # Schedule results
+python src/data-processors/awards-tracker.py    # Award predictions
+```
+
+### Web Dashboard
+```bash
+# Start local development server
+cd docs
+python -m http.server 8000
+
+# Access dashboard at http://localhost:8000
+```
+
+### Interactive Features
+- **Hover over charts** for detailed player stats and insights
+- **Use zoom controls** (🔍+ / 🔍- / ↻ / ⛶) for detailed analysis
+- **Click charts** to progressively zoom in/out
+- **Filter schedules** by team, week, or game status
+- **Navigate tabs** for different data categories
+
+## 📊 Data Sources
+
+- **Pro Football Reference**: Primary source for NFL statistics
+- **ESPN**: Supplementary data and validation
+- **NFL.com**: Official team and schedule information
+
+## 🔄 Automation
+
+The dashboard includes GitHub Actions workflows for:
+- **Automated data updates** every 6 hours during NFL season
+- **Award prediction accuracy tracking** with historical validation
+- **Error monitoring** and notification system
+- **GitHub Pages deployment** for web hosting
+
+## 🏆 Award Predictions
+
+Our enhanced MVP model includes:
+- **Performance metrics**: Passing yards, touchdowns, completion percentage
+- **Team success factors**: Win percentage, playoff positioning
+- **Advanced analytics**: QBR, efficiency ratings, clutch performance
+- **Historical accuracy**: Tracked predictions vs actual results
+
+## 🌐 Deployment
+
+### GitHub Pages (Recommended)
+1. Enable GitHub Pages in repository settings
+2. Set source to `docs` folder
+3. GitHub Actions will automatically update data
+
+### Local Development
+```bash
+cd docs
+python -m http.server 8000
+```
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📊 Data Updates
+## 📝 License
 
-The dashboard automatically updates every 6 hours during the NFL season via GitHub Actions. Data includes:
-
-- Player statistics from all games
-- Team standings and records
-- Advanced analytics calculations
-- Historical data archiving
-
-## 🐛 Known Issues
-
-- Font configuration has been standardized to DejaVu Sans for cross-platform compatibility
-- Web scraping may occasionally fail due to website changes
-- Large historical datasets may impact performance
-- Some advanced statistics require manual verification
-- Processors are in testing phase - not all have been verified to work end-to-end
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
-- [Pro Football Reference](https://www.pro-football-reference.com/) for providing comprehensive NFL statistics
-- [Matplotlib](https://matplotlib.org/) for visualization capabilities
-- [Pandas](https://pandas.pydata.org/) for data processing
-- GitHub Actions for automation infrastructure
+- **Pro Football Reference** for comprehensive NFL statistics
+- **NFL.com** for official team and schedule data
+- **ESPN** for supplementary analytics and validation
+- **GitHub** for hosting and automation infrastructure
 
 ## 📞 Support
 
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/your-username/nfL-stats-dashboard/issues) page
-2. Review the troubleshooting section below
-3. Create a new issue with detailed information
-
-### Troubleshooting
-
-**Common Issues:**
-
-1. **Directory Errors**: Run `python setup_directories.py` to fix
-2. **Missing Dependencies**: Run `pip install -r requirements.txt`
-3. **Data Fetching Errors**: Check internet connection and Pro Football Reference availability
-4. **Chart Generation Issues**: Ensure matplotlib backend is properly configured
+For issues, questions, or feature requests:
+- 🐛 [Report bugs](https://github.com/yourusername/nfL-stats-dashboard/issues)
+- 💡 [Request features](https://github.com/yourusername/nfL-stats-dashboard/issues)
+- 📧 [Contact maintainer](mailto:your.email@example.com)
 
 ---
 
-**Last Updated**: July 2025  
-**Version**: 1.0.0  
-**Status**: Active Development
+**🏈 Built with passion for NFL analytics and data visualization**
