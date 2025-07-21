@@ -310,47 +310,326 @@
             background: rgba(255, 255, 255, 0.05);
         }
         
+        /* Playoff Probabilities Tab Styles */
+        .playoff-conference {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .division-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .division-group h4 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            text-align: center;
+            padding: 8px;
+            background: rgba(0, 123, 255, 0.1);
+            border-radius: 6px;
+        }
+        
+        .team-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .playoff-team {
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .playoff-team:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .division-winner {
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.2), rgba(40, 167, 69, 0.1));
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
+        
+        .wild-card {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.1));
+            border: 1px solid var(--warning-color);
+            color: var(--warning-color);
+        }
+        
+        /* Playoff Bracket Styles */
+        .playoff-bracket {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .bracket-section {
+            flex: 1;
+            min-width: 300px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .bracket-section h4 {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        .bracket-round {
+            margin-bottom: 20px;
+        }
+        
+        .bracket-title {
+            text-align: center;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .bracket-games {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .bracket-game {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .bracket-game .team {
+            padding: 5px 10px;
+            margin: 2px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .bracket-game .team.winner {
+            background: rgba(40, 167, 69, 0.3);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+        
+        .bracket-game .team.loser {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid #dc3545;
+            opacity: 0.8;
+        }
+        
+        .super-bowl {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            border-radius: 10px;
+            border: 2px solid gold;
+        }
+        
+        .super-bowl h4 {
+            color: gold;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .final-game {
+            max-width: 300px;
+            margin: 0 auto 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid gold;
+        }
+        
+        .champion {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: gold;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid gold;
+        }
+        
+        /* Playoff Probabilities Styles */
+        .playoff-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-stat {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #aaa;
+            text-transform: uppercase;
+        }
+        
+        .division-leaders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+        
+        .leader-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .division-name {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .team-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .team-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .team-record {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .wildcard-conferences {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .wildcard-conference h4 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .wildcard-team {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin-bottom: 5px;
+        }
+        
+        .wildcard-team .team-name {
+            font-weight: bold;
+        }
+        
+        .wildcard-team .team-record {
+            color: #aaa;
+            font-size: 12px;
+        }
+        
+        .key-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+        }
+        
+        .key-stat {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .key-stat .stat-label {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        .key-stat .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        /* Mobile responsive for playoffs */
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            header h1 {
-                font-size: 2em;
-            }
-            
-            .nav-tabs {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .nav-tab {
-                width: 200px;
-                text-align: center;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .weekly-games-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .game-matchup {
+            .playoff-conference {
                 flex-direction: column;
             }
             
-            .vs {
-                margin: 10px 0;
+            .playoff-bracket {
+                flex-direction: column;
             }
             
-            .data-table {
-                font-size: 0.9em;
+            .bracket-section {
+                margin-bottom: 20px;
             }
             
-            .data-table table {
-                font-size: 0.8em;
+            .bracket-games {
+                gap: 8px;
+            }
+            
+            .bracket-game {
+                padding: 8px;
+            }
+            
+            .super-bowl {
+                padding: 15px;
+            }
+            
+            .playoff-summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .division-leaders-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .wildcard-conferences {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .key-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -648,145 +927,6 @@
                 
                 <div class="stat-card">
                     <h3>📈 Prediction Accuracy</h3>
-                    <div class="quick-stats">
-                        <h4>Model Performance</h4>
-                        <div id="accuracy-stats">Loading accuracy data...</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Schedule Tab -->
-        <div id="schedule" class="tab-content">
-            <h2 style="margin-bottom: 20px; color: var(--accent-color);">📅 NFL Season Schedule & Results</h2>
-            
-            <!-- Season Summary -->
-            <div class="stats-section">
-                <h3>� Season Summary</h3>
-                <div id="season-progress" style="display: flex; justify-content: center; gap: 40px; margin: 20px 0; flex-wrap: wrap;">
-                    <div style="text-align: center; background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
-                        <strong>Games Completed</strong><br>
-                        <span id="completed-games" style="font-size: 1.5em; color: var(--success-color);">Loading...</span>
-                    </div>
-                    <div style="text-align: center; background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
-                        <strong>Games Remaining</strong><br>
-                        <span id="remaining-games" style="font-size: 1.5em; color: var(--warning-color);">Loading...</span>
-                    </div>
-                    <div style="text-align: center; background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
-                        <strong>Current Week</strong><br>
-                        <span id="current-week" style="font-size: 1.5em; color: var(--accent-color);">Loading...</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Week Selector -->
-            <div class="stats-section" style="margin-top: 20px;">
-                <h3>📅 Weekly Schedule</h3>
-                <div style="margin-bottom: 20px; text-align: center;">
-                    <label for="week-select" style="margin-right: 10px;">Select Week:</label>
-                    <select id="week-select" onchange="displayWeeklyGames()" style="padding: 8px; border-radius: 5px; background: #2d2d2d; color: white; border: 1px solid #444;">
-                        <option value="">Loading weeks...</option>
-                    </select>
-                </div>
-                
-                <!-- Weekly Games Display -->
-                <div id="weekly-games-container">
-                    <p style="text-align: center; color: #888;">Select a week to view games</p>
-                </div>
-            </div>
-            
-            <!-- All Games Table -->
-            <div class="stats-section">
-                <h3>📋 Complete Season Schedule</h3>
-                <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                    <div>
-                        <label for="team-filter" style="margin-right: 10px;">Filter by Team:</label>
-                        <select id="team-filter" onchange="filterGames()" style="padding: 8px; border-radius: 5px; background: #2d2d2d; color: white; border: 1px solid #444;">
-                            <option value="">All Teams</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="status-filter" style="margin-right: 10px;">Filter by Status:</label>
-                        <select id="status-filter" onchange="filterGames()" style="padding: 8px; border-radius: 5px; background: #2d2d2d; color: white; border: 1px solid #444;">
-                            <option value="">All Games</option>
-                            <option value="Final">Completed</option>
-                            <option value="Scheduled">Scheduled</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="data-table">
-                    <div id="schedule-table">
-                        <p>Loading schedule data...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Playoffs Tab -->
-        <div id="playoffs" class="tab-content">
-            <h2 style="margin-bottom: 20px; color: var(--accent-color);">🏆 NFL Playoff Probabilities & Analysis</h2>
-            
-            <!-- Playoff Overview -->
-            <div class="stats-section">
-                <h3>📊 2024 Season Playoff Results</h3>
-                <div style="display: flex; justify-content: center; gap: 30px; margin: 20px 0; flex-wrap: wrap;">
-                    <div style="text-align: center; background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border-color); min-width: 150px;">
-                        <div style="font-size: 2em; color: var(--success-color); margin-bottom: 10px;">🏆</div>
-                        <strong>Division Winners</strong><br>
-                        <span style="font-size: 1.5em; color: var(--accent-color);">8 Teams</span><br>
-                        <small>AFC: KC, BUF, BAL, HOU<br>NFC: DET, PHI, TB, SEA</small>
-                    </div>
-                    <div style="text-align: center; background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border-color); min-width: 150px;">
-                        <div style="font-size: 2em; color: var(--warning-color); margin-bottom: 10px;">🎯</div>
-                        <strong>Wild Cards</strong><br>
-                        <span style="font-size: 1.5em; color: var(--accent-color);">6 Teams</span><br>
-                        <small>AFC: LAC, DEN, PIT<br>NFC: MIN, WAS, GB</small>
-                    </div>
-                    <div style="text-align: center; background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border-color); min-width: 150px;">
-                        <div style="font-size: 2em; color: var(--error-color); margin-bottom: 10px;">❌</div>
-                        <strong>Missed Playoffs</strong><br>
-                        <span style="font-size: 1.5em; color: var(--accent-color);">18 Teams</span><br>
-                        <small>Cutoff: ~9-8 record</small>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Playoff Probability Chart -->
-            <div class="stats-section">
-                <h3>📈 Playoff Probability Analysis</h3>
-                <div class="chart-container">
-                    <img src="playoff_probabilities.png" alt="NFL Playoff Probabilities" 
-                         onerror="this.style.display='none'; document.getElementById('playoff-chart-error').style.display='block';">
-                    <div id="playoff-chart-error" class="chart-error" style="display: none;">
-                        <h4>⚠️ Playoff Probabilities Chart Not Available</h4>
-                        <p>Run: <code>python src/data-processors/playoff-probabilities.py</code></p>
-                        <p>This will generate comprehensive playoff probability analysis and visualizations.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Conference Breakdown -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>🏈 AFC Playoff Picture</h3>
-                    <div class="playoff-conference">
-                        <div class="division-group">
-                            <h4>Division Winners</h4>
-                            <div class="team-list">
-                                <div class="playoff-team division-winner">🏆 Kansas City Chiefs (15-2)</div>
-                                <div class="playoff-team division-winner">🏆 Buffalo Bills (13-4)</div>
-                                <div class="playoff-team division-winner">🏆 Baltimore Ravens (12-5)</div>
-                                <div class="playoff-team division-winner">🏆 Houston Texans (10-7)</div>
-                            </div>
-                        </div>
-                        <div class="division-group">
-                            <h4>Wild Cards</h4>
-                            <div class="team-list">
-                                <div class="playoff-team wild-card">🎯 Los Angeles Chargers (11-6)</div>
-                                <div class="playoff-team wild-card">🎯 Denver Broncos (10-7)</div>
-                                <div class="playoff-team wild-card">🎯 Pittsburgh Steelers (10-7)</div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -845,10 +985,8 @@
                                     <div class="team winner">Chiefs 31</div>
                                     <div class="team loser">Texans 23</div>
                                 </div>
-                                <div class="bracket-game">
-                                    <div class="team winner">Ravens 27</div>
-                                    <div class="team loser">Bills 25</div>
-                                </div>
+                                <div class="team winner">Ravens 27</div>
+                                <div class="team loser">Bills 25</div>
                             </div>
                         </div>
                         <div class="bracket-round">
@@ -1276,16 +1414,892 @@
             document.getElementById('schedule-table').innerHTML = tableHTML;
         }
         
-        // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            loadDataStatus();
-            loadLastUpdated();
-            loadStandingsTable();
-            loadScheduleData();
+        // Load playoff probabilities data
+        let allPlayoffData = [];
+        
+        function loadPlayoffData() {
+            fetch('playoff_probabilities.csv')
+                .then(response => {
+                    if (!response.ok) throw new Error('Playoff data not found');
+                    return response.text();
+                })
+                .then(data => {
+                    const lines = data.split('\n').filter(line => line.trim());
+                    if (lines.length > 1) {
+                        const headers = lines[0].split(',').map(h => h.trim());
+                        allPlayoffData = lines.slice(1).map(line => {
+                            const values = line.split(',').map(v => v.trim());
+                            const row = {};
+                            headers.forEach((header, index) => {
+                                row[header] = values[index] || '';
+                            });
+                            return row;
+                        });
+                        
+                        displayPlayoffSummary();
+                        displayDivisionLeaders();
+                        displayWildcardRace();
+                        displayPlayoffKeyStats();
+                        displayPlayoffTable();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading playoff data:', error);
+                    document.getElementById('playoff-probabilities-table').innerHTML = 
+                        '<p style="text-align: center; color: #ff6b6b;">Playoff data not available. Run the playoff probabilities processor first.</p>';
+                    document.getElementById('playoff-summary-stats').innerHTML = 
+                        '<p style="color: #888;">Data not available</p>';
+                    document.getElementById('division-leaders-summary').innerHTML = 
+                        '<p style="color: #888;">Data not available</p>';
+                    document.getElementById('wildcard-race-summary').innerHTML = 
+                        '<p style="color: #888;">Data not available</p>';
+                    document.getElementById('playoff-key-stats').innerHTML = 
+                        '<p style="color: #888;">Data not available</p>';
+                });
+        }
+        
+        function displayPlayoffSummary() {
+            if (!allPlayoffData || allPlayoffData.length === 0) return;
             
-            // Set initial header status
-            document.getElementById('last-update-header').textContent = '🔄 Checking data availability...';
-        });
+            const madePlayoffs = allPlayoffData.filter(team => team.Made_Playoffs === 'True').length;
+            const divisionWinners = allPlayoffData.filter(team => team.Division_Winner === 'True').length;
+            const wildCards = allPlayoffData.filter(team => team.Wild_Card === 'True').length;
+            const eliminated = allPlayoffData.filter(team => team.Made_Playoffs === 'False').length;
+            
+            const summaryHTML = `
+                <div class="playoff-summary-grid">
+                    <div class="summary-stat">
+                        <div class="stat-number" style="color: #4ECDC4;">${madePlayoffs}</div>
+                        <div class="stat-label">Made Playoffs</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="stat-number" style="color: #45B7D1;">${divisionWinners}</div>
+                        <div class="stat-label">Division Winners</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="stat-number" style="color: #96CEB4;">${wildCards}</div>
+                        <div class="stat-label">Wild Cards</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="stat-number" style="color: #FF6B6B;">${eliminated}</div>
+                        <div class="stat-label">Eliminated</div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('playoff-summary-stats').innerHTML = summaryHTML;
+        }
+        
+        function displayDivisionLeaders() {
+            if (!allPlayoffData || allPlayoffData.length === 0) return;
+            
+            const divisions = [...new Set(allPlayoffData.map(team => team.Division))];
+            let leadersHTML = '<div class="division-leaders-grid">';
+            
+            divisions.forEach(division => {
+                if (!division) return;
+                
+                const divisionTeams = allPlayoffData.filter(team => team.Division === division);
+                const leader = divisionTeams.find(team => team.Division_Winner === 'True');
+                
+                if (leader) {
+                    const shortDivision = division.split(' ').pop(); // Get last word (East, North, etc.)
+                    const teamName = leader.Team.split(' ').pop(); // Get team name
+                    const record = `${leader.Wins}-${leader.Losses}`;
+                    
+                    leadersHTML += `
+                        <div class="leader-item">
+                            <div class="division-name">${shortDivision}</div>
+                            <div class="team-info">
+                                <span class="team-name" style="color: #4ECDC4;">${teamName}</span>
+                                <span class="team-record">(${record})</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            leadersHTML += '</div>';
+            document.getElementById('division-leaders-summary').innerHTML = leadersHTML;
+        }
+        
+        function displayWildcardRace() {
+            if (!allPlayoffData || allPlayoffData.length === 0) return;
+            
+            const afcWildcards = allPlayoffData
+                .filter(team => team.Conference === 'AFC' && team.Wild_Card === 'True')
+                .sort((a, b) => parseFloat(b.Win_Percentage) - parseFloat(a.Win_Percentage));
+                
+            const nfcWildcards = allPlayoffData
+                .filter(team => team.Conference === 'NFC' && team.Wild_Card === 'True')
+                .sort((a, b) => parseFloat(b.Win_Percentage) - parseFloat(a.Win_Percentage));
+            
+            let wildcardHTML = `
+                <div class="wildcard-conferences">
+                    <div class="wildcard-conference">
+                        <h4 style="color: #FF6B6B; margin-bottom: 10px;">AFC Wild Cards</h4>
+            `;
+            
+            afcWildcards.forEach(team => {
+                const teamName = team.Team.split(' ').pop();
+                const record = `${team.Wins}-${team.Losses}`;
+                wildcardHTML += `
+                    <div class="wildcard-team">
+                        <span class="team-name">${teamName}</span>
+                        <span class="team-record">${record}</span>
+                    </div>
+                `;
+            });
+            
+            wildcardHTML += `
+                    </div>
+                    <div class="wildcard-conference">
+                        <h4 style="color: #45B7D1; margin-bottom: 10px;">NFC Wild Cards</h4>
+            `;
+            
+            nfcWildcards.forEach(team => {
+                const teamName = team.Team.split(' ').pop();
+                const record = `${team.Wins}-${team.Losses}`;
+                wildcardHTML += `
+                    <div class="wildcard-team">
+                        <span class="team-name">${teamName}</span>
+                        <span class="team-record">${record}</span>
+                    </div>
+                `;
+            });
+            
+            wildcardHTML += `
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('wildcard-race-summary').innerHTML = wildcardHTML;
+        }
+        
+        function displayPlayoffKeyStats() {
+            if (!allPlayoffData || allPlayoffData.length === 0) return;
+            
+            const playoffTeams = allPlayoffData.filter(team => team.Made_Playoffs === 'True');
+            const nonPlayoffTeams = allPlayoffData.filter(team => team.Made_Playoffs === 'False');
+            
+            const avgPlayoffWinPct = playoffTeams.reduce((sum, team) => sum + parseFloat(team.Win_Percentage), 0) / playoffTeams.length;
+            const avgNonPlayoffWinPct = nonPlayoffTeams.reduce((sum, team) => sum + parseFloat(team.Win_Percentage), 0) / nonPlayoffTeams.length;
+            
+            const bestRecord = playoffTeams.reduce((best, team) => 
+                parseFloat(team.Win_Percentage) > parseFloat(best.Win_Percentage) ? team : best
+            );
+            
+            const worstPlayoffRecord = playoffTeams.reduce((worst, team) => 
+                parseFloat(team.Win_Percentage) < parseFloat(worst.Win_Percentage) ? team : worst
+            );
+            
+            const statsHTML = `
+                <div class="key-stats-grid">
+                    <div class="key-stat">
+                        <div class="stat-label">Avg Playoff Win %</div>
+                        <div class="stat-value" style="color: #4ECDC4;">${(avgPlayoffWinPct * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="key-stat">
+                        <div class="stat-label">Avg Non-Playoff Win %</div>
+                        <div class="stat-value" style="color: #FF6B6B;">${(avgNonPlayoffWinPct * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="key-stat">
+                        <div class="stat-label">Best Record</div>
+                        <div class="stat-value" style="color: #FFD700;">${bestRecord.Team.split(' ').pop()} (${bestRecord.Wins}-${bestRecord.Losses})</div>
+                    </div>
+                    <div class="key-stat">
+                        <div class="stat-label">Worst Playoff Team</div>
+                        <div class="stat-value" style="color: #FFA500;">${worstPlayoffRecord.Team.split(' ').pop()} (${worstPlayoffRecord.Wins}-${worstPlayoffRecord.Losses})</div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('playoff-key-stats').innerHTML = statsHTML;
+        }
+        
+        function displayPlayoffTable() {
+            if (!allPlayoffData || allPlayoffData.length === 0) return;
+            
+            let filteredData = [...allPlayoffData];
+            
+            // Apply conference filter
+            const conferenceFilter = document.getElementById('conference-filter')?.value;
+            if (conferenceFilter && conferenceFilter !== 'all') {
+                filteredData = filteredData.filter(team => team.Conference === conferenceFilter);
+            }
+            
+            // Apply playoff status filter
+            const statusFilter = document.getElementById('playoff-status-filter')?.value;
+            if (statusFilter && statusFilter !== 'all') {
+                filteredData = filteredData.filter(team => team.Made_Playoffs === (statusFilter === 'true' ? 'True' : 'False'));
+            }
+            
+            // Sort by win percentage
+            filteredData.sort((a, b) => parseFloat(b.Win_Percentage) - parseFloat(a.Win_Percentage));
+            
+            let tableHTML = `
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: var(--accent-color);">
+                            <th style="padding: 10px; text-align: left;">Team</th>
+                            <th style="padding: 10px; text-align: center;">Conference</th>
+                            <th style="padding: 10px; text-align: center;">Record</th>
+                            <th style="padding: 10px; text-align: center;">Win %</th>
+                            <th style="padding: 10px; text-align: center;">Playoff Status</th>
+                            <th style="padding: 10px; text-align: center;">Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            filteredData.forEach(team => {
+                const teamName = team.Team.split(' ').pop();
+                const record = `${team.Wins}-${team.Losses}`;
+                const winPct = (parseFloat(team.Win_Percentage) * 100).toFixed(1);
+                const madePlayoffs = team.Made_Playoffs === 'True';
+                const isDivisionWinner = team.Division_Winner === 'True';
+                const isWildCard = team.Wild_Card === 'True';
+                
+                let statusColor = madePlayoffs ? '#4ECDC4' : '#FF6B6B';
+                let statusText = madePlayoffs ? 'PLAYOFFS' : 'ELIMINATED';
+                
+                let typeText = '';
+                let typeColor = '#888';
+                if (isDivisionWinner) {
+                    typeText = 'Division Winner';
+                    typeColor = '#FFD700';
+                } else if (isWildCard) {
+                    typeText = 'Wild Card';
+                    typeColor = '#96CEB4';
+                } else {
+                    typeText = 'N/A';
+                }
+                
+                tableHTML += `
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 10px; font-weight: bold;">${teamName}</td>
+                        <td style="padding: 10px; text-align: center;">${team.Conference}</td>
+                        <td style="padding: 10px; text-align: center; font-weight: bold;">${record}</td>
+                        <td style="padding: 10px; text-align: center;">${winPct}%</td>
+                        <td style="padding: 10px; text-align: center; color: ${statusColor}; font-weight: bold;">${statusText}</td>
+                        <td style="padding: 10px; text-align: center; color: ${typeColor};">${typeText}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += '</tbody></table>';
+            document.getElementById('playoff-probabilities-table').innerHTML = tableHTML;
+        }
+        
+        function filterPlayoffTable() {
+            displayPlayoffTable();
+        }
+
+        // Load data status and timestamps
+        function loadDataStatus() {
+            const files = [
+                { name: 'passing_stats.png', label: 'Player Passing Stats' },
+                { name: 'rushing_stats.png', label: 'Player Rushing Stats' },
+                { name: 'receiving_stats.png', label: 'Player Receiving Stats' },
+                { name: 'defense_stats.png', label: 'Player Defense Stats' },
+                { name: 'team_stats.png', label: 'Team Basic Stats' },
+                { name: 'team_weekly_trends.png', label: 'Team Weekly Trends' },
+                { name: 'team_advanced_analytics.png', label: 'Advanced Team Analytics' },
+                { name: 'awards_predictions.png', label: 'Awards Predictions' }
+            ];
+            
+            let availableCount = 0;
+            const statusList = document.getElementById('data-status');
+            statusList.innerHTML = '';
+            
+            files.forEach(file => {
+                const img = new Image();
+                img.onload = function() {
+                    availableCount++;
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span class="status-indicator status-success"></span>${file.label}: Available`;
+                    statusList.appendChild(li);
+                    updateOverallStatus(availableCount, files.length);
+                };
+                img.onerror = function() {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span class="status-indicator status-danger"></span>${file.label}: Not generated`;
+                    statusList.appendChild(li);
+                    updateOverallStatus(availableCount, files.length);
+                };
+                img.src = file.name;
+            });
+        }
+        
+        function updateOverallStatus(available, total) {
+            const percentage = (available / total * 100).toFixed(0);
+            const statusElement = document.getElementById('overall-status');
+            const headerElement = document.getElementById('last-update-header');
+            
+            if (percentage >= 80) {
+                statusElement.innerHTML = `<span class="status-indicator status-success"></span>Excellent (${available}/${total} charts available)`;
+                headerElement.innerHTML = `📊 Dashboard: ${percentage}% Complete - Most data available`;
+            } else if (percentage >= 50) {
+                statusElement.innerHTML = `<span class="status-indicator status-warning"></span>Good (${available}/${total} charts available)`;
+                headerElement.innerHTML = `⚠️ Dashboard: ${percentage}% Complete - Some charts missing`;
+            } else {
+                statusElement.innerHTML = `<span class="status-indicator status-danger"></span>Limited (${available}/${total} charts available)`;
+                headerElement.innerHTML = `❌ Dashboard: ${percentage}% Complete - Run data processors`;
+            }
+        }
+        
+        // Load last updated timestamps
+        function loadLastUpdated() {
+            const timestampFiles = [
+                'last_updated_team_charts.txt',
+                'last_updated_team_standings.txt',
+                'last_updated_awards.txt'
+            ];
+            
+            Promise.all(timestampFiles.map(file => 
+                fetch(file).then(r => r.text()).catch(() => 'Not available')
+            )).then(timestamps => {
+                const latest = timestamps.filter(t => t !== 'Not available').sort().pop() || 'No data available';
+                document.getElementById('last-update').textContent = latest;
+            });
+        }
+        
+        // Load standings table
+        function loadStandingsTable() {
+            fetch('team_standings.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const lines = data.split('\n');
+                    if (lines.length > 1) {
+                        const headers = lines[0].split(',');
+                        const teams = lines.slice(1).filter(line => line.trim());
+                        
+                        let tableHTML = '<table style="width: 100%; border-collapse: collapse; margin-top: 10px;">';
+                        tableHTML += '<thead><tr>';
+                        headers.forEach(header => {
+                            tableHTML += `<th style="border: 1px solid #444; padding: 8px; background: #333; color: #007bff;">${header.trim()}</th>`;
+                        });
+                        tableHTML += '</tr></thead><tbody>';
+                        
+                        teams.slice(0, 32).forEach(team => {
+                            const values = team.split(',');
+                            tableHTML += '<tr>';
+                            values.forEach(value => {
+                                tableHTML += `<td style="border: 1px solid #444; padding: 8px;">${value.trim()}</td>`;
+                            });
+                            tableHTML += '</tr>';
+                        });
+                        
+                        tableHTML += '</tbody></table>';
+                        document.getElementById('standings-table').innerHTML = tableHTML;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('standings-table').innerHTML = '<div class="chart-error">Standings data not available. Generate by running team processors.</div>';
+                });
+        }
+        
+        // Global variables for schedule data
+        let allGames = [];
+        let weeklyGames = {};
+        let allTeams = [];
+        
+        // Load schedule data
+        function loadScheduleData() {
+            fetch('schedule_results.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const lines = data.split('\n');
+                    if (lines.length > 1) {
+                        const headers = lines[0].split(',');
+                        const games = lines.slice(1).filter(line => line.trim());
+                        
+                        allGames = games.map(line => {
+                            const values = line.split(',');
+                            return headers.reduce((obj, header, index) => {
+                                obj[header.trim()] = values[index] ? values[index].trim() : '';
+                                return obj;
+                            }, {});
+                        });
+                        
+                        processScheduleData();
+                        displayScheduleTable();
+                        updateSeasonProgress();
+                        populateWeekSelector();
+                        populateTeamFilter();
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('schedule-table').innerHTML = 
+                        '<p>Could not load schedule data. Please run the schedule processor first.</p>';
+                    console.error('Error loading schedule data:', error);
+                });
+        }
+        
+        // Process schedule data
+        function processScheduleData() {
+            // Group games by week
+            weeklyGames = {};
+            allTeams = new Set();
+            
+            allGames.forEach(game => {
+                const week = game.Week;
+                if (!weeklyGames[week]) {
+                    weeklyGames[week] = [];
+                }
+                weeklyGames[week].push(game);
+                
+                // Add teams to set
+                if (game.Home_Team) allTeams.add(game.Home_Team);
+                if (game.Away_Team) allTeams.add(game.Away_Team);
+            });
+            
+            allTeams = Array.from(allTeams).sort();
+        }
+        
+        // Display schedule table
+        function displayScheduleTable() {
+            let tableHTML = '<table>';
+            tableHTML += '<thead><tr>';
+            tableHTML += '<th>Week</th><th>Date</th><th>Time</th>';
+            tableHTML += '<th>Away Team</th><th>Away Score</th>';
+            tableHTML += '<th>Home Team</th><th>Home Score</th>';
+            tableHTML += '<th>Winner</th><th>Status</th>';
+            tableHTML += '</tr></thead><tbody>';
+            
+            allGames.forEach(game => {
+                const winnerClass = game.Status === 'Final' ? 'winner' : '';
+                tableHTML += `<tr class="game-row ${winnerClass}">`;
+                tableHTML += `<td>${game.Week}</td>`;
+                tableHTML += `<td>${game.Date}</td>`;
+                tableHTML += `<td>${game.Time}</td>`;
+                tableHTML += `<td>${game.Away_Team}</td>`;
+                tableHTML += `<td>${game.Away_Score}</td>`;
+                tableHTML += `<td>${game.Home_Team}</td>`;
+                tableHTML += `<td>${game.Home_Score}</td>`;
+                tableHTML += `<td><strong>${game.Winner}</strong></td>`;
+                tableHTML += `<td><span class="status-${game.Status.toLowerCase()}">${game.Status}</span></td>`;
+                tableHTML += '</tr>';
+            });
+            
+            tableHTML += '</tbody></table>';
+            document.getElementById('schedule-table').innerHTML = tableHTML;
+        }
+        
+        // Update season progress
+        function updateSeasonProgress() {
+            const completedGames = allGames.filter(game => game.Status === 'Final').length;
+            const remainingGames = allGames.filter(game => game.Status === 'Scheduled').length;
+            
+            document.getElementById('completed-games').textContent = completedGames;
+            document.getElementById('remaining-games').textContent = remainingGames;
+            
+            // Find current week (first week with scheduled games)
+            const currentWeekGame = allGames.find(game => game.Status === 'Scheduled');
+            const currentWeek = currentWeekGame ? currentWeekGame.Week : 'Season Complete';
+            document.getElementById('current-week').textContent = currentWeek;
+        }
+        
+        // Populate week selector
+        function populateWeekSelector() {
+            const weekSelect = document.getElementById('week-select');
+            weekSelect.innerHTML = '<option value="">Select Week</option>';
+            
+            const weeks = Object.keys(weeklyGames).sort((a, b) => {
+                if (a === 'WildCard' || a === 'Division' || a === 'ConfChamp' || a === 'SuperBowl') return 1;
+                if (b === 'WildCard' || b === 'Division' || b === 'ConfChamp' || b === 'SuperBowl') return -1;
+                return parseInt(a) - parseInt(b);
+            });
+            
+            weeks.forEach(week => {
+                const option = document.createElement('option');
+                option.value = week;
+                option.textContent = `Week ${week}`;
+                weekSelect.appendChild(option);
+            });
+        }
+        
+        // Populate team filter
+        function populateTeamFilter() {
+            const teamFilter = document.getElementById('team-filter');
+            teamFilter.innerHTML = '<option value="">All Teams</option>';
+            
+            allTeams.forEach(team => {
+                const option = document.createElement('option');
+                option.value = team;
+                option.textContent = team;
+                teamFilter.appendChild(option);
+            });
+        }
+        
+        // Display weekly games
+        function displayWeeklyGames() {
+            const selectedWeek = document.getElementById('week-select').value;
+            const container = document.getElementById('weekly-games-container');
+            
+            if (!selectedWeek || !weeklyGames[selectedWeek]) {
+                container.innerHTML = '<p style="text-align: center; color: #888;">Select a week to view games</p>';
+                return;
+            }
+            
+            const games = weeklyGames[selectedWeek];
+            let html = `<h4>Week ${selectedWeek} Games</h4>`;
+            html += '<div class="weekly-games-grid">';
+            
+            games.forEach(game => {
+                const gameStatus = game.Status === 'Final' ? 'final' : 'scheduled';
+                html += `<div class="game-card ${gameStatus}">`;
+                html += `<div class="game-header">`;
+                html += `<span class="game-date">${game.Date}</span>`;
+                html += `<span class="game-time">${game.Time}</span>`;
+                html += `</div>`;
+                html += `<div class="game-matchup">`;
+                html += `<div class="team away-team">`;
+                html += `<span class="team-name">${game.Away_Team}</span>`;
+                html += `<span class="team-score">${game.Away_Score}</span>`;
+                html += `</div>`;
+                html += `<div class="vs">@</div>`;
+                html += `<div class="team home-team">`;
+                html += `<span class="team-name">${game.Home_Team}</span>`;
+                html += `<span class="team-score">${game.Home_Score}</span>`;
+                html += `</div>`;
+                html += `</div>`;
+                if (game.Winner) {
+                    html += `<div class="game-winner">Winner: <strong>${game.Winner}</strong></div>`;
+                }
+                html += `<div class="game-status">${game.Status}</div>`;
+                html += `</div>`;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        // Filter games
+        function filterGames() {
+            const teamFilter = document.getElementById('team-filter').value;
+            const statusFilter = document.getElementById('status-filter').value;
+            
+            let filteredGames = allGames;
+            
+            if (teamFilter) {
+                filteredGames = filteredGames.filter(game => 
+                    game.Home_Team === teamFilter || game.Away_Team === teamFilter
+                );
+            }
+            
+            if (statusFilter) {
+                filteredGames = filteredGames.filter(game => game.Status === statusFilter);
+            }
+            
+            // Display filtered games
+            let tableHTML = '<table>';
+            tableHTML += '<thead><tr>';
+            tableHTML += '<th>Week</th><th>Date</th><th>Time</th>';
+            tableHTML += '<th>Away Team</th><th>Away Score</th>';
+            tableHTML += '<th>Home Team</th><th>Home Score</th>';
+            tableHTML += '<th>Winner</th><th>Status</th>';
+            tableHTML += '</tr></thead><tbody>';
+            
+            filteredGames.forEach(game => {
+                const winnerClass = game.Status === 'Final' ? 'winner' : '';
+                tableHTML += `<tr class="game-row ${winnerClass}">`;
+                tableHTML += `<td>${game.Week}</td>`;
+                tableHTML += `<td>${game.Date}</td>`;
+                tableHTML += `<td>${game.Time}</td>`;
+                tableHTML += `<td>${game.Away_Team}</td>`;
+                tableHTML += `<td>${game.Away_Score}</td>`;
+                tableHTML += `<td>${game.Home_Team}</td>`;
+                tableHTML += `<td>${game.Home_Score}</td>`;
+                tableHTML += `<td><strong>${game.Winner}</strong></td>`;
+                tableHTML += `<td><span class="status-${game.Status.toLowerCase()}">${game.Status}</span></td>`;
+                tableHTML += '</tr>';
+            });
+            
+            tableHTML += '</tbody></table>';
+            document.getElementById('schedule-table').innerHTML = tableHTML;
+        }
+        
+        // Load playoff probabilities data
+        let allPlayoffData = [];
+        
+        function loadPlayoffData() {
+            fetch('playoff_probabilities.csv')
+                .then(response => {
+                    if (!response.ok) throw new Error('Playoff data not found');
+                    return response.text();
+                })
+                .then(data => {
+                    const lines = data.split('\n').filter(line => line.trim());
+                    if (lines.length > 1) {
+                        const headers = lines[0].split(',').map(h => h.trim());
+                        allPlayoffData = lines.slice(1).map(line => {
+                            const values = line.split(',').map(v => v.trim());
+                            const row = {};
+                            headers.forEach((header, index) => {
+                                row[header] = values[index] || '';
+                            });
+                            return row;
+                        });
+                        
+                        displayPlayoffSummary();
+                        displayDivisionLeaders();
+                        displayWildcardRace();
+                        displayPlayoffKeyStats();
+                        displayPlayoffTable();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading playoff data:', error);
+                    document.getElementById('playoff-probabilities-table').innerHTML = 
+                        '<p style="text-align: center; color: #ff6b6b;">Playoff data not available. Run the playoff probabilities processor first.</p>';
+                    document.getElementById('playoff-summary-stats').innerHTML = 
+                        '<p style="color: #888;">Data not available</p>';
+                    document.getElementById('division-leaders-summary').innerHTML = 
+                        '<p style="color: #888;">Data not available</p>';
+                    document.getElementById('wildcard-race-summary').innerHTML = 
+                        '<p style="color: #888;">Data not available</p>';
+                    document.getElementById('playoff-key-stats').innerHTML = 
+                        '<p style="color: #888;">Data not available</p>';
+                });
+        }
+        
+        function displayPlayoffSummary() {
+            if (!allPlayoffData || allPlayoffData.length === 0) return;
+            
+            const madePlayoffs = allPlayoffData.filter(team => team.Made_Playoffs === 'True').length;
+            const divisionWinners = allPlayoffData.filter(team => team.Division_Winner === 'True').length;
+            const wildCards = allPlayoffData.filter(team => team.Wild_Card === 'True').length;
+            const eliminated = allPlayoffData.filter(team => team.Made_Playoffs === 'False').length;
+            
+            const summaryHTML = `
+                <div class="playoff-summary-grid">
+                    <div class="summary-stat">
+                        <div class="stat-number" style="color: #4ECDC4;">${madePlayoffs}</div>
+                        <div class="stat-label">Made Playoffs</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="stat-number" style="color: #45B7D1;">${divisionWinners}</div>
+                        <div class="stat-label">Division Winners</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="stat-number" style="color: #96CEB4;">${wildCards}</div>
+                        <div class="stat-label">Wild Cards</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="stat-number" style="color: #FF6B6B;">${eliminated}</div>
+                        <div class="stat-label">Eliminated</div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('playoff-summary-stats').innerHTML = summaryHTML;
+        }
+        
+        function displayDivisionLeaders() {
+            if (!allPlayoffData || allPlayoffData.length === 0) return;
+            
+            const divisions = [...new Set(allPlayoffData.map(team => team.Division))];
+            let leadersHTML = '<div class="division-leaders-grid">';
+            
+            divisions.forEach(division => {
+                if (!division) return;
+                
+                const divisionTeams = allPlayoffData.filter(team => team.Division === division);
+                const leader = divisionTeams.find(team => team.Division_Winner === 'True');
+                
+                if (leader) {
+                    const shortDivision = division.split(' ').pop(); // Get last word (East, North, etc.)
+                    const teamName = leader.Team.split(' ').pop(); // Get team name
+                    const record = `${leader.Wins}-${leader.Losses}`;
+                    
+                    leadersHTML += `
+                        <div class="leader-item">
+                            <div class="division-name">${shortDivision}</div>
+                            <div class="team-info">
+                                <span class="team-name" style="color: #4ECDC4;">${teamName}</span>
+                                <span class="team-record">(${record})</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            leadersHTML += '</div>';
+            document.getElementById('division-leaders-summary').innerHTML = leadersHTML;
+        }
+        
+        function displayWildcardRace() {
+            if (!allPlayoffData || allPlayoffData.length === 0) return;
+            
+            const afcWildcards = allPlayoffData
+                .filter(team => team.Conference === 'AFC' && team.Wild_Card === 'True')
+                .sort((a, b) => parseFloat(b.Win_Percentage) - parseFloat(a.Win_Percentage));
+                
+            const nfcWildcards = allPlayoffData
+                .filter(team => team.Conference === 'NFC' && team.Wild_Card === 'True')
+                .sort((a, b) => parseFloat(b.Win_Percentage) - parseFloat(a.Win_Percentage));
+            
+            let wildcardHTML = `
+                <div class="wildcard-conferences">
+                    <div class="wildcard-conference">
+                        <h4 style="color: #FF6B6B; margin-bottom: 10px;">AFC Wild Cards</h4>
+            `;
+            
+            afcWildcards.forEach(team => {
+                const teamName = team.Team.split(' ').pop();
+                const record = `${team.Wins}-${team.Losses}`;
+                wildcardHTML += `
+                    <div class="wildcard-team">
+                        <span class="team-name">${teamName}</span>
+                        <span class="team-record">${record}</span>
+                    </div>
+                `;
+            });
+            
+            wildcardHTML += `
+                    </div>
+                    <div class="wildcard-conference">
+                        <h4 style="color: #45B7D1; margin-bottom: 10px;">NFC Wild Cards</h4>
+            `;
+            
+            nfcWildcards.forEach(team => {
+                const teamName = team.Team.split(' ').pop();
+                const record = `${team.Wins}-${team.Losses}`;
+                wildcardHTML += `
+                    <div class="wildcard-team">
+                        <span class="team-name">${teamName}</span>
+                        <span class="team-record">${record}</span>
+                    </div>
+                `;
+            });
+            
+            wildcardHTML += `
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('wildcard-race-summary').innerHTML = wildcardHTML;
+        }
+        
+        function displayPlayoffKeyStats() {
+            if (!allPlayoffData || allPlayoffData.length === 0) return;
+            
+            const playoffTeams = allPlayoffData.filter(team => team.Made_Playoffs === 'True');
+            const nonPlayoffTeams = allPlayoffData.filter(team => team.Made_Playoffs === 'False');
+            
+            const avgPlayoffWinPct = playoffTeams.reduce((sum, team) => sum + parseFloat(team.Win_Percentage), 0) / playoffTeams.length;
+            const avgNonPlayoffWinPct = nonPlayoffTeams.reduce((sum, team) => sum + parseFloat(team.Win_Percentage), 0) / nonPlayoffTeams.length;
+            
+            const bestRecord = playoffTeams.reduce((best, team) => 
+                parseFloat(team.Win_Percentage) > parseFloat(best.Win_Percentage) ? team : best
+            );
+            
+            const worstPlayoffRecord = playoffTeams.reduce((worst, team) => 
+                parseFloat(team.Win_Percentage) < parseFloat(worst.Win_Percentage) ? team : worst
+            );
+            
+            const statsHTML = `
+                <div class="key-stats-grid">
+                    <div class="key-stat">
+                        <div class="stat-label">Avg Playoff Win %</div>
+                        <div class="stat-value" style="color: #4ECDC4;">${(avgPlayoffWinPct * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="key-stat">
+                        <div class="stat-label">Avg Non-Playoff Win %</div>
+                        <div class="stat-value" style="color: #FF6B6B;">${(avgNonPlayoffWinPct * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="key-stat">
+                        <div class="stat-label">Best Record</div>
+                        <div class="stat-value" style="color: #FFD700;">${bestRecord.Team.split(' ').pop()} (${bestRecord.Wins}-${bestRecord.Losses})</div>
+                    </div>
+                    <div class="key-stat">
+                        <div class="stat-label">Worst Playoff Team</div>
+                        <div class="stat-value" style="color: #FFA500;">${worstPlayoffRecord.Team.split(' ').pop()} (${worstPlayoffRecord.Wins}-${worstPlayoffRecord.Losses})</div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('playoff-key-stats').innerHTML = statsHTML;
+        }
+        
+        function displayPlayoffTable() {
+            if (!allPlayoffData || allPlayoffData.length === 0) return;
+            
+            let filteredData = [...allPlayoffData];
+            
+            // Apply conference filter
+            const conferenceFilter = document.getElementById('conference-filter')?.value;
+            if (conferenceFilter && conferenceFilter !== 'all') {
+                filteredData = filteredData.filter(team => team.Conference === conferenceFilter);
+            }
+            
+            // Apply playoff status filter
+            const statusFilter = document.getElementById('playoff-status-filter')?.value;
+            if (statusFilter && statusFilter !== 'all') {
+                filteredData = filteredData.filter(team => team.Made_Playoffs === (statusFilter === 'true' ? 'True' : 'False'));
+            }
+            
+            // Sort by win percentage
+            filteredData.sort((a, b) => parseFloat(b.Win_Percentage) - parseFloat(a.Win_Percentage));
+            
+            let tableHTML = `
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: var(--accent-color);">
+                            <th style="padding: 10px; text-align: left;">Team</th>
+                            <th style="padding: 10px; text-align: center;">Conference</th>
+                            <th style="padding: 10px; text-align: center;">Record</th>
+                            <th style="padding: 10px; text-align: center;">Win %</th>
+                            <th style="padding: 10px; text-align: center;">Playoff Status</th>
+                            <th style="padding: 10px; text-align: center;">Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            filteredData.forEach(team => {
+                const teamName = team.Team.split(' ').pop();
+                const record = `${team.Wins}-${team.Losses}`;
+                const winPct = (parseFloat(team.Win_Percentage) * 100).toFixed(1);
+                const madePlayoffs = team.Made_Playoffs === 'True';
+                const isDivisionWinner = team.Division_Winner === 'True';
+                const isWildCard = team.Wild_Card === 'True';
+                
+                let statusColor = madePlayoffs ? '#4ECDC4' : '#FF6B6B';
+                let statusText = madePlayoffs ? 'PLAYOFFS' : 'ELIMINATED';
+                
+                let typeText = '';
+                let typeColor = '#888';
+                if (isDivisionWinner) {
+                    typeText = 'Division Winner';
+                    typeColor = '#FFD700';
+                } else if (isWildCard) {
+                    typeText = 'Wild Card';
+                    typeColor = '#96CEB4';
+                } else {
+                    typeText = 'N/A';
+                }
+                
+                tableHTML += `
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 10px; font-weight: bold;">${teamName}</td>
+                        <td style="padding: 10px; text-align: center;">${team.Conference}</td>
+                        <td style="padding: 10px; text-align: center; font-weight: bold;">${record}</td>
+                        <td style="padding: 10px; text-align: center;">${winPct}%</td>
+                        <td style="padding: 10px; text-align: center; color: ${statusColor}; font-weight: bold;">${statusText}</td>
+                        <td style="padding: 10px; text-align: center; color: ${typeColor};">${typeText}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += '</tbody></table>';
+            document.getElementById('playoff-probabilities-table').innerHTML = tableHTML;
+        }
+        
+        function filterPlayoffTable() {
+            displayPlayoffTable();
+        }
     </script>
 </body>
 </html>
