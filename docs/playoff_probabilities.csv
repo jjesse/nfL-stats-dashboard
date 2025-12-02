@@ -1,0 +1,33 @@
+Team,Conference,Division,Wins,Losses,Win_Pct,Playoff_Prob,Division_Prob,Wildcard_Prob,Super_Bowl_Prob
+Kansas City Chiefs,AFC,West,15,2,0.882,100.0,100.0,0.0,25.5
+Buffalo Bills,AFC,East,14,3,0.824,100.0,100.0,0.0,18.2
+Baltimore Ravens,AFC,North,12,5,0.706,98.5,95.3,3.2,12.4
+Houston Texans,AFC,South,10,7,0.588,92.1,88.7,3.4,5.2
+Los Angeles Chargers,AFC,West,11,6,0.647,95.3,0.0,95.3,8.1
+Pittsburgh Steelers,AFC,North,10,7,0.588,85.2,4.7,80.5,4.8
+Denver Broncos,AFC,West,10,7,0.588,82.4,0.0,82.4,4.3
+Detroit Lions,NFC,North,15,2,0.882,100.0,100.0,0.0,28.3
+Philadelphia Eagles,NFC,East,14,3,0.824,100.0,100.0,0.0,22.1
+Minnesota Vikings,NFC,North,14,3,0.824,100.0,0.0,100.0,19.7
+Tampa Bay Buccaneers,NFC,South,10,7,0.588,94.2,91.5,2.7,6.8
+Seattle Seahawks,NFC,West,10,7,0.588,93.8,90.2,3.6,6.2
+Washington Commanders,NFC,East,12,5,0.706,98.8,0.0,98.8,11.5
+Green Bay Packers,NFC,North,11,6,0.647,96.7,0.0,96.7,9.4
+Los Angeles Rams,NFC,West,10,7,0.588,45.3,9.8,35.5,3.1
+Atlanta Falcons,NFC,South,9,8,0.529,38.7,8.5,30.2,2.4
+Arizona Cardinals,NFC,West,8,9,0.471,15.2,0.0,15.2,0.8
+San Francisco 49ers,NFC,West,6,11,0.353,5.3,0.0,5.3,0.3
+Cincinnati Bengals,AFC,North,6,11,0.353,2.1,0.0,2.1,0.1
+Miami Dolphins,AFC,East,8,9,0.471,8.5,0.0,8.5,0.4
+Indianapolis Colts,AFC,South,8,9,0.471,12.3,11.3,1.0,0.5
+Dallas Cowboys,NFC,East,7,10,0.412,1.2,0.0,1.2,0.1
+New Orleans Saints,NFC,South,5,12,0.294,0.1,0.0,0.1,0.0
+Cleveland Browns,AFC,North,3,14,0.176,0.0,0.0,0.0,0.0
+New York Jets,AFC,East,5,12,0.294,0.0,0.0,0.0,0.0
+Tennessee Titans,AFC,South,3,14,0.176,0.0,0.0,0.0,0.0
+New England Patriots,AFC,East,4,13,0.235,0.0,0.0,0.0,0.0
+Jacksonville Jaguars,AFC,South,4,13,0.235,0.0,0.0,0.0,0.0
+Las Vegas Raiders,AFC,West,4,13,0.235,0.0,0.0,0.0,0.0
+Carolina Panthers,NFC,South,4,13,0.235,0.0,0.0,0.0,0.0
+New York Giants,NFC,East,3,14,0.176,0.0,0.0,0.0,0.0
+Chicago Bears,NFC,North,5,12,0.294,0.0,0.0,0.0,0.0

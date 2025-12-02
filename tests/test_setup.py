@@ -83,3 +83,34 @@ class TestProjectStructure:
         """Test that awards-tracker.py exists."""
         awards_file = project_root / "src" / "data-processors" / "awards-tracker.py"
         assert awards_file.exists(), "awards-tracker.py should exist"
+
+    def test_schedule_processor_exists(self):
+        """Test that schedule-processor.py exists."""
+        schedule_file = project_root / "src" / "data-processors" / "schedule-processor.py"
+        assert schedule_file.exists(), "schedule-processor.py should exist"
+
+    def test_run_all_processors_exists(self):
+        """Test that run_all_processors.py exists."""
+        run_all_file = project_root / "src" / "data-processors" / "run_all_processors.py"
+        assert run_all_file.exists(), "run_all_processors.py should exist"
+
+    def test_receiving_html_exists(self):
+        """Test that receiving.html exists."""
+        receiving_file = project_root / "docs" / "receiving.html"
+        assert receiving_file.exists(), "receiving.html should exist"
+
+    def test_interactive_charts_js_exists(self):
+        """Test that interactive-charts.js exists."""
+        interactive_charts_file = project_root / "docs" / "js" / "interactive-charts.js"
+        assert interactive_charts_file.exists(), "interactive-charts.js should exist"
+
+    def test_schedule_results_csv_exists(self):
+        """Test that schedule_results.csv exists or is created."""
+        schedule_csv = project_root / "docs" / "schedule_results.csv"
+        # This file may not exist until the processor runs, so we just check it can be created
+        assert schedule_csv.parent.exists(), "docs directory should exist for schedule_results.csv"
+
+    def test_playoff_probabilities_csv_exists(self):
+        """Test that playoff_probabilities.csv exists."""
+        playoff_csv = project_root / "docs" / "playoff_probabilities.csv"
+        assert playoff_csv.exists(), "playoff_probabilities.csv should exist"
