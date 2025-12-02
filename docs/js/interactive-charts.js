@@ -276,6 +276,7 @@
      */
     function applyTransform(chart) {
         const state = chartStates.get(chart.id);
+        if (!state) return;
         chart.style.transform = `scale(${state.zoom}) rotate(${state.rotation}deg)`;
     }
     
@@ -284,6 +285,7 @@
      */
     function resetChart(chart) {
         const state = chartStates.get(chart.id);
+        if (!state) return;
         state.zoom = 1;
         state.rotation = 0;
         applyTransform(chart);
