@@ -17,7 +17,7 @@ This is an NFL Stats Dashboard project that provides real-time player stats, tea
 ## Project Structure
 
 ```
-nfL-stats-dashboard/
+nfl-stats-dashboard/
 ├── src/
 │   ├── data-processors/    # Data collection and processing scripts
 │   ├── charts/             # Chart generation utilities
@@ -85,11 +85,12 @@ python -m pytest tests/ -v --tb=short
 ## Data Processing
 
 ### Key Scripts
-- `src/data-processors/run_all_processors.py`: Master processor that runs all data processors
 - `src/data-processors/player-stats.py`: Player statistics processor
 - `src/data-processors/team-stats-basic.py`: Team statistics processor
-- `src/data-processors/schedule-processor.py`: Schedule and results processor
+- `src/data-processors/team-stats.py`: Advanced team statistics processor
+- `src/data-processors/standings.py`: Standings processor
 - `src/data-processors/awards-tracker.py`: Award predictions processor
+- `src/data-processors/team-weekly-trends.py`: Team momentum analysis
 
 ### Guidelines
 - Always include graceful error handling with try/except blocks
@@ -124,7 +125,7 @@ python -m http.server 8000
 1. Create new Python file in `src/data-processors/`
 2. Follow existing processor patterns for error handling and logging
 3. Add corresponding tests in `tests/`
-4. Update `run_all_processors.py` to include the new processor
+4. Update relevant GitHub Actions workflows to include the new processor if needed
 
 ### Adding a New Dashboard Page
 1. Create HTML file in `docs/`
