@@ -632,6 +632,15 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+        
+        /* Form select styling */
+        .filter-select {
+            padding: 8px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -801,13 +810,13 @@
                 <div class="stat-card">
                     <h3>🔍 Filters</h3>
                     <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-                        <select id="week-select" onchange="displayWeeklyGames()" style="padding: 8px; background: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px;">
+                        <select id="week-select" onchange="displayWeeklyGames()" class="filter-select">
                             <option value="">Select Week</option>
                         </select>
-                        <select id="team-filter" onchange="filterGames()" style="padding: 8px; background: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px;">
+                        <select id="team-filter" onchange="filterGames()" class="filter-select">
                             <option value="">All Teams</option>
                         </select>
-                        <select id="status-filter" onchange="filterGames()" style="padding: 8px; background: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px;">
+                        <select id="status-filter" onchange="filterGames()" class="filter-select">
                             <option value="">All Games</option>
                             <option value="Final">Completed</option>
                             <option value="Scheduled">Upcoming</option>
@@ -1104,12 +1113,12 @@
             <div class="stat-card">
                 <h3>📊 Complete Playoff Probabilities</h3>
                 <div style="margin: 15px 0; display: flex; gap: 10px; flex-wrap: wrap;">
-                    <select id="conference-filter" onchange="filterPlayoffTable()" style="padding: 8px; background: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px;">
+                    <select id="conference-filter" onchange="filterPlayoffTable()" class="filter-select">
                         <option value="all">All Conferences</option>
                         <option value="AFC">AFC</option>
                         <option value="NFC">NFC</option>
                     </select>
-                    <select id="playoff-status-filter" onchange="filterPlayoffTable()" style="padding: 8px; background: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px;">
+                    <select id="playoff-status-filter" onchange="filterPlayoffTable()" class="filter-select">
                         <option value="all">All Teams</option>
                         <option value="true">Playoff Teams Only</option>
                         <option value="false">Eliminated Teams Only</option>
