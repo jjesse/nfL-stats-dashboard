@@ -352,6 +352,7 @@
         </div>
     </div>
     
+    <script src="js/common.js"></script>
     <script>
         // Sample divisions structure
         const divisions = {
@@ -369,17 +370,7 @@
             }
         };
         
-        // Load last updated timestamp
-        function loadLastUpdated() {
-            fetch('last_updated.txt')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('last-update').textContent = data;
-                })
-                .catch(error => {
-                    document.getElementById('last-update').textContent = 'No data available yet';
-                });
-        }
+
         
         // Load and display standings data
         function loadStandingsData() {
@@ -549,7 +540,7 @@
         
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            loadLastUpdated();
+            NFLCommon.loadLastUpdated('last_updated.txt', 'last-update');
             loadStandingsData();
         });
     </script>

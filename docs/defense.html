@@ -276,18 +276,8 @@
         </div>
     </div>
     
+    <script src="js/common.js"></script>
     <script>
-        // Load last updated timestamp
-        function loadLastUpdated() {
-            fetch('last_updated_defense.txt')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('last-update').textContent = data;
-                })
-                .catch(error => {
-                    document.getElementById('last-update').textContent = 'No data available yet';
-                });
-        }
         
         // Load and display defense data table
         function loadDefenseData() {
@@ -344,12 +334,12 @@
                 });
                 
                 // Find leaders (trying multiple possible column names for each stat)
-                const tacklesLeader = findLeader(playerData, 'Tkl') || findLeader(playerData, 'Tackles');
-                const sacksLeader = findLeader(playerData, 'Sk') || findLeader(playerData, 'Sacks');
-                const intLeader = findLeader(playerData, 'Int') || findLeader(playerData, 'Interceptions');
-                const pdLeader = findLeader(playerData, 'PD') || findLeader(playerData, 'Pass Def');
-                const ffLeader = findLeader(playerData, 'FF') || findLeader(playerData, 'Forced Fumbles');
-                const frLeader = findLeader(playerData, 'FR') || findLeader(playerData, 'Fumble Rec');
+                const tacklesLeader = NFLCommon.findLeader(playerData, 'Tkl') || NFLCommon.findLeader(playerData, 'Tackles');
+                const sacksLeader = NFLCommon.findLeader(playerData, 'Sk') || NFLCommon.findLeader(playerData, 'Sacks');
+                const intLeader = NFLCommon.findLeader(playerData, 'Int') || NFLCommon.findLeader(playerData, 'Interceptions');
+                const pdLeader = NFLCommon.findLeader(playerData, 'PD') || NFLCommon.findLeader(playerData, 'Pass Def');
+                const ffLeader = NFLCommon.findLeader(playerData, 'FF') || NFLCommon.findLeader(playerData, 'Forced Fumbles');
+                const frLeader = NFLCommon.findLeader(playerData, 'FR') || NFLCommon.findLeader(playerData, 'Fumble Rec');
                 
                 // Update UI
                 if (tacklesLeader) {
@@ -442,18 +432,9 @@
             }
         }
         
-        // Find leader in a specific stat
-        function findLeader(data, statColumn) {
-            return data.reduce((leader, player) => {
-                const value = parseFloat(player[statColumn]) || 0;
-                const leaderValue = parseFloat(leader[statColumn]) || 0;
-                return value > leaderValue ? player : leader;
-            }, data[0] || {});
-        }
-        
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            loadLastUpdated();
+            NFLCommon.loadLastUpdated('last_updated_defense.txt', 'last-update');
             loadDefenseData();
         });
     </script>

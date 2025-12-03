@@ -204,6 +204,7 @@
         </div>
     </div>
     
+    <script src="js/common.js"></script>
     <script>
         // Handle chart loading errors
         function handleChartError(img) {
@@ -263,7 +264,7 @@
                 });
         }
         
-        // Load last updated timestamp
+        // Load last updated timestamp - custom for receiving page (uses different element ID)
         function loadLastUpdated() {
             fetch('last_updated_receiving.txt')
                 .then(response => response.text())
