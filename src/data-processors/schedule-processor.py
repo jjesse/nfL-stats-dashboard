@@ -96,9 +96,8 @@ class NFLScheduleProcessor:
             return df
 
         try:
-            # Keep important columns
-            columns_to_keep = []
-            possible_columns = {
+            # Map Pro Football Reference columns to our format
+            column_mapping = {
                 'Week': 'Week',
                 'Day': 'Day',
                 'Date': 'Date',
@@ -112,34 +111,68 @@ class NFLScheduleProcessor:
                 'TOL': 'Loser_TO'
             }
 
-            # Map columns that exist
-            column_mapping = {}
-            for orig_col, new_col in possible_columns.items():
-                if orig_col in df.columns:
-                    column_mapping[orig_col] = new_col
-                    columns_to_keep.append(new_col)
+            # Rename columns that exist
+            df_clean = df.copy()
+            for orig_col, new_col in column_mapping.items():
+                if orig_col in df_clean.columns:
+                    df_clean = df_clean.rename(columns={orig_col: new_col})
 
-            # Rename and select columns
-            df_clean = df.rename(columns=column_mapping)
+            # Determine home and away teams based on Location column
+            # '@' means the winner was away, blank means winner was home
+            def assign_teams_and_scores(row):
+                """Helper to assign home/away teams and scores based on location"""
+                result = {
+                    'Away_Team': '', 'Home_Team': '',
+                    'Away_Score': '', 'Home_Score': ''
+                }
 
-            # Select available columns
-            available_cols = [col for col in columns_to_keep if col in df_clean.columns]
-            if available_cols:
-                df_clean = df_clean[available_cols]
+                if pd.notna(row.get('Winner')) and pd.notna(row.get('Loser')):
+                    # If Location is '@', winner was away
+                    if row.get('Location') == '@':
+                        result['Away_Team'] = row['Winner']
+                        result['Home_Team'] = row['Loser']
+                        result['Away_Score'] = row.get('Winner_Pts', '')
+                        result['Home_Score'] = row.get('Loser_Pts', '')
+                    else:
+                        # Winner was home
+                        result['Home_Team'] = row['Winner']
+                        result['Away_Team'] = row['Loser']
+                        result['Home_Score'] = row.get('Winner_Pts', '')
+                        result['Away_Score'] = row.get('Loser_Pts', '')
 
-            # Add game status (completed, scheduled, etc.)
+                return pd.Series(result)
+
+            # Apply the assignment function to all rows
+            team_cols = df_clean.apply(assign_teams_and_scores, axis=1)
+            df_clean[['Away_Team', 'Home_Team', 'Away_Score', 'Home_Score']] = team_cols
+
+            # Add game status (Final for completed, Scheduled for upcoming)
             if 'Winner_Pts' in df_clean.columns:
                 df_clean['Status'] = df_clean['Winner_Pts'].apply(
-                    lambda x: 'Completed' if pd.notna(x) and str(x).strip() != '' else 'Scheduled'
+                    lambda x: 'Final' if pd.notna(x) and str(x).strip() != '' else 'Scheduled'
                 )
             else:
-                df_clean['Status'] = 'Unknown'
+                df_clean['Status'] = 'Scheduled'
+
+            # Add default Time if not present
+            if 'Time' not in df_clean.columns:
+                df_clean['Time'] = 'TBD'
+
+            # Select only the columns needed for the web interface
+            output_columns = ['Week', 'Date', 'Time', 'Away_Team', 'Away_Score',
+                              'Home_Team', 'Home_Score', 'Winner', 'Status']
+
+            # Keep only columns that exist
+            final_columns = [col for col in output_columns if col in df_clean.columns]
+            df_clean = df_clean[final_columns]
 
             print(f"✅ Processed {len(df_clean)} games")
             return df_clean
 
         except Exception as e:
             print(f"❌ Error processing schedule: {e}")
+            import traceback
+            traceback.print_exc()
             return df
 
     def create_schedule_visualization(self, df):

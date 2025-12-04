@@ -149,6 +149,36 @@ cd docs
 python -m http.server 8000
 ```
 
+## 🔧 Troubleshooting
+
+### Schedule Tab Not Working
+
+If you see "Could not load schedule data" error:
+
+1. **Run the schedule processor**:
+   ```bash
+   python src/data-processors/schedule-processor.py
+   ```
+
+2. **Verify the CSV format**: The `docs/schedule_results.csv` file should contain these columns:
+   - Week, Date, Time, Away_Team, Away_Score, Home_Team, Home_Score, Winner, Status
+
+3. **Check the timestamp**: Verify `docs/last_updated_schedule.txt` exists
+
+4. **Use the master processor** to generate all data:
+   ```bash
+   python src/data-processors/run_all_processors.py
+   ```
+
+### Charts Not Displaying
+
+If charts show error messages:
+
+1. **Install dependencies**: `pip install -r requirements.txt`
+2. **Generate data**: `python src/data-processors/run_all_processors.py`
+3. **Check file permissions**: Ensure `docs/` directory is writable
+4. **Clear browser cache**: Hard refresh the page (Ctrl+Shift+R)
+
 ## 🤝 Contributing
 
 1. Fork the repository
