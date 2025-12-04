@@ -50,6 +50,12 @@ jobs:
         python src/data-processors/team-stats.py
       continue-on-error: true
 
+    - name: Update schedule
+      run: |
+        echo "Updating NFL schedule and results..."
+        python src/data-processors/schedule-processor.py
+      continue-on-error: true
+
     - name: Generate summary report
       run: |
         echo "# NFL Stats Update Report" > docs/update_report.md
