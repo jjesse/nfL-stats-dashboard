@@ -1171,6 +1171,7 @@
         </div>
     </div>
     
+    <script src="js/common.js"></script>
     <script>
         function showTab(tabName) {
             // Hide all tab contents
@@ -1241,21 +1242,7 @@
             }
         }
         
-        // Load last updated timestamps
-        function loadLastUpdated() {
-            const timestampFiles = [
-                'last_updated_team_charts.txt',
-                'last_updated_team_standings.txt',
-                'last_updated_awards.txt'
-            ];
-            
-            Promise.all(timestampFiles.map(file => 
-                fetch(file).then(r => r.text()).catch(() => 'Not available')
-            )).then(timestamps => {
-                const latest = timestamps.filter(t => t !== 'Not available').sort().pop() || 'No data available';
-                document.getElementById('last-update').textContent = latest;
-            });
-        }
+
         
         // Load standings table
         function loadStandingsTable() {
@@ -1797,7 +1784,11 @@
         // Initialize data on page load
         window.addEventListener('DOMContentLoaded', function() {
             loadDataStatus();
-            loadLastUpdated();
+            NFLCommon.loadLastUpdatedMultiple([
+                'last_updated_team_charts.txt',
+                'last_updated_team_standings.txt',
+                'last_updated_awards.txt'
+            ], 'last-update');
             loadStandingsTable();
             loadScheduleData();
             loadPlayoffData();

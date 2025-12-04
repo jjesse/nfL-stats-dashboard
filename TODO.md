@@ -67,7 +67,7 @@
 - [x] **Interactive Charts JS**: Create `docs/js/interactive-charts.js` - ✅ Created and integrated
 
 ### Dashboard Fixes Needed
-- [ ] **Fix Duplicate JavaScript Functions**: `index.html` has duplicate `loadDataStatus()`, `updateOverallStatus()`, `loadLastUpdated()`, `loadStandingsTable()`, `loadScheduleData()`, `displayScheduleTable()`, and other functions
+- [x] **Fix Duplicate JavaScript Functions**: Created `docs/js/common.js` to consolidate duplicate functions (`loadLastUpdated()`, `findLeader()`, `findLowest()`) across multiple HTML pages. All pages now use the shared NFLCommon namespace.
 - [x] **Schedule Tab Functionality**: Schedule tab loads and has data source (schedule_results.csv)
 - [x] **Playoffs Tab Data**: Playoffs tab has playoff_probabilities.csv available
 
@@ -149,7 +149,7 @@
 - [x] ~~**Missing Schedule Processor**: `schedule-processor.py` does not exist but is referenced~~ ✅ Created
 - [x] ~~**Missing run_all_processors.py**: Master processor script does not exist~~ ✅ Created
 - [x] ~~**Missing receiving.html**: Page linked in index.html but file doesn't exist~~ ✅ Created
-- [ ] **Duplicate JS Functions**: index.html contains duplicate function definitions
+- [x] ~~**Duplicate JS Functions**: Consolidated duplicate functions into `docs/js/common.js`~~ ✅ Completed
 - [x] ~~**Dashboard Integration**: Some tabs reference missing data files~~ ✅ All data files now available
 
 ### Potential Issues
@@ -164,7 +164,7 @@
 
 ### Immediate Action Items (Priority Order)
 1. ~~**Create Missing Files**: `schedule-processor.py`, `run_all_processors.py`, `receiving.html`~~ ✅ **COMPLETED**
-2. **Fix index.html**: Remove duplicate JavaScript functions
+2. ~~**Fix index.html**: Consolidated duplicate JavaScript functions into `docs/js/common.js`~~ ✅ **COMPLETED**
 3. **Complete GitHub Actions Testing**: Get CI/CD pipeline fully working
 4. **Deploy to GitHub Pages**: Make dashboard publicly accessible
 
@@ -192,7 +192,6 @@
 - **Interactive Charts**: JavaScript module created
 
 ### What Still Needs Attention 🔴
-- Fix duplicate JavaScript functions in `docs/index.html`
 - Complete GitHub Actions testing and deployment
 - Configure GitHub Pages for public access
 

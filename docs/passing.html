@@ -260,18 +260,8 @@
         </div>
     </div>
     
+    <script src="js/common.js"></script>
     <script>
-        // Load last updated timestamp
-        function loadLastUpdated() {
-            fetch('last_updated_passing.txt')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('last-update').textContent = data;
-                })
-                .catch(error => {
-                    document.getElementById('last-update').textContent = 'No data available yet';
-                });
-        }
         
         // Load and display passing data table
         function loadPassingData() {
@@ -333,12 +323,12 @@
                 });
                 
                 // Find leaders
-                const yardsLeader = findLeader(playerData, 'Yds');
-                const tdLeader = findLeader(playerData, 'TD');
-                const ratingLeader = findLeader(playerData, 'Rate');
-                const completionLeader = findLeader(playerData, 'Cmp%');
-                const ypaLeader = findLeader(playerData, 'Y/A');
-                const intLeader = findLowest(playerData, 'Int');
+                const yardsLeader = NFLCommon.findLeader(playerData, 'Yds');
+                const tdLeader = NFLCommon.findLeader(playerData, 'TD');
+                const ratingLeader = NFLCommon.findLeader(playerData, 'Rate');
+                const completionLeader = NFLCommon.findLeader(playerData, 'Cmp%');
+                const ypaLeader = NFLCommon.findLeader(playerData, 'Y/A');
+                const intLeader = NFLCommon.findLowest(playerData, 'Int');
                 
                 // Update UI
                 if (yardsLeader) {
@@ -397,27 +387,9 @@
             }
         }
         
-        // Find leader in a specific stat (highest)
-        function findLeader(data, statColumn) {
-            return data.reduce((leader, player) => {
-                const value = parseFloat(player[statColumn]) || 0;
-                const leaderValue = parseFloat(leader[statColumn]) || 0;
-                return value > leaderValue ? player : leader;
-            }, data[0] || {});
-        }
-        
-        // Find leader in a specific stat (lowest - for interceptions)
-        function findLowest(data, statColumn) {
-            return data.reduce((leader, player) => {
-                const value = parseFloat(player[statColumn]) || 999;
-                const leaderValue = parseFloat(leader[statColumn]) || 999;
-                return value < leaderValue ? player : leader;
-            }, data[0] || {});
-        }
-        
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            loadLastUpdated();
+            NFLCommon.loadLastUpdated('last_updated_passing.txt', 'last-update');
             loadPassingData();
         });
     </script>

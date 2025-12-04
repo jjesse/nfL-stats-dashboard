@@ -202,18 +202,8 @@
         </div>
     </div>
     
+    <script src="js/common.js"></script>
     <script>
-        // Load last updated timestamp
-        function loadLastUpdated() {
-            fetch('last_updated_rushing.txt')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('last-update').textContent = data;
-                })
-                .catch(error => {
-                    document.getElementById('last-update').textContent = 'No data available yet';
-                });
-        }
         
         // Load and display rushing data table
         function loadRushingData() {
@@ -269,10 +259,10 @@
                 });
                 
                 // Find leaders
-                const yardsLeader = findLeader(playerData, 'Yds');
-                const tdLeader = findLeader(playerData, 'TD');
-                const ypaLeader = findLeader(playerData, 'Y/A');
-                const attLeader = findLeader(playerData, 'Att');
+                const yardsLeader = NFLCommon.findLeader(playerData, 'Yds');
+                const tdLeader = NFLCommon.findLeader(playerData, 'TD');
+                const ypaLeader = NFLCommon.findLeader(playerData, 'Y/A');
+                const attLeader = NFLCommon.findLeader(playerData, 'Att');
                 
                 // Update UI
                 if (yardsLeader) {
@@ -296,18 +286,9 @@
             }
         }
         
-        // Find leader in a specific stat
-        function findLeader(data, statColumn) {
-            return data.reduce((leader, player) => {
-                const value = parseFloat(player[statColumn]) || 0;
-                const leaderValue = parseFloat(leader[statColumn]) || 0;
-                return value > leaderValue ? player : leader;
-            }, data[0] || {});
-        }
-        
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            loadLastUpdated();
+            NFLCommon.loadLastUpdated('last_updated_rushing.txt', 'last-update');
             loadRushingData();
         });
     </script>
