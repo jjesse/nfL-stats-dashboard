@@ -143,11 +143,21 @@
             max-width: 100%;
             height: auto;
             border-radius: 8px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
         
         .chart-container img:hover {
             transform: scale(1.02);
+        }
+        
+        .chart-link {
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+        }
+        
+        .chart-link:hover img {
+            opacity: 0.9;
         }
         
         .chart-error {
@@ -678,55 +688,63 @@
             <h2 style="margin-bottom: 20px; color: var(--accent-color);">Dashboard Overview</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3>🎯 Quarterback Leaders</h3>
+                    <h3>🎯 Passing</h3>
                     <p><small>Top passers: yards, TDs, rating, completion %</small></p>
-                    <div class="chart-container">
-                        <img src="passing_stats.png" alt="Passing Statistics" 
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-error" style="display: none;">
-                            <span class="status-indicator status-warning"></span>
-                            Chart not available. Run: <code>python src/data-processors/player-stats.py</code>
+                    <a href="passing.html" class="chart-link">
+                        <div class="chart-container">
+                            <img src="passing_stats.png" alt="Passing Statistics" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="chart-error" style="display: none;">
+                                <span class="status-indicator status-warning"></span>
+                                Chart not available. Run: <code>python src/data-processors/player-stats.py</code>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 
                 <div class="stat-card">
-                    <h3>🏃 Rushing Leaders</h3>
+                    <h3>🏃 Rushing</h3>
                     <p><small>Top rushers: yards, TDs, attempts, YPC</small></p>
-                    <div class="chart-container">
-                        <img src="rushing_stats.png" alt="Rushing Statistics"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-error" style="display: none;">
-                            <span class="status-indicator status-warning"></span>
-                            Chart not available. Run: <code>python src/data-processors/player-stats.py</code>
+                    <a href="rushing.html" class="chart-link">
+                        <div class="chart-container">
+                            <img src="rushing_stats.png" alt="Rushing Statistics"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="chart-error" style="display: none;">
+                                <span class="status-indicator status-warning"></span>
+                                Chart not available. Run: <code>python src/data-processors/player-stats.py</code>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 
                 <div class="stat-card">
-                    <h3>🎯 Receiving Leaders</h3>
+                    <h3>🎯 Receiving</h3>
                     <p><small>Top receivers: catches, yards, TDs, YPR</small></p>
-                    <div class="chart-container">
-                        <img src="receiving_stats.png" alt="Receiving Statistics"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-error" style="display: none;">
-                            <span class="status-indicator status-warning"></span>
-                            Chart not available. Run: <code>python src/data-processors/player-stats.py</code>
+                    <a href="receiving.html" class="chart-link">
+                        <div class="chart-container">
+                            <img src="receiving_stats.png" alt="Receiving Statistics"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="chart-error" style="display: none;">
+                                <span class="status-indicator status-warning"></span>
+                                Chart not available. Run: <code>python src/data-processors/player-stats.py</code>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 
                 <div class="stat-card">
-                    <h3>🛡️ Defensive Leaders</h3>
+                    <h3>🛡️ Defense</h3>
                     <p><small>Top defenders: tackles, sacks, interceptions</small></p>
-                    <div class="chart-container">
-                        <img src="defense_stats.png" alt="Defense Statistics"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-error" style="display: none;">
-                            <span class="status-indicator status-warning"></span>
-                            Chart not available. Run: <code>python src/data-processors/player-stats.py</code>
+                    <a href="defense.html" class="chart-link">
+                        <div class="chart-container">
+                            <img src="defense_stats.png" alt="Defense Statistics"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="chart-error" style="display: none;">
+                                <span class="status-indicator status-warning"></span>
+                                Chart not available. Run: <code>python src/data-processors/player-stats.py</code>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 
                 <div class="stat-card">
