@@ -404,36 +404,28 @@
                     return obj;
                 }, {});
                 
-                // Determine division based on team name (simplified logic)
-                const teamName = teamData.Team || teamData.Tm || '';
-                const division = getDivision(teamName);
-                const conference = division.startsWith('AFC') ? 'afc' : 'nfc';
+                // Use the Division column from the CSV data
+                const division = teamData.Division || '';
+                const conference = teamData.Conference || '';
                 
-                if (divisions[conference] && divisions[conference][division]) {
-                    divisions[conference][division].push(teamData);
+                // Determine conference key
+                const confKey = conference === 'AFC' ? 'afc' : conference === 'NFC' ? 'nfc' : null;
+                
+                if (confKey && divisions[confKey] && divisions[confKey][division]) {
+                    divisions[confKey][division].push(teamData);
                 }
             });
             
-            // Sort teams within each division by wins (or win percentage)
+            // Sort teams within each division by wins (descending)
             Object.keys(divisions).forEach(conf => {
                 Object.keys(divisions[conf]).forEach(div => {
                     divisions[conf][div].sort((a, b) => {
-                        const aWins = parseFloat(a.W || a.Wins || 0);
-                        const bWins = parseFloat(b.W || b.Wins || 0);
+                        const aWins = parseFloat(a.W || 0);
+                        const bWins = parseFloat(b.W || 0);
                         return bWins - aWins;
                     });
                 });
             });
-        }
-        
-        // Simplified division assignment (would need actual team mapping)
-        function getDivision(teamName) {
-            // This is a simplified version - in reality you'd have a proper team-to-division mapping
-            const divisions = [
-                'AFC East', 'AFC North', 'AFC South', 'AFC West',
-                'NFC East', 'NFC North', 'NFC South', 'NFC West'
-            ];
-            return divisions[Math.floor(Math.random() * divisions.length)];
         }
         
         // Display standings for both conferences
@@ -540,7 +532,7 @@
         
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            NFLCommon.loadLastUpdated('last_updated.txt', 'last-update');
+            NFLCommon.loadLastUpdated('last_updated_standings.txt', 'last-update');
             loadStandingsData();
         });
     </script>
