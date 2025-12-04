@@ -5,19 +5,22 @@ on:
     - cron: '0 8 * * *'  # Daily at 8 AM UTC
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update-all-data:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-        
+
     - name: Cache pip dependencies
       uses: actions/cache@v3
       with:
@@ -25,28 +28,28 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
-        
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        
+
     - name: Create directories
       run: |
         mkdir -p docs archive src/data-processors
-        
+
     - name: Update player stats
       run: |
         echo "Updating player statistics..."
         python src/data-processors/player-stats.py
       continue-on-error: true
-      
+
     - name: Update team stats
       run: |
         echo "Updating team statistics..."
         python src/data-processors/team-stats.py
       continue-on-error: true
-        
+
     - name: Generate summary report
       run: |
         echo "# NFL Stats Update Report" > docs/update_report.md
@@ -57,7 +60,7 @@ jobs:
         echo "" >> docs/update_report.md
         echo "## Last Update Times:" >> docs/update_report.md
         find docs -name "last_updated_*.txt" -exec basename {} \; -exec cat {} \; >> docs/update_report.md 2>/dev/null || echo "No timestamp files found" >> docs/update_report.md
-        
+
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
@@ -71,7 +74,7 @@ jobs:
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       if: always()

@@ -5,19 +5,22 @@ on:
     - cron: '0 */6 * * *'  # Every 6 hours during season
   workflow_dispatch:  # Allow manual triggering
 
+permissions:
+  contents: write
+
 jobs:
   update-stats:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-        
+
     - name: Install dependencies
       run: |
         # Install system fonts for emoji support
@@ -26,26 +29,26 @@ jobs:
         # Install Python dependencies
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        
+
     - name: Create directories
       run: |
         mkdir -p docs archive
-        
+
     - name: Update player stats
       run: |
         python src/data-processors/player-stats.py
       continue-on-error: true
-      
+
     - name: Update team stats
       run: |
         python src/data-processors/team-stats.py
       continue-on-error: true
-      
+
     - name: Update awards predictions
       run: |
         python src/data-processors/awards-tracker.py
       continue-on-error: true
-        
+
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"

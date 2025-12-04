@@ -5,67 +5,70 @@ on:
     - cron: '0 */6 * * *'  # Every 6 hours
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update-nfl-data:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      
+
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
-      
+
       - name: Create Directories
         run: |
           mkdir -p docs archive src/analysis
-      
+
       - name: Run All NFL Data Processors
         run: |
           echo "Running player stats..."
           python src/data-processors/player-stats.py
-          
-          echo "Running team stats..."  
+
+          echo "Running team stats..."
           python src/data-processors/team-stats-basic.py
-          
+
           echo "Running team charts..."
           python src/charts/team-charts.py
-          
+
           echo "Running weekly trends..."
           python src/data-processors/team-weekly-trends.py
-          
+
           echo "Running awards predictions..."
           python src/data-processors/awards-tracker.py
-          
+
           echo "Running accuracy tracking..."
           python src/analysis/awards_accuracy_tracker.py
-      
+
       - name: Create Accuracy Summary
         run: |
           python src/utils/create_accuracy_summary.py
-      
+
       - name: Archive Data
         run: |
           timestamp=$(date +"%Y%m%d_%H%M%S")
           cp docs/awards_accuracy_history.json archive/awards_accuracy_${timestamp}.json 2>/dev/null || true
           cp docs/*_predictions.csv archive/ 2>/dev/null || true
-      
+
       - name: Commit Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add docs/ archive/
-          
+
           accuracy_info=""
           if [ -f "docs/accuracy_summary.txt" ]; then
             accuracy_info=$(cat docs/accuracy_summary.txt)
           fi
-          
+
           git commit -m "Auto-update NFL data $(date '+%Y-%m-%d %H:%M') - Model: ${accuracy_info}" || echo "No changes"
           git push || echo "Nothing to push"
