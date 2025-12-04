@@ -1,0 +1,26 @@
+{
+  "predictions": [
+    {
+      "season": 2024,
+      "award": "MVP",
+      "predicted_winner": "Joe Burrow",
+      "predicted_score": 140.114,
+      "actual_winner": "Josh Allen",
+      "prediction_date": "2025-12-04T06:05:45.718936",
+      "was_correct": false
+    }
+  ],
+  "model_performance": {
+    "overall_accuracy": 0.0,
+    "total_predictions": 1,
+    "total_correct": 0,
+    "by_award": {
+      "MVP": {
+        "correct": 0,
+        "total": 1,
+        "accuracy": 0.0
+      }
+    },
+    "last_updated": "2025-12-04T06:05:45.720863"
+  }
+}
