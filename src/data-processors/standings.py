@@ -5,10 +5,8 @@ Fetches and processes NFL team standings data with proper division/conference st
 This processor generates clean standings data that works with the standings.html page.
 """
 
-import matplotlib
 import requests
 import pandas as pd
-import matplotlib.pyplot as plt
 from datetime import datetime
 from pathlib import Path
 import warnings
@@ -16,8 +14,10 @@ import warnings
 # Suppress warnings
 warnings.filterwarnings("ignore")
 
-# Safe matplotlib configuration
+# Safe matplotlib configuration - must be before pyplot import
+import matplotlib
 matplotlib.use('Agg')
+import matplotlib.pyplot as plt  # noqa: E402
 
 # Configure matplotlib for dark theme
 plt.rcParams['font.family'] = ['DejaVu Sans']
@@ -40,7 +40,7 @@ class NFLStandingsProcessor:
         self.docs_dir = Path(__file__).parent.parent.parent / "docs"
         self.archive_dir = Path(__file__).parent.parent.parent / "archive"
         self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
 
         # NFL team to division mapping (using Pro Football Reference abbreviations)

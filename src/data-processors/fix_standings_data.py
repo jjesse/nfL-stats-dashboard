@@ -37,7 +37,6 @@ TEAM_DIVISIONS = {
     'New York Giants': 'NFC East',
     'Philadelphia Eagles': 'NFC East',
     'Washington Commanders': 'NFC East',
-    'Washington Football Team': 'NFC East',  # Old name
     # NFC North
     'Chicago Bears': 'NFC North',
     'Detroit Lions': 'NFC North',
