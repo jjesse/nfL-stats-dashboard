@@ -119,29 +119,32 @@ class NFLScheduleProcessor:
 
             # Determine home and away teams based on Location column
             # '@' means the winner was away, blank means winner was home
-            df_clean['Away_Team'] = ''
-            df_clean['Home_Team'] = ''
-            df_clean['Away_Score'] = ''
-            df_clean['Home_Score'] = ''
+            def assign_teams_and_scores(row):
+                """Helper to assign home/away teams and scores based on location"""
+                result = {
+                    'Away_Team': '', 'Home_Team': '',
+                    'Away_Score': '', 'Home_Score': ''
+                }
 
-            for idx, row in df_clean.iterrows():
                 if pd.notna(row.get('Winner')) and pd.notna(row.get('Loser')):
                     # If Location is '@', winner was away
                     if row.get('Location') == '@':
-                        df_clean.at[idx, 'Away_Team'] = row['Winner']
-                        df_clean.at[idx, 'Home_Team'] = row['Loser']
-                        if 'Winner_Pts' in row and pd.notna(row['Winner_Pts']):
-                            df_clean.at[idx, 'Away_Score'] = row['Winner_Pts']
-                        if 'Loser_Pts' in row and pd.notna(row['Loser_Pts']):
-                            df_clean.at[idx, 'Home_Score'] = row['Loser_Pts']
+                        result['Away_Team'] = row['Winner']
+                        result['Home_Team'] = row['Loser']
+                        result['Away_Score'] = row.get('Winner_Pts', '')
+                        result['Home_Score'] = row.get('Loser_Pts', '')
                     else:
                         # Winner was home
-                        df_clean.at[idx, 'Home_Team'] = row['Winner']
-                        df_clean.at[idx, 'Away_Team'] = row['Loser']
-                        if 'Winner_Pts' in row and pd.notna(row['Winner_Pts']):
-                            df_clean.at[idx, 'Home_Score'] = row['Winner_Pts']
-                        if 'Loser_Pts' in row and pd.notna(row['Loser_Pts']):
-                            df_clean.at[idx, 'Away_Score'] = row['Loser_Pts']
+                        result['Home_Team'] = row['Winner']
+                        result['Away_Team'] = row['Loser']
+                        result['Home_Score'] = row.get('Winner_Pts', '')
+                        result['Away_Score'] = row.get('Loser_Pts', '')
+
+                return pd.Series(result)
+
+            # Apply the assignment function to all rows
+            team_cols = df_clean.apply(assign_teams_and_scores, axis=1)
+            df_clean[['Away_Team', 'Home_Team', 'Away_Score', 'Home_Score']] = team_cols
 
             # Add game status (Final for completed, Scheduled for upcoming)
             if 'Winner_Pts' in df_clean.columns:
@@ -157,8 +160,8 @@ class NFLScheduleProcessor:
 
             # Select only the columns needed for the web interface
             output_columns = ['Week', 'Date', 'Time', 'Away_Team', 'Away_Score',
-                            'Home_Team', 'Home_Score', 'Winner', 'Status']
-            
+                              'Home_Team', 'Home_Score', 'Winner', 'Status']
+
             # Keep only columns that exist
             final_columns = [col for col in output_columns if col in df_clean.columns]
             df_clean = df_clean[final_columns]
