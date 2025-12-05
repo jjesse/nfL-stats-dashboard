@@ -93,9 +93,15 @@
         
         .conference-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(650px, 1fr));
+            gap: 25px;
             margin-top: 20px;
+        }
+        
+        @media (max-width: 1400px) {
+            .conference-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         .conference-card {
@@ -129,24 +135,31 @@
         }
         
         .division-title {
-            color: var(--accent-color);
+            color: white;
             font-weight: bold;
-            margin-bottom: 10px;
-            padding: 8px 12px;
-            background: rgba(108, 117, 125, 0.1);
-            border-radius: 5px;
-            border-left: 4px solid var(--accent-color);
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, rgba(108, 117, 125, 0.3), rgba(108, 117, 125, 0.15));
+            border-radius: 8px;
+            border-left: 5px solid var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .standings-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin-top: 10px;
+            border-radius: 8px;
+            overflow: hidden;
         }
         
         .standings-table th,
         .standings-table td {
-            padding: 8px 12px;
+            padding: 12px 14px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
@@ -155,43 +168,81 @@
             background: var(--accent-color);
             color: white;
             font-weight: bold;
-            font-size: 0.9em;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            cursor: help;
         }
         
-        .standings-table tr:hover {
-            background: rgba(255, 255, 255, 0.05);
+        .standings-table th[title]:hover {
+            background: #5a6268;
+            transition: background 0.2s ease;
+        }
+        
+        .standings-table tbody tr:nth-child(odd) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .standings-table tbody tr:hover {
+            background: rgba(108, 117, 125, 0.15);
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+        
+        .standings-table td {
+            font-size: 0.95em;
+        }
+        
+        .standings-table th:not(:first-child),
+        .standings-table td:not(:first-child) {
+            text-align: center;
+        }
+        
+        .standings-table .team-cell {
+            font-weight: 500;
+            min-width: 180px;
         }
         
         .playoff-seed {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8em;
+            font-size: 0.75em;
             font-weight: bold;
-            margin-right: 8px;
+            margin-right: 10px;
+            border: 2px solid transparent;
         }
         
         .playoff-clinched {
-            background: var(--playoff-color);
+            background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
+            border-color: #1e7e34;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4);
         }
         
         .wildcard-position {
-            background: var(--wildcard-color);
-            color: black;
+            background: linear-gradient(135deg, #ffc107, #ffb300);
+            color: #000;
+            border-color: #ff9800;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);
         }
         
         .eliminated {
-            background: var(--eliminated-color);
-            color: white;
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            color: rgba(255, 255, 255, 0.5);
+            border-color: #495057;
         }
         
         .in-hunt {
-            background: var(--border-color);
-            color: white;
+            background: rgba(108, 117, 125, 0.2);
+            color: #adb5bd;
+            border: 2px dashed #6c757d;
         }
         
         .playoff-legend {
@@ -205,14 +256,43 @@
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.9em;
+            gap: 10px;
+            font-size: 0.95em;
+            padding: 8px 14px;
+            background: rgba(108, 117, 125, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(108, 117, 125, 0.3);
         }
         
         .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+        
+        .legend-dot.playoff-clinched {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: 2px solid #1e7e34;
+        }
+        
+        .legend-dot.wildcard-position {
+            background: linear-gradient(135deg, #ffc107, #ffb300);
+            border: 2px solid #ff9800;
+        }
+        
+        .legend-dot.in-hunt {
+            background: rgba(108, 117, 125, 0.2);
+            border: 2px dashed #6c757d;
+        }
+        
+        .legend-dot.eliminated {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            border: 2px solid #495057;
         }
         
         .last-updated {
@@ -247,6 +327,20 @@
             font-weight: bold;
             color: white;
         }
+        
+        .positive-diff {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .negative-diff {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .neutral-diff {
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
@@ -269,12 +363,12 @@
             <h2>📊 Standings Visualization</h2>
             <p>Conference standings and playoff positioning</p>
             <div class="chart-container">
-                <img src="team_stats.png" alt="NFL Team Standings" 
+                <img src="standings_overview.png" alt="NFL Standings Overview" 
                      onerror="this.style.display='none'; document.getElementById('chart-error').style.display='block';">
                 <div id="chart-error" class="chart-error" style="display: none;">
-                    <h3>⚠️ Team Standings Chart Not Available</h3>
+                    <h3>⚠️ Standings Chart Not Available</h3>
                     <p>Run the following command to generate charts:</p>
-                    <code>python src/data-processors/team-stats-basic.py</code>
+                    <code>python src/data-processors/standings.py</code>
                 </div>
             </div>
         </div>
@@ -327,22 +421,23 @@
         </div>
         
         <div class="stats-section">
+            <h3 style="text-align: center; margin-bottom: 15px; color: #adb5bd;">Playoff Status Key</h3>
             <div class="playoff-legend">
                 <div class="legend-item">
-                    <div class="legend-dot playoff-clinched"></div>
-                    <span>Playoff Clinched</span>
+                    <div class="legend-dot playoff-clinched">1</div>
+                    <span><strong>Division Leader</strong> - Currently in playoff position</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-dot wildcard-position"></div>
-                    <span>Wildcard Position</span>
+                    <div class="legend-dot wildcard-position">2</div>
+                    <span><strong>Wildcard Contender</strong> - Strong playoff position</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-dot in-hunt"></div>
-                    <span>In the Hunt</span>
+                    <div class="legend-dot in-hunt">3</div>
+                    <span><strong>In the Hunt</strong> - Still in playoff contention</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-dot eliminated"></div>
-                    <span>Eliminated</span>
+                    <div class="legend-dot eliminated">4</div>
+                    <span><strong>Out of Contention</strong> - Unlikely playoff berth</span>
                 </div>
             </div>
         </div>
@@ -448,31 +543,35 @@
                         <thead>
                             <tr>
                                 <th>Team</th>
-                                <th>W</th>
-                                <th>L</th>
-                                <th>T</th>
-                                <th>W%</th>
-                                <th>PF</th>
-                                <th>PA</th>
-                                <th>Diff</th>
+                                <th title="Wins">W</th>
+                                <th title="Losses">L</th>
+                                <th title="Ties">T</th>
+                                <th title="Win Percentage">Win %</th>
+                                <th title="Points For">PF</th>
+                                <th title="Points Against">PA</th>
+                                <th title="Point Differential">+/-</th>
                             </tr>
                         </thead>
                         <tbody>`;
                 
                 teams.forEach((team, index) => {
                     const playoffStatus = getPlayoffStatus(index, teams.length);
+                    const diff = (parseFloat(team.PF || 0) - parseFloat(team.PA || 0));
+                    const diffClass = diff > 0 ? 'positive-diff' : diff < 0 ? 'negative-diff' : 'neutral-diff';
+                    const diffDisplay = diff > 0 ? `+${diff}` : diff;
+                    
                     html += `<tr>
-                        <td>
-                            <span class="playoff-seed ${playoffStatus.class}">${index + 1}</span>
+                        <td class="team-cell">
+                            <span class="playoff-seed ${playoffStatus.class}" title="${playoffStatus.status}">${index + 1}</span>
                             ${team.Team || team.Tm || 'Unknown'}
                         </td>
-                        <td>${team.W || team.Wins || 0}</td>
+                        <td><strong>${team.W || team.Wins || 0}</strong></td>
                         <td>${team.L || team.Losses || 0}</td>
                         <td>${team.T || team.Ties || 0}</td>
-                        <td>${(parseFloat(team['W-L%'] || team['Win%'] || 0) * 100).toFixed(1)}%</td>
+                        <td><strong>${(parseFloat(team['W-L%'] || team['Win%'] || 0) * 100).toFixed(1)}%</strong></td>
                         <td>${team.PF || team['Points For'] || 0}</td>
                         <td>${team.PA || team['Points Against'] || 0}</td>
-                        <td>${(parseFloat(team.PF || 0) - parseFloat(team.PA || 0)) || 0}</td>
+                        <td class="${diffClass}">${diffDisplay}</td>
                     </tr>`;
                 });
                 
