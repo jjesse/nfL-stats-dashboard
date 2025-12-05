@@ -188,8 +188,7 @@
         
         .standings-table tbody tr:hover {
             background: rgba(108, 117, 125, 0.15);
-            transform: scale(1.01);
-            transition: all 0.2s ease;
+            transition: background 0.2s ease;
         }
         
         .standings-table td {
@@ -558,7 +557,7 @@
                     const playoffStatus = getPlayoffStatus(index, teams.length);
                     const diff = (parseFloat(team.PF || 0) - parseFloat(team.PA || 0));
                     const diffClass = diff > 0 ? 'positive-diff' : diff < 0 ? 'negative-diff' : 'neutral-diff';
-                    const diffDisplay = diff > 0 ? `+${diff}` : diff;
+                    const diffDisplay = isNaN(diff) ? '0' : (diff > 0 ? `+${diff}` : diff);
                     
                     html += `<tr>
                         <td class="team-cell">
