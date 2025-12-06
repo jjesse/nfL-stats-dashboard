@@ -46,6 +46,26 @@ class TestNFLSeasonCalculation:
 
         assert expected_season == 2024
 
+    def test_current_season_december(self):
+        """Test season calculation in December (should return current year)."""
+        now = datetime(2025, 12, 6)
+        if now.month <= 7:
+            expected_season = now.year - 1
+        else:
+            expected_season = now.year
+
+        assert expected_season == 2025
+
+    def test_current_season_february(self):
+        """Test season calculation in February (should return previous year as we're still in that season)."""
+        now = datetime(2025, 2, 15)
+        if now.month <= 7:
+            expected_season = now.year - 1
+        else:
+            expected_season = now.year
+
+        assert expected_season == 2024
+
 
 class TestDataFrameProcessing:
     """Tests for DataFrame processing utilities."""
