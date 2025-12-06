@@ -46,6 +46,9 @@ jobs:
           echo "Running awards predictions..."
           python src/data-processors/awards-tracker.py
 
+          echo "Running schedule processor..."
+          python src/data-processors/schedule-processor.py
+
           echo "Running accuracy tracking..."
           python src/analysis/awards_accuracy_tracker.py
 

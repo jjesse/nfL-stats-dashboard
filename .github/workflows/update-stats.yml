@@ -49,6 +49,11 @@ jobs:
         python src/data-processors/awards-tracker.py
       continue-on-error: true
 
+    - name: Update schedule
+      run: |
+        python src/data-processors/schedule-processor.py
+      continue-on-error: true
+
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
