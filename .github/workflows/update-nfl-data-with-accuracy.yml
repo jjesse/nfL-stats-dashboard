@@ -72,6 +72,12 @@ jobs:
           python src/data-processors/awards-tracker.py
           echo "✅ Awards predictions complete"
 
+      - name: Run Schedule Processor
+        run: |
+          echo "📅 Updating NFL schedule and results..."
+          python src/data-processors/schedule-processor.py
+          echo "✅ Schedule update complete"
+
       - name: Track Prediction Accuracy
         run: |
           echo "📊 Analyzing prediction accuracy..."

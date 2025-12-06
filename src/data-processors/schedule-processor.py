@@ -52,10 +52,20 @@ class NFLScheduleProcessor:
         self.archive_dir.mkdir(parents=True, exist_ok=True)
 
     def get_current_nfl_season(self):
-        """Determine the current/most recent NFL season"""
+        """Determine the current/most recent NFL season
+        
+        NFL seasons run from September through February of the following year.
+        The season is identified by the year it starts in.
+        For example, the 2024 season runs from September 2024 to February 2025.
+        """
         now = datetime.now()
+        
+        # If we're in Jan-July, we're still in the previous year's season
+        # (e.g., Feb 2025 is still part of the 2024 season)
         if now.month <= 7:
             return now.year - 1
+        # If we're in Aug-Dec, we're in the current year's season
+        # (e.g., Dec 2024 or Dec 2025 is part of the 2024 or 2025 season respectively)
         else:
             return now.year
 
