@@ -1,23 +1,29 @@
 # NFL Stats Dashboard
 
+[![Update NFL Stats Data](https://github.com/jjesse/nfl-stats-dashboard/actions/workflows/update-data.yml/badge.svg)](https://github.com/jjesse/nfl-stats-dashboard/actions/workflows/update-data.yml)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://jjesse.github.io/nfl-stats-dashboard/)
+
 A modern, responsive web dashboard for viewing NFL statistics, schedules, and player performance data. Built with vanilla HTML, CSS, and JavaScript, designed to be hosted on GitHub Pages with automated data updates via GitHub Actions.
 
 ## 🏈 Project Overview
 
 The NFL Stats Dashboard provides an easy-to-navigate interface for accessing comprehensive NFL data including:
 
-- **Schedule**: View upcoming games with team records and venue information
+- **Schedule**: View upcoming games with team records and venue information (Weeks 14-18)
+- **Standings**: NFL standings organized by division and conference
 - **Team Statistics**: Compare team performance across the league
 - **Player Leaders**: Track top performers in passing, receiving, and rushing categories
-- **Automated Updates**: Regular data refreshes via GitHub Actions (coming soon)
+- **Automated Updates**: Data refreshes automatically every Tuesday at 6 AM EST via GitHub Actions
 
 ## 📋 Features
 
 - ✅ Clean, modern design optimized for all devices
 - ✅ Responsive layout for desktop, tablet, and mobile
 - ✅ Easy navigation with dropdown menus
-- ✅ Comprehensive data tables with sorting capabilities
-- ✅ Placeholder data structure ready for API integration
+- ✅ Comprehensive data tables with click-to-sort functionality
+- ✅ Live data from ESPN Public API
+- ✅ Automated weekly data updates via GitHub Actions
+- ✅ localStorage caching for improved performance
 - ✅ Well-commented, maintainable codebase
 
 ## 🚀 Getting Started
@@ -68,6 +74,7 @@ No special software is required! The dashboard runs entirely in the browser usin
 nfl-stats-dashboard/
 ├── index.html              # Home page with welcome message
 ├── schedule.html           # Game schedule page
+├── standings.html          # NFL standings by division/conference
 ├── team-stats.html         # Team statistics page
 ├── qb-leaders.html         # Quarterback leaders page
 ├── receiver-leaders.html   # Receiver leaders page
@@ -76,6 +83,17 @@ nfl-stats-dashboard/
 ├── styles.css              # Main stylesheet with responsive design
 ├── app.js                  # JavaScript for data handling and interactivity
 ├── api.js                  # API integration module for ESPN data
+├── .github/
+│   └── workflows/
+│       └── update-data.yml # GitHub Actions workflow for automated updates
+├── scripts/
+│   └── fetch-data.js       # Node.js script to fetch NFL data from ESPN API
+├── data/                   # JSON data files (auto-updated by GitHub Actions)
+│   ├── schedule.json
+│   ├── standings.json
+│   ├── team-stats.json
+│   ├── player-stats.json
+│   └── metadata.json
 ├── README.md               # This file
 ├── TODO.md                 # Development roadmap
 ├── TESTING.md              # Testing guide and instructions
@@ -102,18 +120,44 @@ The design is fully responsive with breakpoints for:
 - **GitHub Pages**: Free hosting for static websites
 - **GitHub Actions**: Automated data updates (planned)
 
-## 🔄 Current Data Status
+## 🔄 Automated Data Updates
 
-The dashboard now uses **live NFL data** from ESPN's public API! Data is automatically fetched and cached for performance.
+The dashboard features **automated weekly data updates** powered by GitHub Actions:
 
-**Data Features**:
-- ✅ Real-time schedule and scores
-- ✅ Current team standings and statistics
-- ✅ Live player leader boards (QB, Receivers, Rushers)
-- ✅ 5-minute caching for optimal performance
-- ✅ Automatic error handling and fallbacks
+### How It Works
 
-**Data Source**: ESPN Public API (unofficial but reliable)
+1. **GitHub Actions Workflow** (`.github/workflows/update-data.yml`)
+   - Runs every **Tuesday at 6 AM EST** to capture all weekly NFL games (Thursday-Monday)
+   - Can be manually triggered from the Actions tab
+   - Automatically commits and pushes updated data files
+
+2. **Data Fetching Script** (`scripts/fetch-data.js`)
+   - Node.js script that fetches data from ESPN's public API
+   - Retrieves schedule, standings, team stats, and player leaders
+   - Saves data as JSON files in the `data/` directory
+
+3. **Live Data** (Browser)
+   - Dashboard pages fetch data directly from ESPN API when loaded
+   - 5-minute localStorage caching for optimal performance
+   - Automatic error handling and fallbacks
+
+### Manual Updates
+
+To manually fetch updated data:
+
+```bash
+# Run the fetch script locally
+node scripts/fetch-data.js
+
+# Or trigger the GitHub Action
+# Go to Actions tab → "Update NFL Stats Data" → "Run workflow"
+```
+
+### Data Sources
+
+- **Primary**: ESPN Public API (live data)
+- **Backup**: JSON files in `data/` directory (weekly snapshots)
+- **Cache**: localStorage (5-minute expiration)
 
 ## 🤝 Contributing
 
