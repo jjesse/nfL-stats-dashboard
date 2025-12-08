@@ -1,9 +1,9 @@
 name: Update NFL Stats Data
 
 on:
-  # Run every 6 hours during NFL season
+  # Run every Tuesday at 6 AM EST (11 AM UTC) to capture all week's games (Thu-Mon)
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '0 11 * * 2'
   
   # Allow manual trigger
   workflow_dispatch:
