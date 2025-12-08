@@ -15,6 +15,9 @@ on:
       - 'scripts/fetch-data.js'
       - '.github/workflows/update-data.yml'
 
+permissions:
+  contents: write
+
 jobs:
   update-data:
     runs-on: ubuntu-latest
