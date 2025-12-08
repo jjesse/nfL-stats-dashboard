@@ -1,0 +1,54 @@
+name: Update NFL Stats Data
+
+on:
+  # Run every 6 hours during NFL season
+  schedule:
+    - cron: '0 */6 * * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+  
+  # Run on push to main (for testing)
+  push:
+    branches: [ main ]
+    paths:
+      - 'scripts/fetch-data.js'
+      - '.github/workflows/update-data.yml'
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Fetch NFL data
+        run: node scripts/fetch-data.js
+        
+      - name: Check for changes
+        id: verify-changed-files
+        run: |
+          if git diff --quiet data/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Commit and push if changed
+        if: steps.verify-changed-files.outputs.changed == 'true'
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add data/
+          git commit -m "chore: Update NFL stats data - $(date '+%Y-%m-%d %H:%M:%S UTC')"
+          git push
+          
+      - name: No changes
+        if: steps.verify-changed-files.outputs.changed == 'false'
+        run: echo "No data changes detected"
