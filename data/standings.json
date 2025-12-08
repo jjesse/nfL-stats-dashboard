@@ -127,14 +127,14 @@
     {
       "team": "Houston Texans",
       "abbreviation": "HOU",
-      "wins": 7,
+      "wins": 8,
       "losses": 5,
       "ties": 0,
-      "winPct": "0.583",
-      "pointsScored": 263,
-      "pointsAllowed": 198,
-      "differential": 65,
-      "streak": "W4"
+      "winPct": "0.615",
+      "pointsScored": 283,
+      "pointsAllowed": 208,
+      "differential": 75,
+      "streak": "W5"
     },
     {
       "team": "Tennessee Titans",
@@ -178,13 +178,13 @@
       "team": "Kansas City Chiefs",
       "abbreviation": "KC",
       "wins": 6,
-      "losses": 6,
+      "losses": 7,
       "ties": 0,
-      "winPct": "0.500",
-      "pointsScored": 305,
-      "pointsAllowed": 232,
-      "differential": 73,
-      "streak": "L1"
+      "winPct": "0.462",
+      "pointsScored": 315,
+      "pointsAllowed": 252,
+      "differential": 63,
+      "streak": "L2"
     },
     {
       "team": "Las Vegas Raiders",
