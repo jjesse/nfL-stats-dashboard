@@ -213,16 +213,16 @@ async function fetchTeamStats() {
  */
 async function fetchStandings() {
     try {
-        // Division mappings based on ESPN group IDs
+        // Division mappings based on ESPN team IDs
         const divisions = {
-            'afc-east': { name: 'AFC East', groupId: '1', teams: [17, 21, 22, 2] }, // BUF, NE, NYJ, MIA
-            'afc-north': { name: 'AFC North', groupId: '2', teams: [3, 5, 23, 4] }, // BAL, CIN, PIT, CLE
-            'afc-south': { name: 'AFC South', groupId: '3', teams: [11, 34, 10, 30] }, // HOU, JAX, IND, TEN
-            'afc-west': { name: 'AFC West', groupId: '4', teams: [12, 7, 13, 25] }, // KC, DEN, LV, LAC
-            'nfc-east': { name: 'NFC East', groupId: '5', teams: [6, 19, 28, 27] }, // DAL, PHI, WAS, NYG
-            'nfc-north': { name: 'NFC North', groupId: '6', teams: [8, 14, 9, 16] }, // DET, GB, MIN, CHI
-            'nfc-south': { name: 'NFC South', groupId: '7', teams: [1, 18, 29, 15] }, // ATL, NO, CAR, TB
-            'nfc-west': { name: 'NFC West', groupId: '8', teams: [26, 24, 20, 33] }  // SEA, ARI, LAR, SF
+            'afc-east': { name: 'AFC East', groupId: '1', teams: [2, 15, 17, 20] },      // BUF, MIA, NE, NYJ
+            'afc-north': { name: 'AFC North', groupId: '2', teams: [33, 4, 5, 23] },     // BAL, CIN, CLE, PIT
+            'afc-south': { name: 'AFC South', groupId: '3', teams: [34, 11, 30, 10] },   // HOU, IND, JAX, TEN
+            'afc-west': { name: 'AFC West', groupId: '4', teams: [7, 12, 13, 24] },      // DEN, KC, LV, LAC
+            'nfc-east': { name: 'NFC East', groupId: '5', teams: [6, 19, 21, 28] },      // DAL, NYG, PHI, WSH
+            'nfc-north': { name: 'NFC North', groupId: '6', teams: [3, 8, 9, 16] },      // CHI, DET, GB, MIN
+            'nfc-south': { name: 'NFC South', groupId: '7', teams: [1, 29, 18, 27] },    // ATL, CAR, NO, TB
+            'nfc-west': { name: 'NFC West', groupId: '8', teams: [22, 14, 25, 26] }      // ARI, LAR, SF, SEA
         };
 
         const standings = {};
