@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Stats Dashboard - Standings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header>
+        <div class="container">
+            <h1>NFL Stats Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="standings.html" class="active">Standings</a></li>
+                    <li><a href="team-stats.html">Team Stats</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">Player Stats</a>
+                        <div class="dropdown-content">
+                            <a href="qb-leaders.html">Quarterbacks Leaders</a>
+                            <a href="receiver-leaders.html">Receivers Leaders</a>
+                            <a href="rushing-leaders.html">Rushing Leaders</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content area -->
+    <main class="container">
+        <section>
+            <h2>NFL Standings - 2025 Season</h2>
+            
+            <!-- AFC Conference -->
+            <div class="conference-section">
+                <h3 class="conference-header">AFC - American Football Conference</h3>
+                
+                <!-- AFC East -->
+                <div class="division-section">
+                    <h4 class="division-header">AFC East</h4>
+                    <div class="table-container">
+                        <table id="afc-east-table">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>PCT</th>
+                                    <th>PF</th>
+                                    <th>PA</th>
+                                    <th>DIFF</th>
+                                    <th>STRK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="9" class="loading">Loading standings...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- AFC North -->
+                <div class="division-section">
+                    <h4 class="division-header">AFC North</h4>
+                    <div class="table-container">
+                        <table id="afc-north-table">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>PCT</th>
+                                    <th>PF</th>
+                                    <th>PA</th>
+                                    <th>DIFF</th>
+                                    <th>STRK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="9" class="loading">Loading standings...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- AFC South -->
+                <div class="division-section">
+                    <h4 class="division-header">AFC South</h4>
+                    <div class="table-container">
+                        <table id="afc-south-table">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>PCT</th>
+                                    <th>PF</th>
+                                    <th>PA</th>
+                                    <th>DIFF</th>
+                                    <th>STRK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="9" class="loading">Loading standings...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- AFC West -->
+                <div class="division-section">
+                    <h4 class="division-header">AFC West</h4>
+                    <div class="table-container">
+                        <table id="afc-west-table">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>PCT</th>
+                                    <th>PF</th>
+                                    <th>PA</th>
+                                    <th>DIFF</th>
+                                    <th>STRK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="9" class="loading">Loading standings...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFC Conference -->
+            <div class="conference-section">
+                <h3 class="conference-header">NFC - National Football Conference</h3>
+                
+                <!-- NFC East -->
+                <div class="division-section">
+                    <h4 class="division-header">NFC East</h4>
+                    <div class="table-container">
+                        <table id="nfc-east-table">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>PCT</th>
+                                    <th>PF</th>
+                                    <th>PA</th>
+                                    <th>DIFF</th>
+                                    <th>STRK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="9" class="loading">Loading standings...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- NFC North -->
+                <div class="division-section">
+                    <h4 class="division-header">NFC North</h4>
+                    <div class="table-container">
+                        <table id="nfc-north-table">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>PCT</th>
+                                    <th>PF</th>
+                                    <th>PA</th>
+                                    <th>DIFF</th>
+                                    <th>STRK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="9" class="loading">Loading standings...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- NFC South -->
+                <div class="division-section">
+                    <h4 class="division-header">NFC South</h4>
+                    <div class="table-container">
+                        <table id="nfc-south-table">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>PCT</th>
+                                    <th>PF</th>
+                                    <th>PA</th>
+                                    <th>DIFF</th>
+                                    <th>STRK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="9" class="loading">Loading standings...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- NFC West -->
+                <div class="division-section">
+                    <h4 class="division-header">NFC West</h4>
+                    <div class="table-container">
+                        <table id="nfc-west-table">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>PCT</th>
+                                    <th>PF</th>
+                                    <th>PA</th>
+                                    <th>DIFF</th>
+                                    <th>STRK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="9" class="loading">Loading standings...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <p><strong>Legend:</strong> W = Wins, L = Losses, T = Ties, PCT = Win Percentage, PF = Points For, PA = Points Against, DIFF = Point Differential, STRK = Current Streak</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NFL Stats Dashboard. All rights reserved.</p>
+            <p>Data sourced from publicly available NFL statistics. Not affiliated with the NFL.</p>
+        </div>
+    </footer>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

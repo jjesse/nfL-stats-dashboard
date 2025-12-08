@@ -1,0 +1,446 @@
+/* ==========================================
+   NFL Stats Dashboard - Main Stylesheet
+   Modern, clean design with responsive layout
+   ========================================== */
+
+/* CSS Variables for consistent theming */
+:root {
+    --primary-color: #013369;        /* NFL Blue */
+    --secondary-color: #D50A0A;      /* NFL Red */
+    --accent-color: #FFB612;         /* Gold accent */
+    --text-dark: #1a1a1a;
+    --text-light: #ffffff;
+    --bg-light: #f5f5f5;
+    --bg-white: #ffffff;
+    --border-color: #ddd;
+    --hover-color: #002244;
+    --success-color: #28a745;
+    --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container for consistent width */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* ==========================================
+   Header Styles
+   ========================================== */
+header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--hover-color) 100%);
+    color: var(--text-light);
+    padding: 1rem 0;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/* Navigation styles */
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li a {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    display: block;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Dropdown menu styles */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--bg-white);
+    min-width: 200px;
+    box-shadow: var(--shadow-hover);
+    z-index: 1001;
+    border-radius: 4px;
+    overflow: hidden;
+    top: 100%;
+    left: 0;
+}
+
+.dropdown-content a {
+    color: var(--text-dark);
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover,
+.dropdown-content a.active {
+    background-color: var(--bg-light);
+    color: var(--secondary-color);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* ==========================================
+   Main Content Styles
+   ========================================== */
+main {
+    flex: 1;
+    padding: 2rem 0;
+}
+
+section {
+    background-color: var(--bg-white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+h2 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Welcome section specific styles */
+.welcome-section p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* Feature list styles */
+.feature-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 1rem 0;
+}
+
+.feature-list li {
+    padding: 0.75rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.6;
+}
+
+.feature-list li::before {
+    content: "▸";
+    color: var(--secondary-color);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* About section specific styles */
+.about-content p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+}
+
+/* ==========================================
+   Table Styles
+   ========================================== */
+.table-container {
+    overflow-x: auto;
+    margin-top: 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--bg-white);
+    font-size: 0.95rem;
+}
+
+thead {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--hover-color) 100%);
+    color: var(--text-light);
+}
+
+thead th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: var(--bg-light);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+/* Loading state */
+.loading {
+    text-align: center !important;
+    padding: 2rem !important;
+    color: #666;
+    font-style: italic;
+}
+
+/* Numeric column alignment */
+tbody td:nth-child(n+3) {
+    text-align: center;
+}
+
+thead th:nth-child(n+3) {
+    text-align: center;
+}
+
+/* Highlight first column (rank/name) */
+tbody td:first-child {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+tbody td:nth-child(2) {
+    font-weight: 500;
+}
+
+/* Week separator row styling */
+.week-separator td {
+    background-color: var(--primary-color) !important;
+    color: var(--text-light) !important;
+    font-weight: bold !important;
+    padding: 0.75rem !important;
+    text-align: center !important;
+}
+
+.week-separator:hover {
+    background-color: var(--primary-color) !important;
+}
+
+/* ==========================================
+   Footer Styles
+   ========================================== */
+footer {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: auto;
+}
+
+footer p {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+/* ==========================================
+   Responsive Design
+   ========================================== */
+
+/* Tablet styles */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .dropdown-content {
+        position: static;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown:hover .dropdown-content,
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+
+    section {
+        padding: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+
+    thead th,
+    tbody td {
+        padding: 0.5rem;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    header h1 {
+        font-size: 1.25rem;
+    }
+
+    section {
+        padding: 1rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    table {
+        font-size: 0.75rem;
+    }
+
+    thead th,
+    tbody td {
+        padding: 0.4rem 0.25rem;
+    }
+
+    /* Stack table on very small screens if needed */
+    .table-container {
+        font-size: 0.7rem;
+    }
+}
+
+/* ==========================================
+   Sortable Table Styles
+   ========================================== */
+thead th[style*="cursor: pointer"] {
+    user-select: none;
+    position: relative;
+    padding-right: 20px;
+}
+
+thead th[style*="cursor: pointer"]::after {
+    content: '⇅';
+    position: absolute;
+    right: 5px;
+    opacity: 0.3;
+    font-size: 0.8em;
+}
+
+thead th.sort-asc::after {
+    content: '↑';
+    opacity: 1;
+    color: var(--secondary-color);
+}
+
+thead th.sort-desc::after {
+    content: '↓';
+    opacity: 1;
+    color: var(--secondary-color);
+}
+
+thead th[style*="cursor: pointer"]:hover {
+    background-color: rgba(1, 51, 105, 0.1);
+}
+
+/* Print styles */
+@media print {
+    header,
+    footer,
+    nav {
+        display: none;
+    }
+
+    body {
+        background-color: white;
+    }
+
+    section {
+        box-shadow: none;
+        page-break-inside: avoid;
+    }
+    
+    /* Hide sort indicators when printing */
+    thead th::after {
+        display: none;
+    }
+}

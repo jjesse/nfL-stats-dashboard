@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Stats Dashboard - Receiver Leaders</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header>
+        <div class="container">
+            <h1>NFL Stats Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="standings.html">Standings</a></li>
+                    <li><a href="team-stats.html">Team Stats</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn active">Player Stats</a>
+                        <div class="dropdown-content">
+                            <a href="qb-leaders.html">Quarterbacks Leaders</a>
+                            <a href="receiver-leaders.html" class="active">Receivers Leaders</a>
+                            <a href="rushing-leaders.html">Rushing Leaders</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content area -->
+    <main class="container">
+        <section>
+            <h2>Receiver Leaders</h2>
+            <p class="subtitle">Top receiving performers in the NFL</p>
+            
+            <!-- Receiver stats table -->
+            <div class="table-container">
+                <table id="receiver-leaders-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player Name</th>
+                            <th>Team</th>
+                            <th>Games</th>
+                            <th>Receptions</th>
+                            <th>Targets</th>
+                            <th>Yards</th>
+                            <th>Avg</th>
+                            <th>TDs</th>
+                            <th>Long</th>
+                            <th>YPG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will be populated by JavaScript -->
+                        <tr>
+                            <td colspan="11" class="loading">Loading receiver statistics...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NFL Stats Dashboard. All rights reserved.</p>
+            <p>Data sourced from publicly available NFL statistics. Not affiliated with the NFL.</p>
+        </div>
+    </footer>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
