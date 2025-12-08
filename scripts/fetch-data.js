@@ -91,14 +91,14 @@ async function fetchStandings() {
     console.log('Fetching standings data...');
     
     const divisions = {
-        'afc-east': { name: 'AFC East', teams: [17, 21, 22, 2] },
-        'afc-north': { name: 'AFC North', teams: [3, 5, 23, 4] },
-        'afc-south': { name: 'AFC South', teams: [11, 34, 10, 30] },
-        'afc-west': { name: 'AFC West', teams: [12, 7, 13, 25] },
-        'nfc-east': { name: 'NFC East', teams: [6, 19, 28, 27] },
-        'nfc-north': { name: 'NFC North', teams: [8, 14, 9, 16] },
-        'nfc-south': { name: 'NFC South', teams: [1, 18, 29, 15] },
-        'nfc-west': { name: 'NFC West', teams: [26, 24, 20, 33] }
+        'afc-east': { name: 'AFC East', teams: [2, 15, 17, 20] },       // Bills, Dolphins, Patriots, Jets
+        'afc-north': { name: 'AFC North', teams: [33, 4, 5, 23] },      // Ravens, Bengals, Browns, Steelers
+        'afc-south': { name: 'AFC South', teams: [34, 11, 30, 10] },    // Texans, Colts, Jaguars, Titans
+        'afc-west': { name: 'AFC West', teams: [7, 12, 13, 24] },       // Broncos, Chiefs, Raiders, Chargers
+        'nfc-east': { name: 'NFC East', teams: [6, 19, 21, 28] },       // Cowboys, Giants, Eagles, Commanders
+        'nfc-north': { name: 'NFC North', teams: [3, 8, 9, 16] },       // Bears, Lions, Packers, Vikings
+        'nfc-south': { name: 'NFC South', teams: [1, 29, 18, 27] },     // Falcons, Panthers, Saints, Buccaneers
+        'nfc-west': { name: 'NFC West', teams: [22, 14, 25, 26] }       // Cardinals, Rams, 49ers, Seahawks
     };
     
     const standings = {};
