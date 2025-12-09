@@ -9,21 +9,31 @@ You have **7 agent sessions stuck at "initializing pull request"**.
 ### Option 1: Use GitHub CLI (Fastest)
 
 ```bash
-# Close all stuck PRs at once (adjust numbers as needed)
+# First, list PRs to verify the numbers you want to close
+gh pr list --state open
+
+# Close stuck PRs one by one (replace numbers with actual PR numbers)
+gh pr close 2 --comment "Closing stuck initialization session"
+gh pr close 3 --comment "Closing stuck initialization session"
+# ... continue for each stuck PR
+
+# Or use a loop (ONLY if you've verified the PR numbers!)
+# CAUTION: Verify PR numbers first to avoid closing wrong PRs
 for i in {2..8}; do 
     gh pr close $i --comment "Closing stuck initialization session"
 done
 
 # Clean up branches (optional)
 git fetch --all
-for i in {2..8}; do 
-    git push origin --delete copilot/session-name-$i 2>/dev/null
-done
+# List branches first to see what exists
+git branch -r | grep copilot/
+# Delete each branch individually
+# git push origin --delete copilot/branch-name-here
 ```
 
 ### Option 2: Use GitHub Web Interface
 
-1. Go to: https://github.com/jjesse/nfl-stats-dashboard/pulls
+1. Go to: `https://github.com/YOUR_USERNAME/YOUR_REPO/pulls`
 2. For each stuck PR:
    - Click on it
    - Scroll to the bottom

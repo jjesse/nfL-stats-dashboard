@@ -10,7 +10,7 @@ If you have multiple stuck agent sessions at "initializing pull request", follow
 gh pr list --state open
 ```
 
-Or visit: `https://github.com/YOUR_USERNAME/nfl-stats-dashboard/pulls`
+Or visit: `https://github.com/YOUR_USERNAME/YOUR_REPO/pulls`
 
 ### Step 2: Close Each Stuck PR
 
@@ -45,12 +45,19 @@ git push origin --delete copilot/branch-name-2
 
 Now you can create a new, single, clear request for the agent!
 
-## One-Liner to Close Multiple PRs
+## Script to Close Multiple PRs
 
-If you have PRs numbered 2-8 that are stuck:
+**⚠️ IMPORTANT**: Always verify PR numbers first!
 
 ```bash
-for i in {2..8}; do gh pr close $i --comment "Closing stuck initialization session"; done
+# Step 1: List all PRs and note the numbers you want to close
+gh pr list --state open
+
+# Step 2: Only close the ones you've verified are stuck
+# Replace 2,3,4,5,6,7,8 with your actual stuck PR numbers
+for i in 2 3 4 5 6 7 8; do 
+    gh pr close $i --comment "Closing stuck initialization session"
+done
 ```
 
 ## Prevention Tips

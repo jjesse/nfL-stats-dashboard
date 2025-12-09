@@ -141,7 +141,7 @@ If you currently have 7 stuck sessions (like in your case), here's what to do:
 
 1. **Identify all stuck PRs:**
    ```bash
-   gh pr list --state open --author Copilot
+   gh pr list --state open
    ```
 
 2. **Close all stuck sessions:**
@@ -224,6 +224,4 @@ If you continue to have issues with stuck agent sessions:
 
 ---
 
-**Last Updated**: December 9, 2024
-
-**Version**: 1.0.0
+**Note**: This guide is maintained as part of the repository documentation. Check for updates in the repository.
