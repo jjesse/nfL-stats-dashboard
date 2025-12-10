@@ -2,8 +2,11 @@
 
 [![Update NFL Stats Data](https://github.com/jjesse/nfl-stats-dashboard/actions/workflows/update-data.yml/badge.svg)](https://github.com/jjesse/nfl-stats-dashboard/actions/workflows/update-data.yml)
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://jjesse.github.io/nfl-stats-dashboard/)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](VERSION.md)
 
 A modern, responsive web dashboard for viewing NFL statistics, schedules, and player performance data. Built with vanilla HTML, CSS, and JavaScript, designed to be hosted on GitHub Pages with automated data updates via GitHub Actions.
+
+**🎉 Version 1.0.0 Released!** - Phase 5 complete with 4 new statistics pages, enhanced interactivity, and playoff picture feature.
 
 ## 🏈 Project Overview
 
