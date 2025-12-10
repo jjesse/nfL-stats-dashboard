@@ -128,7 +128,7 @@ async function populateScheduleTable() {
     if (!table) return;
 
     const tbody = table.querySelector('tbody');
-    tbody.innerHTML = '<tr><td colspan="7" class="loading">Loading schedule data...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" class="loading">Loading schedule data...</td></tr>';
 
     try {
         const allGames = [];
@@ -152,8 +152,16 @@ async function populateScheduleTable() {
         }
         
         if (allGames.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" class="loading">No games scheduled.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="10" class="loading">No games scheduled.</td></tr>';
             return;
+        }
+
+        // Try to load betting odds
+        let oddsData = null;
+        try {
+            oddsData = await loadBettingOdds();
+        } catch (error) {
+            console.warn('Could not load betting odds:', error.message);
         }
 
         tbody.innerHTML = '';
@@ -164,9 +172,12 @@ async function populateScheduleTable() {
             if (game.week !== lastWeek) {
                 const weekRow = tbody.insertRow();
                 weekRow.className = 'week-separator';
-                weekRow.innerHTML = `<td colspan="7" style="background-color: var(--primary-color); color: white; font-weight: bold; padding: 0.75rem; text-align: center;">Week ${game.week}</td>`;
+                weekRow.innerHTML = `<td colspan="10" style="background-color: var(--primary-color); color: white; font-weight: bold; padding: 0.75rem; text-align: center;">Week ${game.week}</td>`;
                 lastWeek = game.week;
             }
+            
+            // Find odds for this game
+            const gameOdds = findOddsForGame(game, oddsData);
             
             const row = tbody.insertRow();
             row.innerHTML = `
@@ -177,13 +188,19 @@ async function populateScheduleTable() {
                 <td>${game.homeTeam}</td>
                 <td>${game.homeRecord}</td>
                 <td>${game.venue}</td>
+                <td class="odds-column odds-cell" style="display: none;">${gameOdds.spread}</td>
+                <td class="odds-column odds-cell" style="display: none;">${gameOdds.moneyline}</td>
+                <td class="odds-column odds-cell" style="display: none;">${gameOdds.total}</td>
             `;
         });
         
         console.log(`Loaded ${allGames.length} games from weeks ${currentWeek}-${finalWeek}`);
+        
+        // Initialize odds toggle functionality
+        initializeOddsToggle();
     } catch (error) {
         console.error('Error loading schedule:', error);
-        tbody.innerHTML = '<tr><td colspan="7" class="loading" style="color: #D50A0A;">Error loading schedule. Please refresh the page to try again.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="10" class="loading" style="color: #D50A0A;">Error loading schedule. Please refresh the page to try again.</td></tr>';
     }
 }
 
@@ -1493,3 +1510,249 @@ function populateConferenceSeeds(conference, seedsData) {
         huntContainer.innerHTML = '<span style="color: #999;">No teams currently in the hunt</span>';
     }
 }
+
+/**
+ * Load betting odds from JSON file
+ * Data is pre-fetched by GitHub Actions and saved to data/odds.json
+ */
+async function loadBettingOdds() {
+    const CACHE_KEY = 'nfl_betting_odds';
+    const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+    
+    // Check localStorage cache first
+    const cachedData = getFromCache(CACHE_KEY, CACHE_DURATION);
+    if (cachedData) {
+        console.log('Using cached betting odds data');
+        return cachedData;
+    }
+    
+    try {
+        // Fetch from data/odds.json (pre-fetched by GitHub Actions)
+        const response = await fetch('data/odds.json');
+        
+        if (!response.ok) {
+            console.warn('Odds data not available');
+            return null;
+        }
+        
+        const data = await response.json();
+        
+        // Cache the data
+        saveToCache(CACHE_KEY, data);
+        
+        console.log(`Loaded betting odds for ${data.length || 0} games`);
+        return data;
+    } catch (error) {
+        console.warn('Could not load betting odds:', error.message);
+        return null;
+    }
+}
+
+/**
+ * Find betting odds for a specific game
+ * Matches game by team names
+ */
+function findOddsForGame(game, oddsData) {
+    const defaultOdds = {
+        spread: '<span class="odds-unavailable">N/A</span>',
+        moneyline: '<span class="odds-unavailable">N/A</span>',
+        total: '<span class="odds-unavailable">N/A</span>'
+    };
+    
+    if (!oddsData || !Array.isArray(oddsData)) {
+        return defaultOdds;
+    }
+    
+    // Find matching game in odds data
+    const matchingOdds = oddsData.find(odds => {
+        // Match by team names (handle variations)
+        const homeMatch = normalizeTeamName(odds.home_team) === normalizeTeamName(game.homeTeam);
+        const awayMatch = normalizeTeamName(odds.away_team) === normalizeTeamName(game.awayTeam);
+        return homeMatch && awayMatch;
+    });
+    
+    if (!matchingOdds || !matchingOdds.bookmakers || matchingOdds.bookmakers.length === 0) {
+        return defaultOdds;
+    }
+    
+    // Use first available bookmaker's odds
+    const bookmaker = matchingOdds.bookmakers[0];
+    const markets = bookmaker.markets || [];
+    
+    // Extract spread, moneyline, and totals
+    const spreadMarket = markets.find(m => m.key === 'spreads');
+    const h2hMarket = markets.find(m => m.key === 'h2h');
+    const totalsMarket = markets.find(m => m.key === 'totals');
+    
+    return {
+        spread: formatSpreadOdds(spreadMarket, game.homeTeam, game.awayTeam),
+        moneyline: formatMoneylineOdds(h2hMarket, game.homeTeam, game.awayTeam),
+        total: formatTotalOdds(totalsMarket)
+    };
+}
+
+/**
+ * Normalize team name for matching
+ * Removes city names, handles abbreviations
+ */
+function normalizeTeamName(name) {
+    if (!name) return '';
+    
+    // Common team name mappings
+    const nameMap = {
+        'Los Angeles Rams': 'Rams',
+        'Los Angeles Chargers': 'Chargers',
+        'New York Giants': 'Giants',
+        'New York Jets': 'Jets',
+        'LA Rams': 'Rams',
+        'LA Chargers': 'Chargers',
+        'NY Giants': 'Giants',
+        'NY Jets': 'Jets'
+    };
+    
+    const mapped = nameMap[name];
+    if (mapped) return mapped.toLowerCase();
+    
+    // Extract team name (last word typically)
+    const parts = name.split(' ');
+    return parts[parts.length - 1].toLowerCase();
+}
+
+/**
+ * Format spread odds for display
+ */
+function formatSpreadOdds(market, homeTeam, awayTeam) {
+    if (!market || !market.outcomes || market.outcomes.length < 2) {
+        return '<span class="odds-unavailable">N/A</span>';
+    }
+    
+    const homeOutcome = market.outcomes.find(o => 
+        normalizeTeamName(o.name) === normalizeTeamName(homeTeam)
+    );
+    
+    if (!homeOutcome) {
+        return '<span class="odds-unavailable">N/A</span>';
+    }
+    
+    const point = homeOutcome.point;
+    const price = homeOutcome.price;
+    
+    const spreadValue = point > 0 ? `+${point}` : point;
+    const priceValue = price > 0 ? `+${price}` : price;
+    
+    const favoriteClass = point < 0 ? 'favorite' : 'underdog';
+    
+    return `
+        <span class="odds-label">📊 Spread</span>
+        <span class="odds-value ${favoriteClass}">${spreadValue} (${priceValue})</span>
+    `;
+}
+
+/**
+ * Format moneyline odds for display
+ */
+function formatMoneylineOdds(market, homeTeam, awayTeam) {
+    if (!market || !market.outcomes || market.outcomes.length < 2) {
+        return '<span class="odds-unavailable">N/A</span>';
+    }
+    
+    const homeOutcome = market.outcomes.find(o => 
+        normalizeTeamName(o.name) === normalizeTeamName(homeTeam)
+    );
+    const awayOutcome = market.outcomes.find(o => 
+        normalizeTeamName(o.name) === normalizeTeamName(awayTeam)
+    );
+    
+    if (!homeOutcome || !awayOutcome) {
+        return '<span class="odds-unavailable">N/A</span>';
+    }
+    
+    const homePrice = homeOutcome.price > 0 ? `+${homeOutcome.price}` : homeOutcome.price;
+    const awayPrice = awayOutcome.price > 0 ? `+${awayOutcome.price}` : awayOutcome.price;
+    
+    const homeClass = homeOutcome.price < 0 ? 'favorite' : 'underdog';
+    const awayClass = awayOutcome.price < 0 ? 'favorite' : 'underdog';
+    
+    return `
+        <span class="odds-label">💰 Moneyline</span>
+        <span class="odds-value">
+            <span class="${awayClass}">Away: ${awayPrice}</span><br>
+            <span class="${homeClass}">Home: ${homePrice}</span>
+        </span>
+    `;
+}
+
+/**
+ * Format total (over/under) odds for display
+ */
+function formatTotalOdds(market) {
+    if (!market || !market.outcomes || market.outcomes.length < 2) {
+        return '<span class="odds-unavailable">N/A</span>';
+    }
+    
+    const overOutcome = market.outcomes.find(o => o.name === 'Over');
+    const underOutcome = market.outcomes.find(o => o.name === 'Under');
+    
+    if (!overOutcome || !underOutcome) {
+        return '<span class="odds-unavailable">N/A</span>';
+    }
+    
+    const point = overOutcome.point;
+    const overPrice = overOutcome.price > 0 ? `+${overOutcome.price}` : overOutcome.price;
+    const underPrice = underOutcome.price > 0 ? `+${underOutcome.price}` : underOutcome.price;
+    
+    return `
+        <span class="odds-label">🎯 Total</span>
+        <span class="odds-value">
+            O ${point} (${overPrice})<br>
+            U ${point} (${underPrice})
+        </span>
+    `;
+}
+
+/**
+ * Initialize odds toggle functionality
+ */
+function initializeOddsToggle() {
+    const toggleBtn = document.getElementById('toggle-odds-btn');
+    const disclaimer = document.getElementById('odds-disclaimer');
+    const attribution = document.getElementById('odds-attribution');
+    
+    if (!toggleBtn) return;
+    
+    let oddsVisible = false;
+    
+    toggleBtn.addEventListener('click', () => {
+        oddsVisible = !oddsVisible;
+        
+        // Toggle button state
+        toggleBtn.classList.toggle('active', oddsVisible);
+        toggleBtn.innerHTML = oddsVisible 
+            ? '<span class="icon">📊</span> Hide Betting Odds'
+            : '<span class="icon">📊</span> Show Betting Odds';
+        
+        // Toggle odds columns visibility
+        const oddsColumns = document.querySelectorAll('.odds-column');
+        oddsColumns.forEach(col => {
+            col.style.display = oddsVisible ? 'table-cell' : 'none';
+        });
+        
+        // Update week separator colspan
+        const weekSeparators = document.querySelectorAll('.week-separator');
+        weekSeparators.forEach(sep => {
+            const td = sep.querySelector('td');
+            if (td) {
+                td.setAttribute('colspan', oddsVisible ? '10' : '7');
+            }
+        });
+        
+        // Toggle disclaimer and attribution
+        if (disclaimer) {
+            disclaimer.style.display = oddsVisible ? 'block' : 'none';
+        }
+        if (attribution) {
+            attribution.style.display = oddsVisible ? 'block' : 'none';
+        }
+    });
+}
+

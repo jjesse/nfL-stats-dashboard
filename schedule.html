@@ -41,6 +41,16 @@
             <h2>Upcoming Games</h2>
             <p class="subtitle">View the schedule for upcoming NFL games</p>
             
+            <!-- Betting Odds Toggle -->
+            <div class="odds-controls">
+                <button id="toggle-odds-btn" class="btn-toggle-odds" aria-label="Toggle betting odds display">
+                    <span class="icon">📊</span> Show Betting Odds
+                </button>
+                <p class="odds-disclaimer" id="odds-disclaimer" style="display: none;">
+                    ⚠️ Odds for informational purposes only. Must be 21+ to bet. Not available in all jurisdictions. Please gamble responsibly.
+                </p>
+            </div>
+            
             <!-- Schedule table -->
             <div class="table-container">
                 <table id="schedule-table">
@@ -53,12 +63,15 @@
                             <th>Home Team</th>
                             <th>Home Record</th>
                             <th>Venue</th>
+                            <th class="odds-column" style="display: none;">Spread</th>
+                            <th class="odds-column" style="display: none;">Moneyline</th>
+                            <th class="odds-column" style="display: none;">Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Data will be populated by JavaScript -->
                         <tr>
-                            <td colspan="7" class="loading">Loading schedule data...</td>
+                            <td colspan="10" class="loading">Loading schedule data...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -71,6 +84,7 @@
         <div class="container">
             <p>&copy; 2025 NFL Stats Dashboard. All rights reserved.</p>
             <p>Data sourced from publicly available NFL statistics. Not affiliated with the NFL.</p>
+            <p id="odds-attribution" style="display: none; margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.8;">Betting odds provided by The Odds API. For informational purposes only.</p>
         </div>
     </footer>
 
