@@ -28,3 +28,8 @@ npm-debug.log*
 # Cache files
 .cache/
 *.cache
+
+# Environment variables (API keys, secrets)
+.env
+.env.local
+.env.*.local
