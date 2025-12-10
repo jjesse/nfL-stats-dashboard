@@ -146,11 +146,91 @@ These are ideas that need further discussion or planning:
 - **API for developers**: Provide our aggregated data via API
 - **Mobile apps**: Native iOS/Android applications
 - **Integration with fantasy platforms**: Link to ESPN, Yahoo, etc.
-- **Betting odds integration**: Display Vegas lines (where legal)
 - **Video highlights**: Embed game clips from official sources
 - **Community features**: User comments/discussions
 - **Bracket predictor**: Playoff prediction tool
 - **Draft tracker**: Real-time NFL draft updates
+
+## 🎰 Betting Odds Integration (Planned Feature)
+
+**Status**: Research/Planning Phase
+
+**Goal**: Display NFL betting lines (spreads, moneylines, totals) on the schedule page
+
+**Requirements**:
+1. [ ] **API Selection & Setup**
+   - [ ] Sign up for The Odds API (https://the-odds-api.com/)
+   - [ ] Obtain API key (free tier: 500 requests/month)
+   - [ ] Document API endpoints and response structure
+   - [ ] Test API calls with sample data
+
+2. [ ] **Security & Configuration**
+   - [ ] Create `.env` file for API key storage
+   - [ ] Add `.env` to `.gitignore` to prevent public exposure
+   - [ ] Create `.env.example` template for contributors
+   - [ ] Document environment variable setup in README
+   - [ ] Consider using GitHub Secrets for automated updates
+
+3. [ ] **Backend/API Integration**
+   - [ ] Add `fetchOdds()` function to `api.js`
+   - [ ] Implement odds data caching (localStorage, 30-min expiry recommended)
+   - [ ] Handle API rate limiting (500 requests/month = ~16/day)
+   - [ ] Add error handling for odds fetch failures
+   - [ ] Implement fallback when odds unavailable
+
+4. [ ] **Frontend Implementation**
+   - [ ] Add "Show Odds" toggle button to schedule page
+   - [ ] Create odds column in schedule table (or expandable rows)
+   - [ ] Display spread (e.g., "KC -3.5")
+   - [ ] Display moneyline (e.g., "KC -180 / LV +155")
+   - [ ] Display over/under totals (e.g., "O/U 48.5")
+   - [ ] Add sportsbook attribution (e.g., "via DraftKings")
+   - [ ] Style odds data with icons and clear formatting
+
+5. [ ] **CSS & Design**
+   - [ ] Create `.odds-column` styles
+   - [ ] Add visual indicators (📊 spread, 💰 moneyline, 🎯 total)
+   - [ ] Responsive design for mobile odds display
+   - [ ] Loading states for odds data
+   - [ ] Fade-in animations when odds load
+
+6. [ ] **Legal & Compliance**
+   - [ ] Add disclaimer: "Odds for informational purposes only"
+   - [ ] Add disclaimer: "Not available in all jurisdictions"
+   - [ ] Include responsible gambling resources/links
+   - [ ] Add age restriction notice (21+)
+   - [ ] Consider geo-detection to hide in restricted states (optional)
+   - [ ] Add terms that odds are subject to change
+
+7. [ ] **Documentation**
+   - [ ] Update README with odds feature description
+   - [ ] Create ODDS_API_SETUP.md with setup instructions
+   - [ ] Document API key management process
+   - [ ] Update TESTING.md with odds testing procedures
+   - [ ] Add odds feature to VERSION.md changelog
+
+8. [ ] **Testing & Optimization**
+   - [ ] Test odds display with various game states
+   - [ ] Verify API rate limiting handling
+   - [ ] Test toggle button functionality
+   - [ ] Ensure graceful degradation when API unavailable
+   - [ ] Test on mobile devices
+   - [ ] Validate localStorage caching works correctly
+
+**Technical Notes**:
+- The Odds API endpoint: `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/`
+- Response includes multiple sportsbooks (can select preferred one)
+- ESPN API does NOT include odds data (confirmed via testing)
+- Free tier suitable for hobby projects (500 requests/month)
+
+**Dependencies**:
+- The Odds API account and key
+- `.env` file support (no build step needed, handled in code)
+- Updated `api.js` module
+
+**Priority**: Low (Future Enhancement)
+**Estimated Effort**: 4-6 hours
+**Phase Assignment**: TBD (possibly Phase 11: Premium Features)
 
 ## 📊 Progress Tracking
 
