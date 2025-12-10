@@ -12,19 +12,42 @@ The NFL Stats Dashboard provides an easy-to-navigate interface for accessing com
 - **Schedule**: View upcoming games with team records and venue information (Weeks 14-18)
 - **Standings**: NFL standings organized by division and conference
 - **Team Statistics**: Compare team performance across the league
-- **Player Leaders**: Track top performers in passing, receiving, and rushing categories
+- **Player Leaders**: Track top performers in multiple categories:
+  - Quarterbacks (passing stats)
+  - Receivers (receiving stats)
+  - Rushing leaders
+  - Defensive leaders (tackles, sacks, interceptions)
+  - Special teams (kickers, punters, returners)
+- **League Leaders**: Consolidated summary of top performers across all categories
+- **Playoff Picture**: Current playoff seeding based on standings ("If playoffs started today")
 - **Automated Updates**: Data refreshes automatically every Tuesday at 6 AM EST via GitHub Actions
 
 ## 📋 Features
 
+### Core Features
 - ✅ Clean, modern design optimized for all devices
 - ✅ Responsive layout for desktop, tablet, and mobile
 - ✅ Easy navigation with dropdown menus
 - ✅ Comprehensive data tables with click-to-sort functionality
 - ✅ Live data from ESPN Public API
 - ✅ Automated weekly data updates via GitHub Actions
-- ✅ localStorage caching for improved performance
+- ✅ localStorage caching (5-minute expiration) for improved performance
 - ✅ Well-commented, maintainable codebase
+
+### Enhanced Interactivity (Phase 4)
+- ✅ **Search & Filter**: Real-time search on player tables
+- ✅ **Team Filters**: Dynamic dropdown filters for all player stat pages
+- ✅ **Scroll-to-Top Button**: Fixed button appears after scrolling 300px
+- ✅ **Loading Animations**: Smooth loading states and transitions
+- ✅ **Keyboard Navigation**: Shortcuts (Alt+H, Alt+S, Alt+T, Alt+P, Esc)
+- ✅ **Smooth Scrolling**: Enhanced user experience with CSS scroll behavior
+- ✅ **Accessibility**: ARIA labels, screen reader support, focus indicators
+
+### Additional Statistics Pages (Phase 5)
+- ✅ **Defensive Leaders**: Tabbed interface with tackles, sacks, and interceptions
+- ✅ **Special Teams**: Tabbed interface with kickers, punters, and return specialists
+- ✅ **League Leaders Summary**: Consolidated dashboard showing top 5 performers across 12 categories
+- ✅ **Playoff Picture**: Dynamic playoff seeding with current standings, division winners, wild cards, and "in the hunt" teams
 
 ## 🚀 Getting Started
 
@@ -79,9 +102,13 @@ nfl-stats-dashboard/
 ├── qb-leaders.html         # Quarterback leaders page
 ├── receiver-leaders.html   # Receiver leaders page
 ├── rushing-leaders.html    # Rushing leaders page
+├── defensive-leaders.html  # Defensive stats (tackles, sacks, interceptions)
+├── special-teams.html      # Special teams (kickers, punters, returners)
+├── league-leaders.html     # League-wide leaders summary dashboard
+├── playoff-picture.html    # Current playoff seeding and bracket
 ├── about.html              # About page with project info
-├── styles.css              # Main stylesheet with responsive design
-├── app.js                  # JavaScript for data handling and interactivity
+├── styles.css              # Main stylesheet with responsive design (800+ lines)
+├── app.js                  # JavaScript for data handling and interactivity (1400+ lines)
 ├── api.js                  # API integration module for ESPN data
 ├── .github/
 │   └── workflows/
@@ -95,8 +122,9 @@ nfl-stats-dashboard/
 │   ├── player-stats.json
 │   └── metadata.json
 ├── README.md               # This file
-├── TODO.md                 # Development roadmap
+├── TODO.md                 # Development roadmap (43% complete)
 ├── TESTING.md              # Testing guide and instructions
+├── API_STATUS.md           # API integration status and details
 └── project_description.md  # Original project requirements
 ```
 
@@ -114,11 +142,17 @@ The design is fully responsive with breakpoints for:
 
 ## 💻 Technology Stack
 
-- **HTML5**: Semantic markup for accessibility
-- **CSS3**: Modern styling with CSS variables and flexbox/grid
-- **JavaScript (ES6+)**: Dynamic content loading and interactivity
+- **HTML5**: Semantic markup for accessibility with ARIA labels
+- **CSS3**: Modern styling with CSS variables, flexbox, grid, and animations
+- **JavaScript (ES6+)**: Vanilla JavaScript - no frameworks
+  - Dynamic content loading and DOM manipulation
+  - localStorage caching with expiration
+  - Real-time search and filtering
+  - Sortable tables
+  - Keyboard event handling
+- **ESPN Public API**: Live NFL statistics data
 - **GitHub Pages**: Free hosting for static websites
-- **GitHub Actions**: Automated data updates (planned)
+- **GitHub Actions**: Automated weekly data updates (active)
 
 ## 🔄 Automated Data Updates
 
@@ -158,6 +192,30 @@ node scripts/fetch-data.js
 - **Primary**: ESPN Public API (live data)
 - **Backup**: JSON files in `data/` directory (weekly snapshots)
 - **Cache**: localStorage (5-minute expiration)
+
+## 🎯 Key Highlights
+
+### 11 Interactive Pages
+1. **Home** - Welcome and navigation hub
+2. **Schedule** - Week-by-week game schedule
+3. **Standings** - Division and conference standings
+4. **Team Stats** - Comprehensive team statistics
+5. **QB Leaders** - Top quarterbacks with search/filter
+6. **Receiver Leaders** - Top receivers with search/filter
+7. **Rushing Leaders** - Top rushers with search/filter
+8. **Defensive Leaders** - Tackles, sacks, interceptions (tabbed)
+9. **Special Teams** - Kickers, punters, returners (tabbed)
+10. **League Leaders** - Top 5 across 12 statistical categories
+11. **Playoff Picture** - Current playoff seeding and scenarios
+
+### Smart Features
+- **Sortable Tables**: Click any column header to sort
+- **Real-time Search**: Filter players as you type
+- **Team Filtering**: Dropdown filters dynamically populated from table data
+- **Keyboard Shortcuts**: Navigate quickly with Alt+H/S/T/P, clear filters with Esc
+- **Responsive Design**: Optimized for all screen sizes
+- **Loading States**: Smooth animations while data loads
+- **Accessibility**: Full ARIA support and keyboard navigation
 
 ## 🤝 Contributing
 
@@ -210,16 +268,29 @@ Found a bug? Please open an issue with:
 - Screenshots if applicable
 - Browser and device information
 
+## 📊 Current Progress
+
+**Overall Completion: 43% (42/97 tasks)**
+
+- ✅ **Phase 1**: Initial Setup - 100% complete
+- ✅ **Phase 2**: Data Integration - 100% complete  
+- ✅ **Phase 3**: GitHub Actions - 88% complete
+- ✅ **Phase 4**: Enhanced Interactivity - 100% complete
+- 🚧 **Phase 5**: Additional Statistics Pages - 80% complete (4/5 tasks)
+
+See [TODO.md](TODO.md) for the complete development roadmap.
+
 ## 📝 Future Enhancements
 
-See [TODO.md](TODO.md) for the complete development roadmap. Key upcoming features:
+Key upcoming features:
 
-- Real-time data integration via APIs
-- GitHub Actions for automated updates
-- Enhanced sorting and filtering
-- Player comparison tools
-- Historical statistics
-- Dark mode toggle
+- Game highlights/scores page (Phase 5 - final task)
+- Player comparison tools (Phase 6)
+- Historical statistics and season archives (Phase 6)
+- Advanced filtering with date ranges (Phase 7)
+- Interactive charts and visualizations (Phase 8)
+- Dark mode toggle (Phase 9)
+- User preferences and favorites (Phase 10)
 - And much more!
 
 ## 📄 License
