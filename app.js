@@ -448,6 +448,18 @@ document.addEventListener('DOMContentLoaded', async function() {
         makeTableSortable('kickers-leaders-table');
         makeTableSortable('punters-leaders-table');
         makeTableSortable('returners-leaders-table');
+        // Initialize search and filters
+        initializeSearch('kickers-search', 'kickers-leaders-table', 1);
+        initializeTeamFilter('kickers-team-filter', 'kickers-leaders-table', 2);
+        initializeSearch('punters-search', 'punters-leaders-table', 1);
+        initializeTeamFilter('punters-team-filter', 'punters-leaders-table', 2);
+        initializeSearch('returners-search', 'returners-leaders-table', 1);
+        initializeTeamFilter('returners-team-filter', 'returners-leaders-table', 2);
+    }
+    
+    // Check if we're on the league leaders page
+    if (document.getElementById('passing-yards-leaders')) {
+        await populateLeagueLeaders();
         // Initialize search and filters for each category
         initializeSearch('kickers-search', 'kickers-leaders-table', 1);
         initializeTeamFilter('kickers-team-filter', 'kickers-leaders-table', 2);
@@ -1168,4 +1180,150 @@ function initializeKeyboardNavigation() {
             selects.forEach(select => select.dispatchEvent(new Event('change')));
         }
     });
+}
+
+// Populate league leaders summary page
+async function populateLeagueLeaders() {
+    // This function aggregates top performers from all categories
+    // In a production environment, this would fetch real data from the API
+    // For now, we'll use sample data from our existing datasets
+    
+    // Helper function to create leader list item
+    function createLeaderItem(playerName, team, statValue) {
+        return `
+            <span class="player-name">${playerName}<span class="player-team">${team}</span></span>
+            <span class="stat-value">${statValue}</span>
+        `;
+    }
+    
+    // Passing Yards Leaders (top 5 from QB data)
+    const passingYardsLeaders = [
+        { name: "Jared Goff", team: "DET", yards: 3541 },
+        { name: "Joe Burrow", team: "CIN", yards: 3337 },
+        { name: "Patrick Mahomes", team: "KC", yards: 3348 },
+        { name: "Baker Mayfield", team: "TB", yards: 3290 },
+        { name: "Josh Allen", team: "BUF", yards: 3033 }
+    ];
+    
+    // Passing TDs Leaders
+    const passingTdsLeaders = [
+        { name: "Joe Burrow", team: "CIN", tds: 30 },
+        { name: "Baker Mayfield", team: "TB", tds: 28 },
+        { name: "Sam Darnold", team: "MIN", tds: 25 },
+        { name: "Jared Goff", team: "DET", tds: 24 },
+        { name: "Josh Allen", team: "BUF", tds: 23 }
+    ];
+    
+    // Rushing Yards Leaders
+    const rushingYardsLeaders = [
+        { name: "Saquon Barkley", team: "PHI", yards: 1623 },
+        { name: "Derrick Henry", team: "BAL", yards: 1474 },
+        { name: "Josh Jacobs", team: "GB", yards: 1050 },
+        { name: "Jahmyr Gibbs", team: "DET", yards: 1047 },
+        { name: "De'Von Achane", team: "MIA", yards: 857 }
+    ];
+    
+    // Rushing TDs Leaders
+    const rushingTdsLeaders = [
+        { name: "Saquon Barkley", team: "PHI", tds: 11 },
+        { name: "Derrick Henry", team: "BAL", tds: 13 },
+        { name: "Jahmyr Gibbs", team: "DET", tds: 13 },
+        { name: "Josh Jacobs", team: "GB", tds: 9 },
+        { name: "James Conner", team: "ARI", tds: 10 }
+    ];
+    
+    // Receiving Yards Leaders
+    const receivingYardsLeaders = [
+        { name: "Ja'Marr Chase", team: "CIN", yards: 1319 },
+        { name: "Justin Jefferson", team: "MIN", yards: 1079 },
+        { name: "Zay Flowers", team: "BAL", yards: 1047 },
+        { name: "CeeDee Lamb", team: "DAL", yards: 1005 },
+        { name: "Terry McLaurin", team: "WAS", yards: 982 }
+    ];
+    
+    // Receptions Leaders
+    const receptionsLeaders = [
+        { name: "Ja'Marr Chase", team: "CIN", rec: 93 },
+        { name: "Amon-Ra St. Brown", team: "DET", rec: 84 },
+        { name: "CeeDee Lamb", team: "DAL", rec: 82 },
+        { name: "Justin Jefferson", team: "MIN", rec: 79 },
+        { name: "Terry McLaurin", team: "WAS", rec: 68 }
+    ];
+    
+    // Tackles Leaders
+    const tacklesLeaders = [
+        { name: "Bobby Okereke", team: "NYG", tackles: 148 },
+        { name: "Zaire Franklin", team: "IND", tackles: 145 },
+        { name: "Roquan Smith", team: "BAL", tackles: 138 },
+        { name: "Foyesade Oluokun", team: "JAX", tackles: 135 },
+        { name: "Demario Davis", team: "NO", tackles: 128 }
+    ];
+    
+    // Sacks Leaders
+    const sacksLeaders = [
+        { name: "Trey Hendrickson", team: "CIN", sacks: 13.5 },
+        { name: "Myles Garrett", team: "CLE", sacks: 12.0 },
+        { name: "Josh Allen", team: "JAX", sacks: 10.5 },
+        { name: "Dexter Lawrence", team: "NYG", sacks: 9.0 },
+        { name: "Chris Jones", team: "KC", sacks: 9.0 }
+    ];
+    
+    // Interceptions Leaders
+    const interceptionsLeaders = [
+        { name: "Kerby Joseph", team: "DET", ints: 8 },
+        { name: "Xavier McKinney", team: "GB", ints: 8 },
+        { name: "Brian Branch", team: "DET", ints: 6 },
+        { name: "Derek Stingley Jr.", team: "HOU", ints: 6 },
+        { name: "Patrick Surtain II", team: "DEN", ints: 5 }
+    ];
+    
+    // Field Goals Leaders
+    const fieldGoalsLeaders = [
+        { name: "Justin Tucker", team: "BAL", fgm: 28 },
+        { name: "Brandon Aubrey", team: "DAL", fgm: 27 },
+        { name: "Jake Moody", team: "SF", fgm: 26 },
+        { name: "Chris Boswell", team: "PIT", fgm: 25 },
+        { name: "Younghoe Koo", team: "ATL", fgm: 24 }
+    ];
+    
+    // Points Scored Leaders (kickers)
+    const pointsLeaders = [
+        { name: "Justin Tucker", team: "BAL", pts: 118 },
+        { name: "Brandon Aubrey", team: "DAL", pts: 115 },
+        { name: "Chris Boswell", team: "PIT", pts: 112 },
+        { name: "Jake Moody", team: "SF", pts: 110 },
+        { name: "Younghoe Koo", team: "ATL", pts: 108 }
+    ];
+    
+    // Return TDs Leaders
+    const returnTdsLeaders = [
+        { name: "KaVontae Turpin", team: "DAL", tds: 2 },
+        { name: "Brandon Aubrey", team: "DAL", tds: 2 },
+        { name: "Marvin Mims", team: "DEN", tds: 2 },
+        { name: "Jalen Reagor", team: "LAC", tds: 1 },
+        { name: "Xavier Gipson", team: "NYJ", tds: 1 }
+    ];
+    
+    // Populate all leader lists
+    const populateList = (listId, leaders, statKey) => {
+        const list = document.getElementById(listId);
+        if (list) {
+            list.innerHTML = leaders.map(leader => 
+                `<li>${createLeaderItem(leader.name, leader.team, leader[statKey])}</li>`
+            ).join('');
+        }
+    };
+    
+    populateList('passing-yards-leaders', passingYardsLeaders, 'yards');
+    populateList('passing-tds-leaders', passingTdsLeaders, 'tds');
+    populateList('rushing-yards-leaders', rushingYardsLeaders, 'yards');
+    populateList('rushing-tds-leaders', rushingTdsLeaders, 'tds');
+    populateList('receiving-yards-leaders', receivingYardsLeaders, 'yards');
+    populateList('receptions-leaders', receptionsLeaders, 'rec');
+    populateList('tackles-leaders', tacklesLeaders, 'tackles');
+    populateList('sacks-leaders', sacksLeaders, 'sacks');
+    populateList('interceptions-leaders', interceptionsLeaders, 'ints');
+    populateList('field-goals-leaders', fieldGoalsLeaders, 'fgm');
+    populateList('points-leaders', pointsLeaders, 'pts');
+    populateList('return-tds-leaders', returnTdsLeaders, 'tds');
 }

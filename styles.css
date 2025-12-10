@@ -658,6 +658,122 @@ select:focus {
     top: 0;
 }
 
+/* ==========================================
+   League Leaders Grid
+   ========================================== */
+.leaders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+}
+
+.leader-card {
+    background: var(--bg-white);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.leader-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+.leader-card-title {
+    background: linear-gradient(135deg, var(--primary-color), var(--hover-color));
+    color: var(--text-light);
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.stat-icon {
+    font-size: 1.4rem;
+}
+
+.leader-card-content {
+    padding: 20px;
+    flex: 1;
+}
+
+.leader-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.leader-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.leader-list li:last-child {
+    border-bottom: none;
+}
+
+.leader-list li:hover {
+    background-color: rgba(1, 51, 105, 0.02);
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-left: -8px;
+    margin-right: -8px;
+    border-radius: 4px;
+}
+
+.leader-list .player-name {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.leader-list .player-team {
+    color: #666;
+    font-size: 0.85rem;
+    margin-left: 8px;
+}
+
+.leader-list .stat-value {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1.05rem;
+}
+
+.leader-list .loading {
+    color: #999;
+    font-style: italic;
+    justify-content: center;
+}
+
+.view-more-link {
+    display: block;
+    text-align: center;
+    padding: 12px 20px;
+    background-color: var(--bg-light);
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.view-more-link:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
 /* Print styles */
 @media print {
     header,

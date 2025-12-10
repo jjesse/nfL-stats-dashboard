@@ -21,11 +21,12 @@ This document tracks the development roadmap and future enhancements for the NFL
 
 ## 🚧 In Progress
 
-**Phase 5: Additional Statistics Pages** - Creating new stat pages
+**Phase 5: Additional Statistics Pages** - Creating new stat pages (3/5 complete - 60%)
 - ✅ Defensive Leaders page (Tackles, Sacks, Interceptions) - COMPLETE
-- 🔄 Special Teams page - Next up
-- 🔄 League Leaders summary page  
-- 🔄 Scores page
+- ✅ Special Teams page (Kickers, Punters, Returners) - COMPLETE
+- ✅ League Leaders summary page - COMPLETE
+- 🔄 Playoff Standings page - Next up
+- 🔄 Game Highlights/Scores page
 
 ## 📋 Planned Features
 
@@ -64,12 +65,12 @@ This document tracks the development roadmap and future enhancements for the NFL
   - [x] Tackles
   - [x] Sacks
   - [x] Interceptions
-- [ ] Create special teams page
-  - Kickers
-  - Punters
-  - Return specialists
+- [x] Create special teams page
+  - [x] Kickers
+  - [x] Punters
+  - [x] Return specialists
+- [x] Create league leaders summary page
 - [ ] Add playoff standings page
-- [ ] Create league leaders summary page
 - [ ] Add game highlights/scores page
 
 ### Phase 6: Advanced Features (Priority: Low)
@@ -197,12 +198,13 @@ Please:
 **Last Updated**: December 10, 2025
 
 **Recent Changes**:
-- 🚧 Phase 5 in progress - Additional Statistics Pages
-- ✅ Created Defensive Leaders page with tabbed interface
-- ✅ Added Tackles, Sacks, and Interceptions statistics
-- ✅ Implemented tab switching with keyboard navigation
-- ✅ Added search/filter for each defensive category
-- ✅ Updated navigation menu on all pages
+- 🚧 Phase 5 in progress - Additional Statistics Pages (60% complete)
+- ✅ Created League Leaders summary page with 12 stat categories
+- ✅ Created Special Teams page (Kickers, Punters, Returners)
+- ✅ Created Defensive Leaders page (Tackles, Sacks, Interceptions)
+- ✅ Implemented leaders grid layout with card design
+- ✅ Added quick links to detailed stat pages
+- ✅ Updated navigation menu across all pages
 - ✅ Phase 4 complete - Enhanced Interactivity fully implemented
 
 **Maintainer Notes**: This TODO list is a living document and will be updated regularly as the project evolves. Priorities may shift based on community feedback and practical considerations.

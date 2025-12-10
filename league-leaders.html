@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Stats Dashboard - League Leaders</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header>
+        <div class="container">
+            <h1>NFL Stats Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="standings.html">Standings</a></li>
+                    <li><a href="team-stats.html">Team Stats</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">Player Stats</a>
+                        <div class="dropdown-content">
+                            <a href="qb-leaders.html">Quarterbacks Leaders</a>
+                            <a href="receiver-leaders.html">Receivers Leaders</a>
+                            <a href="rushing-leaders.html">Rushing Leaders</a>
+                            <a href="defensive-leaders.html">Defensive Leaders</a>
+                            <a href="special-teams.html">Special Teams</a>
+                        </div>
+                    </li>
+                    <li><a href="league-leaders.html" class="active">League Leaders</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content area -->
+    <main class="container">
+        <section>
+            <h2>NFL League Leaders</h2>
+            <p class="subtitle">Top performers across all statistical categories</p>
+
+            <!-- Leaders Grid -->
+            <div class="leaders-grid">
+                
+                <!-- Passing Leaders -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">🏈</span>
+                        Passing Yards
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="passing-yards-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="qb-leaders.html" class="view-more-link">View All QBs →</a>
+                </div>
+
+                <!-- Passing TDs -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">🎯</span>
+                        Passing TDs
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="passing-tds-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="qb-leaders.html" class="view-more-link">View All QBs →</a>
+                </div>
+
+                <!-- Rushing Yards -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">💨</span>
+                        Rushing Yards
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="rushing-yards-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="rushing-leaders.html" class="view-more-link">View All Rushers →</a>
+                </div>
+
+                <!-- Rushing TDs -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">⚡</span>
+                        Rushing TDs
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="rushing-tds-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="rushing-leaders.html" class="view-more-link">View All Rushers →</a>
+                </div>
+
+                <!-- Receiving Yards -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">🎪</span>
+                        Receiving Yards
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="receiving-yards-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="receiver-leaders.html" class="view-more-link">View All Receivers →</a>
+                </div>
+
+                <!-- Receptions -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">🙌</span>
+                        Receptions
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="receptions-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="receiver-leaders.html" class="view-more-link">View All Receivers →</a>
+                </div>
+
+                <!-- Tackles -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">🛡️</span>
+                        Tackles
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="tackles-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="defensive-leaders.html" class="view-more-link">View Defensive Stats →</a>
+                </div>
+
+                <!-- Sacks -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">💥</span>
+                        Sacks
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="sacks-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="defensive-leaders.html" class="view-more-link">View Defensive Stats →</a>
+                </div>
+
+                <!-- Interceptions -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">🎣</span>
+                        Interceptions
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="interceptions-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="defensive-leaders.html" class="view-more-link">View Defensive Stats →</a>
+                </div>
+
+                <!-- Field Goals -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">🥅</span>
+                        Field Goals
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="field-goals-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="special-teams.html" class="view-more-link">View Special Teams →</a>
+                </div>
+
+                <!-- Points Scored -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">📊</span>
+                        Points Scored
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="points-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="special-teams.html" class="view-more-link">View Special Teams →</a>
+                </div>
+
+                <!-- Return TDs -->
+                <div class="leader-card">
+                    <h3 class="leader-card-title">
+                        <span class="stat-icon">🚀</span>
+                        Return TDs
+                    </h3>
+                    <div class="leader-card-content">
+                        <ol class="leader-list" id="return-tds-leaders">
+                            <li class="loading">Loading...</li>
+                        </ol>
+                    </div>
+                    <a href="special-teams.html" class="view-more-link">View Special Teams →</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NFL Stats Dashboard. All rights reserved.</p>
+            <p>Data sourced from publicly available NFL statistics. Not affiliated with the NFL.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top" title="Scroll to top">
+        ↑
+    </button>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
