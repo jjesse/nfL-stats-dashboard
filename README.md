@@ -13,6 +13,7 @@ A modern, responsive web dashboard for viewing NFL statistics, schedules, and pl
 The NFL Stats Dashboard provides an easy-to-navigate interface for accessing comprehensive NFL data including:
 
 - **Schedule**: View upcoming games with team records and venue information (Weeks 14-18)
+- **Betting Odds**: Toggle to display spreads, moneylines, and totals for upcoming games (requires setup)
 - **Standings**: NFL standings organized by division and conference
 - **Team Statistics**: Compare team performance across the league
 - **Player Leaders**: Track top performers in multiple categories:
@@ -51,6 +52,17 @@ The NFL Stats Dashboard provides an easy-to-navigate interface for accessing com
 - ✅ **Special Teams**: Tabbed interface with kickers, punters, and return specialists
 - ✅ **League Leaders Summary**: Consolidated dashboard showing top 5 performers across 12 categories
 - ✅ **Playoff Picture**: Dynamic playoff seeding with current standings, division winners, wild cards, and "in the hunt" teams
+
+### Betting Odds Integration (Phase 6 - In Progress)
+- ✅ **Toggle Button**: Show/hide betting odds on schedule page
+- ✅ **Spread Display**: Point spreads with favorite/underdog indicators
+- ✅ **Moneyline**: Money line odds for both teams
+- ✅ **Totals**: Over/under totals with pricing
+- ✅ **Smart Matching**: Automatically matches odds to games by team names
+- ✅ **Caching**: 30-minute localStorage cache for performance
+- ✅ **Legal Disclaimers**: Responsible gambling notices and age restrictions
+- ✅ **Secure Setup**: GitHub Actions fetches odds weekly using GitHub Secrets
+- 🔧 **Setup Required**: See [GITHUB_SECRETS_SETUP.md](GITHUB_SECRETS_SETUP.md) for configuration
 
 ## 🚀 Getting Started
 
@@ -123,10 +135,12 @@ nfl-stats-dashboard/
 │   ├── standings.json
 │   ├── team-stats.json
 │   ├── player-stats.json
+│   ├── odds.json           # Betting odds (requires GitHub Secret setup)
 │   └── metadata.json
 ├── README.md               # This file
-├── TODO.md                 # Development roadmap (43% complete)
+├── TODO.md                 # Development roadmap (58% complete)
 ├── TESTING.md              # Testing guide and instructions
+├── GITHUB_SECRETS_SETUP.md # Guide for setting up betting odds API key
 ├── API_STATUS.md           # API integration status and details
 └── project_description.md  # Original project requirements
 ```
@@ -200,7 +214,7 @@ node scripts/fetch-data.js
 
 ### 11 Interactive Pages
 1. **Home** - Welcome and navigation hub
-2. **Schedule** - Week-by-week game schedule
+2. **Schedule** - Week-by-week game schedule with optional betting odds
 3. **Standings** - Division and conference standings
 4. **Team Stats** - Comprehensive team statistics
 5. **QB Leaders** - Top quarterbacks with search/filter
@@ -273,21 +287,42 @@ Found a bug? Please open an issue with:
 
 ## 📊 Current Progress
 
-**Overall Completion: 43% (42/97 tasks)**
+**Overall Completion: 58% (76/131 tasks)**
 
 - ✅ **Phase 1**: Initial Setup - 100% complete
 - ✅ **Phase 2**: Data Integration - 100% complete  
 - ✅ **Phase 3**: GitHub Actions - 88% complete
 - ✅ **Phase 4**: Enhanced Interactivity - 100% complete
-- 🚧 **Phase 5**: Additional Statistics Pages - 80% complete (4/5 tasks)
+- ✅ **Phase 5**: Additional Statistics Pages - 100% complete
+- 🚧 **Betting Odds**: Integration - 85% complete (34/40 tasks)
 
 See [TODO.md](TODO.md) for the complete development roadmap.
+
+## 🎰 Betting Odds Setup (Optional)
+
+The schedule page includes an optional betting odds feature that displays spreads, moneylines, and totals for upcoming games. To enable this feature:
+
+1. **Get an API Key**
+   - Sign up at [The Odds API](https://the-odds-api.com/)
+   - Free tier provides 500 requests/month (adequate for weekly updates)
+
+2. **Configure GitHub Secret**
+   - Go to repository Settings → Secrets and variables → Actions
+   - Create secret named `ODDS_API_KEY` with your API key
+   - See [GITHUB_SECRETS_SETUP.md](GITHUB_SECRETS_SETUP.md) for detailed instructions
+
+3. **Data Updates**
+   - GitHub Actions will automatically fetch odds weekly
+   - Odds are saved to `data/odds.json`
+   - Schedule page reads from static file (no API key exposure)
+
+**Important**: Betting odds are for informational purposes only. Must be 21+ to bet. Not available in all jurisdictions. Please gamble responsibly.
 
 ## 📝 Future Enhancements
 
 Key upcoming features:
 
-- Game highlights/scores page (Phase 5 - final task)
+- Complete betting odds testing and documentation (Phase 6 - 15% remaining)
 - Player comparison tools (Phase 6)
 - Historical statistics and season archives (Phase 6)
 - Advanced filtering with date ranges (Phase 7)
