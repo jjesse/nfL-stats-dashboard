@@ -37,22 +37,36 @@
             <h2>Rushing Leaders</h2>
             <p class="subtitle">Top rushing performers in the NFL</p>
             
+            <!-- Search and Filter Controls -->
+            <div class="filter-controls">
+                <div class="search-box">
+                    <label for="rushing-search" class="sr-only">Search rushers</label>
+                    <input type="text" id="rushing-search" placeholder="Search by player name..." aria-label="Search rushers by name">
+                </div>
+                <div class="team-filter">
+                    <label for="rushing-team-filter" class="sr-only">Filter by team</label>
+                    <select id="rushing-team-filter" aria-label="Filter rushers by team">
+                        <option value="">All Teams</option>
+                    </select>
+                </div>
+            </div>
+            
             <!-- Rushing stats table -->
             <div class="table-container">
-                <table id="rushing-leaders-table">
+                <table id="rushing-leaders-table" role="table" aria-label="Rushing statistics">
                     <thead>
                         <tr>
-                            <th>Rank</th>
-                            <th>Player Name</th>
-                            <th>Team</th>
-                            <th>Games</th>
-                            <th>Attempts</th>
-                            <th>Yards</th>
-                            <th>Avg</th>
-                            <th>TDs</th>
-                            <th>Long</th>
-                            <th>YPG</th>
-                            <th>Fumbles</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Rank</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Player Name</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Team</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Games</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Attempts</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Yards</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Avg</th>
+                            <th scope="col" role="columnheader" aria-sort="none">TDs</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Long</th>
+                            <th scope="col" role="columnheader" aria-sort="none">YPG</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Fumbles</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,6 +87,11 @@
             <p>Data sourced from publicly available NFL statistics. Not affiliated with the NFL.</p>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top" title="Scroll to top">
+        ↑
+    </button>
 
     <script src="api.js"></script>
     <script src="app.js"></script>

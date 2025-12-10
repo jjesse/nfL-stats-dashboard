@@ -37,22 +37,36 @@
             <h2>Receiver Leaders</h2>
             <p class="subtitle">Top receiving performers in the NFL</p>
             
+            <!-- Search and Filter Controls -->
+            <div class="filter-controls">
+                <div class="search-box">
+                    <label for="receiver-search" class="sr-only">Search receivers</label>
+                    <input type="text" id="receiver-search" placeholder="Search by player name..." aria-label="Search receivers by name">
+                </div>
+                <div class="team-filter">
+                    <label for="receiver-team-filter" class="sr-only">Filter by team</label>
+                    <select id="receiver-team-filter" aria-label="Filter receivers by team">
+                        <option value="">All Teams</option>
+                    </select>
+                </div>
+            </div>
+            
             <!-- Receiver stats table -->
             <div class="table-container">
-                <table id="receiver-leaders-table">
+                <table id="receiver-leaders-table" role="table" aria-label="Receiver statistics">
                     <thead>
                         <tr>
-                            <th>Rank</th>
-                            <th>Player Name</th>
-                            <th>Team</th>
-                            <th>Games</th>
-                            <th>Receptions</th>
-                            <th>Targets</th>
-                            <th>Yards</th>
-                            <th>Avg</th>
-                            <th>TDs</th>
-                            <th>Long</th>
-                            <th>YPG</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Rank</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Player Name</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Team</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Games</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Receptions</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Targets</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Yards</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Avg</th>
+                            <th scope="col" role="columnheader" aria-sort="none">TDs</th>
+                            <th scope="col" role="columnheader" aria-sort="none">Long</th>
+                            <th scope="col" role="columnheader" aria-sort="none">YPG</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,6 +87,11 @@
             <p>Data sourced from publicly available NFL statistics. Not affiliated with the NFL.</p>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top" title="Scroll to top">
+        ↑
+    </button>
 
     <script src="api.js"></script>
     <script src="app.js"></script>

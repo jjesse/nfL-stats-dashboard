@@ -384,6 +384,10 @@ function formatDate(dateString) {
  * Initialize the dashboard based on current page
  */
 document.addEventListener('DOMContentLoaded', async function() {
+    // Initialize common features on all pages
+    initializeScrollToTop();
+    initializeKeyboardNavigation();
+    
     // Determine which page we're on and populate accordingly
     if (document.getElementById('schedule-table')) {
         await populateScheduleTable();
@@ -398,16 +402,25 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (document.getElementById('qb-leaders-table')) {
         await populateQBLeadersTable();
         makeTableSortable('qb-leaders-table');
+        // Initialize search and filter for QB leaders
+        initializeSearch('qb-search', 'qb-leaders-table', 1);
+        initializeTeamFilter('qb-team-filter', 'qb-leaders-table', 2);
     }
     
     if (document.getElementById('receiver-leaders-table')) {
         await populateReceiverLeadersTable();
         makeTableSortable('receiver-leaders-table');
+        // Initialize search and filter for receivers
+        initializeSearch('receiver-search', 'receiver-leaders-table', 1);
+        initializeTeamFilter('receiver-team-filter', 'receiver-leaders-table', 2);
     }
     
     if (document.getElementById('rushing-leaders-table')) {
         await populateRushingLeadersTable();
         makeTableSortable('rushing-leaders-table');
+        // Initialize search and filter for rushers
+        initializeSearch('rushing-search', 'rushing-leaders-table', 1);
+        initializeTeamFilter('rushing-team-filter', 'rushing-leaders-table', 2);
     }
     
     // Check if we're on the standings page
@@ -607,5 +620,220 @@ function initializeTableSorting() {
     
     sortableTables.forEach(tableId => {
         makeTableSortable(tableId);
+    });
+}
+
+// ==========================================
+// Search and Filter Functions
+// ==========================================
+
+/**
+ * Initialize search functionality for a table
+ * @param {string} searchInputId - ID of the search input
+ * @param {string} tableId - ID of the table to search
+ * @param {number} nameColumnIndex - Index of the column containing names
+ */
+function initializeSearch(searchInputId, tableId, nameColumnIndex = 1) {
+    const searchInput = document.getElementById(searchInputId);
+    const table = document.getElementById(tableId);
+    
+    if (!searchInput || !table) return;
+    
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const tbody = table.querySelector('tbody');
+        const rows = tbody.querySelectorAll('tr');
+        
+        let visibleCount = 0;
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length === 0) return; // Skip empty rows
+            
+            const nameCell = cells[nameColumnIndex];
+            if (!nameCell) return;
+            
+            const name = nameCell.textContent.toLowerCase();
+            if (name.includes(searchTerm)) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        
+        // Show message if no results
+        if (visibleCount === 0 && rows.length > 0) {
+            const loadingRow = tbody.querySelector('.loading');
+            if (!loadingRow) {
+                const messageRow = document.createElement('tr');
+                messageRow.className = 'no-results';
+                messageRow.innerHTML = `<td colspan="${table.querySelector('thead tr').cells.length}" style="text-align: center; padding: 2rem;">No players found matching "${e.target.value}"</td>`;
+                tbody.appendChild(messageRow);
+            }
+        } else {
+            const noResultsRow = tbody.querySelector('.no-results');
+            if (noResultsRow) {
+                noResultsRow.remove();
+            }
+        }
+    });
+}
+
+/**
+ * Initialize team filter functionality for a table
+ * @param {string} selectId - ID of the select dropdown
+ * @param {string} tableId - ID of the table to filter
+ * @param {number} teamColumnIndex - Index of the column containing team abbreviations
+ */
+function initializeTeamFilter(selectId, tableId, teamColumnIndex = 2) {
+    const select = document.getElementById(selectId);
+    const table = document.getElementById(tableId);
+    
+    if (!select || !table) return;
+    
+    // Populate team filter options from table data
+    const populateTeamOptions = () => {
+        const tbody = table.querySelector('tbody');
+        const rows = tbody.querySelectorAll('tr');
+        const teams = new Set();
+        
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length > teamColumnIndex) {
+                const team = cells[teamColumnIndex].textContent.trim();
+                if (team && team !== 'Team') {
+                    teams.add(team);
+                }
+            }
+        });
+        
+        // Sort teams alphabetically
+        const sortedTeams = Array.from(teams).sort();
+        
+        // Clear existing options (except "All Teams")
+        select.innerHTML = '<option value="">All Teams</option>';
+        
+        // Add team options
+        sortedTeams.forEach(team => {
+            const option = document.createElement('option');
+            option.value = team;
+            option.textContent = team;
+            select.appendChild(option);
+        });
+    };
+    
+    // Filter table by selected team
+    select.addEventListener('change', (e) => {
+        const selectedTeam = e.target.value;
+        const tbody = table.querySelector('tbody');
+        const rows = tbody.querySelectorAll('tr');
+        
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length === 0) return;
+            
+            const teamCell = cells[teamColumnIndex];
+            if (!teamCell) return;
+            
+            if (selectedTeam === '' || teamCell.textContent.trim() === selectedTeam) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+    
+    // Populate options when table data is loaded
+    const observer = new MutationObserver(() => {
+        const tbody = table.querySelector('tbody');
+        if (tbody && tbody.querySelectorAll('tr:not(.loading)').length > 0) {
+            populateTeamOptions();
+            observer.disconnect();
+        }
+    });
+    
+    observer.observe(table, { childList: true, subtree: true });
+}
+
+// ==========================================
+// Scroll to Top Button
+// ==========================================
+
+/**
+ * Initialize scroll to top button functionality
+ */
+function initializeScrollToTop() {
+    const scrollBtn = document.getElementById('scroll-to-top');
+    if (!scrollBtn) return;
+    
+    // Show/hide button based on scroll position
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollBtn.classList.add('visible');
+        } else {
+            scrollBtn.classList.remove('visible');
+        }
+    });
+    
+    // Scroll to top when clicked
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Keyboard support (Enter or Space)
+    scrollBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    });
+}
+
+// ==========================================
+// Keyboard Navigation
+// ==========================================
+
+/**
+ * Initialize keyboard navigation shortcuts
+ */
+function initializeKeyboardNavigation() {
+    document.addEventListener('keydown', (e) => {
+        // Alt+H: Home
+        if (e.altKey && e.key === 'h') {
+            e.preventDefault();
+            window.location.href = 'index.html';
+        }
+        // Alt+S: Schedule
+        if (e.altKey && e.key === 's') {
+            e.preventDefault();
+            window.location.href = 'schedule.html';
+        }
+        // Alt+T: Standings
+        if (e.altKey && e.key === 't') {
+            e.preventDefault();
+            window.location.href = 'standings.html';
+        }
+        // Alt+P: Player Stats
+        if (e.altKey && e.key === 'p') {
+            e.preventDefault();
+            window.location.href = 'qb-leaders.html';
+        }
+        // Escape: Clear search/filters
+        if (e.key === 'Escape') {
+            const searchInputs = document.querySelectorAll('input[type="text"]');
+            searchInputs.forEach(input => input.value = '');
+            const selects = document.querySelectorAll('select');
+            selects.forEach(select => select.selectedIndex = 0);
+            
+            // Trigger change events to reset filters
+            searchInputs.forEach(input => input.dispatchEvent(new Event('input')));
+            selects.forEach(select => select.dispatchEvent(new Event('change')));
+        }
     });
 }
