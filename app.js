@@ -423,6 +423,23 @@ document.addEventListener('DOMContentLoaded', async function() {
         initializeTeamFilter('rushing-team-filter', 'rushing-leaders-table', 2);
     }
     
+    // Check if we're on the defensive leaders page
+    if (document.getElementById('tackles-leaders-table')) {
+        initializeStatTabs();
+        await populateDefensiveLeadersTables();
+        // Make all defensive tables sortable
+        makeTableSortable('tackles-leaders-table');
+        makeTableSortable('sacks-leaders-table');
+        makeTableSortable('interceptions-leaders-table');
+        // Initialize search and filters for each category
+        initializeSearch('tackles-search', 'tackles-leaders-table', 1);
+        initializeTeamFilter('tackles-team-filter', 'tackles-leaders-table', 2);
+        initializeSearch('sacks-search', 'sacks-leaders-table', 1);
+        initializeTeamFilter('sacks-team-filter', 'sacks-leaders-table', 2);
+        initializeSearch('interceptions-search', 'interceptions-leaders-table', 1);
+        initializeTeamFilter('interceptions-team-filter', 'interceptions-leaders-table', 2);
+    }
+    
     // Check if we're on the standings page
     if (document.getElementById('afc-east-table')) {
         await populateStandingsTables();
@@ -793,6 +810,174 @@ function initializeScrollToTop() {
             });
         }
     });
+}
+
+// ==========================================
+// Stat Tabs for Multi-Category Pages
+// ==========================================
+
+/**
+ * Initialize stat category tabs (for defensive leaders, etc.)
+ */
+function initializeStatTabs() {
+    const tabs = document.querySelectorAll('.stat-tab');
+    const sections = document.querySelectorAll('.stat-section');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const category = tab.dataset.category;
+            
+            // Remove active class from all tabs and sections
+            tabs.forEach(t => t.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding section
+            tab.classList.add('active');
+            const activeSection = document.getElementById(`${category}-section`);
+            if (activeSection) {
+                activeSection.classList.add('active');
+            }
+        });
+        
+        // Keyboard support
+        tab.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                tab.click();
+            }
+        });
+    });
+}
+
+// ==========================================
+// Defensive Stats Population
+// ==========================================
+
+/**
+ * Populate all defensive leaders tables
+ */
+async function populateDefensiveLeadersTables() {
+    // For now, use placeholder data until ESPN API defensive stats are implemented
+    populateTacklesLeadersTable();
+    populateSacksLeadersTable();
+    populateInterceptionsLeadersTable();
+}
+
+/**
+ * Populate tackles leaders table
+ */
+function populateTacklesLeadersTable() {
+    const tableBody = document.querySelector('#tackles-leaders-table tbody');
+    if (!tableBody) return;
+    
+    // Placeholder data - will be replaced with API data
+    const tacklesData = [
+        { rank: 1, name: "Bobby Wagner", team: "SEA", games: 13, total: 142, solo: 89, assisted: 53, tfl: 8, sacks: 2.0, avg: 10.9 },
+        { rank: 2, name: "Roquan Smith", team: "BAL", games: 13, total: 138, solo: 92, assisted: 46, tfl: 12, sacks: 3.5, avg: 10.6 },
+        { rank: 3, name: "Fred Warner", team: "SF", games: 13, total: 135, solo: 85, assisted: 50, tfl: 7, sacks: 1.5, avg: 10.4 },
+        { rank: 4, name: "Zaire Franklin", team: "IND", games: 13, total: 128, solo: 78, assisted: 50, tfl: 5, sacks: 1.0, avg: 9.8 },
+        { rank: 5, name: "Foyesade Oluokun", team: "JAX", games: 13, total: 125, solo: 81, assisted: 44, tfl: 6, sacks: 0.5, avg: 9.6 },
+        { rank: 6, name: "CJ Mosley", team: "NYJ", games: 13, total: 122, solo: 74, assisted: 48, tfl: 9, sacks: 2.5, avg: 9.4 },
+        { rank: 7, name: "TJ Edwards", team: "CHI", games: 13, total: 118, solo: 72, assisted: 46, tfl: 4, sacks: 1.0, avg: 9.1 },
+        { rank: 8, name: "Devin Lloyd", team: "JAX", games: 13, total: 115, solo: 70, assisted: 45, tfl: 10, sacks: 3.0, avg: 8.8 },
+        { rank: 9, name: "Ernest Jones", team: "LAR", games: 13, total: 112, solo: 68, assisted: 44, tfl: 6, sacks: 1.5, avg: 8.6 },
+        { rank: 10, name: "Demario Davis", team: "NO", games: 13, total: 110, solo: 67, assisted: 43, tfl: 7, sacks: 2.0, avg: 8.5 }
+    ];
+    
+    const rows = tacklesData.map(player => `
+        <tr>
+            <td>${player.rank}</td>
+            <td>${player.name}</td>
+            <td>${player.team}</td>
+            <td>${player.games}</td>
+            <td>${player.total}</td>
+            <td>${player.solo}</td>
+            <td>${player.assisted}</td>
+            <td>${player.tfl}</td>
+            <td>${player.sacks}</td>
+            <td>${player.avg}</td>
+        </tr>
+    `).join('');
+    
+    tableBody.innerHTML = rows;
+}
+
+/**
+ * Populate sacks leaders table
+ */
+function populateSacksLeadersTable() {
+    const tableBody = document.querySelector('#sacks-leaders-table tbody');
+    if (!tableBody) return;
+    
+    // Placeholder data
+    const sacksData = [
+        { rank: 1, name: "TJ Watt", team: "PIT", games: 13, sacks: 14.5, tfl: 18, qbHits: 28, tackles: 52, ff: 4, avg: 1.12 },
+        { rank: 2, name: "Myles Garrett", team: "CLE", games: 13, sacks: 13.0, tfl: 16, qbHits: 26, tackles: 48, ff: 3, avg: 1.00 },
+        { rank: 3, name: "Micah Parsons", team: "DAL", games: 13, sacks: 12.5, tfl: 15, qbHits: 25, tackles: 55, ff: 5, avg: 0.96 },
+        { rank: 4, name: "Maxx Crosby", team: "LV", games: 13, sacks: 11.5, tfl: 14, qbHits: 24, tackles: 60, ff: 2, avg: 0.88 },
+        { rank: 5, name: "Nick Bosa", team: "SF", games: 13, sacks: 11.0, tfl: 13, qbHits: 22, tackles: 50, ff: 3, avg: 0.85 },
+        { rank: 6, name: "Chris Jones", team: "KC", games: 13, sacks: 10.5, tfl: 12, qbHits: 21, tackles: 45, ff: 2, avg: 0.81 },
+        { rank: 7, name: "Danielle Hunter", team: "HOU", games: 13, sacks: 10.0, tfl: 11, qbHits: 20, tackles: 42, ff: 3, avg: 0.77 },
+        { rank: 8, name: "Josh Allen", team: "JAX", games: 13, sacks: 9.5, tfl: 10, qbHits: 19, tackles: 38, ff: 1, avg: 0.73 },
+        { rank: 9, name: "Rashan Gary", team: "GB", games: 13, sacks: 9.0, tfl: 9, qbHits: 18, tackles: 40, ff: 2, avg: 0.69 },
+        { rank: 10, name: "Montez Sweat", team: "CHI", games: 13, sacks: 8.5, tfl: 8, qbHits: 17, tackles: 35, ff: 1, avg: 0.65 }
+    ];
+    
+    const rows = sacksData.map(player => `
+        <tr>
+            <td>${player.rank}</td>
+            <td>${player.name}</td>
+            <td>${player.team}</td>
+            <td>${player.games}</td>
+            <td>${player.sacks}</td>
+            <td>${player.tfl}</td>
+            <td>${player.qbHits}</td>
+            <td>${player.tackles}</td>
+            <td>${player.ff}</td>
+            <td>${player.avg}</td>
+        </tr>
+    `).join('');
+    
+    tableBody.innerHTML = rows;
+}
+
+/**
+ * Populate interceptions leaders table
+ */
+function populateInterceptionsLeadersTable() {
+    const tableBody = document.querySelector('#interceptions-leaders-table tbody');
+    if (!tableBody) return;
+    
+    // Placeholder data
+    const interceptionsData = [
+        { rank: 1, name: "DaRon Bland", team: "DAL", games: 13, ints: 7, intYards: 165, intTDs: 3, pd: 12, ff: 2, long: 54 },
+        { rank: 2, name: "Trevon Diggs", team: "DAL", games: 13, ints: 6, intYards: 142, intTDs: 2, pd: 15, ff: 1, long: 61 },
+        { rank: 3, name: "Devon Witherspoon", team: "SEA", games: 13, ints: 6, intYards: 128, intTDs: 1, pd: 11, ff: 3, long: 48 },
+        { rank: 4, name: "Jaylon Johnson", team: "CHI", games: 13, ints: 5, intYards: 115, intTDs: 2, pd: 13, ff: 0, long: 52 },
+        { rank: 5, name: "Patrick Surtain II", team: "DEN", games: 13, ints: 5, intYards: 98, intTDs: 1, pd: 14, ff: 1, long: 45 },
+        { rank: 6, name: "Sauce Gardner", team: "NYJ", games: 13, ints: 5, intYards: 82, intTDs: 0, pd: 16, ff: 2, long: 38 },
+        { rank: 7, name: "CJ Gardner-Johnson", team: "PHI", games: 13, ints: 4, intYards: 105, intTDs: 1, pd: 10, ff: 1, long: 44 },
+        { rank: 8, name: "Kerby Joseph", team: "DET", games: 13, ints: 4, intYards: 92, intTDs: 1, pd: 9, ff: 0, long: 42 },
+        { rank: 9, name: "Brian Branch", team: "DET", games: 13, ints: 4, intYards: 78, intTDs: 0, pd: 8, ff: 2, long: 36 },
+        { rank: 10, name: "Kyle Hamilton", team: "BAL", games: 13, ints: 4, intYards: 65, intTDs: 0, pd: 7, ff: 1, long: 31 }
+    ];
+    
+    const rows = interceptionsData.map(player => `
+        <tr>
+            <td>${player.rank}</td>
+            <td>${player.name}</td>
+            <td>${player.team}</td>
+            <td>${player.games}</td>
+            <td>${player.ints}</td>
+            <td>${player.intYards}</td>
+            <td>${player.intTDs}</td>
+            <td>${player.pd}</td>
+            <td>${player.ff}</td>
+            <td>${player.long}</td>
+        </tr>
+    `).join('');
+    
+    tableBody.innerHTML = rows;
 }
 
 // ==========================================

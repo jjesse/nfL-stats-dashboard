@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Stats Dashboard - Defensive Leaders</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header>
+        <div class="container">
+            <h1>NFL Stats Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="standings.html">Standings</a></li>
+                    <li><a href="team-stats.html">Team Stats</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn active">Player Stats</a>
+                        <div class="dropdown-content">
+                            <a href="qb-leaders.html">Quarterbacks Leaders</a>
+                            <a href="receiver-leaders.html">Receivers Leaders</a>
+                            <a href="rushing-leaders.html">Rushing Leaders</a>
+                            <a href="defensive-leaders.html" class="active">Defensive Leaders</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content area -->
+    <main class="container">
+        <section>
+            <h2>Defensive Leaders</h2>
+            <p class="subtitle">Top defensive performers in the NFL</p>
+
+            <!-- Stat Category Tabs -->
+            <div class="stat-tabs">
+                <button class="stat-tab active" data-category="tackles" aria-label="View tackles leaders">Tackles</button>
+                <button class="stat-tab" data-category="sacks" aria-label="View sacks leaders">Sacks</button>
+                <button class="stat-tab" data-category="interceptions" aria-label="View interceptions leaders">Interceptions</button>
+            </div>
+
+            <!-- Tackles Leaders -->
+            <div id="tackles-section" class="stat-section active">
+                <h3>Tackles Leaders</h3>
+                
+                <!-- Search and Filter Controls -->
+                <div class="filter-controls">
+                    <div class="search-box">
+                        <label for="tackles-search" class="sr-only">Search players</label>
+                        <input type="text" id="tackles-search" placeholder="Search by player name..." aria-label="Search tackles leaders by name">
+                    </div>
+                    <div class="team-filter">
+                        <label for="tackles-team-filter" class="sr-only">Filter by team</label>
+                        <select id="tackles-team-filter" aria-label="Filter tackles leaders by team">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="tackles-leaders-table" role="table" aria-label="Tackles statistics">
+                        <thead>
+                            <tr>
+                                <th scope="col" role="columnheader" aria-sort="none">Rank</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Player Name</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Team</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Games</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Total Tackles</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Solo</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Assisted</th>
+                                <th scope="col" role="columnheader" aria-sort="none">TFL</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Sacks</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Avg/Game</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="10" class="loading">Loading tackles statistics...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sacks Leaders -->
+            <div id="sacks-section" class="stat-section">
+                <h3>Sacks Leaders</h3>
+                
+                <!-- Search and Filter Controls -->
+                <div class="filter-controls">
+                    <div class="search-box">
+                        <label for="sacks-search" class="sr-only">Search players</label>
+                        <input type="text" id="sacks-search" placeholder="Search by player name..." aria-label="Search sacks leaders by name">
+                    </div>
+                    <div class="team-filter">
+                        <label for="sacks-team-filter" class="sr-only">Filter by team</label>
+                        <select id="sacks-team-filter" aria-label="Filter sacks leaders by team">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="sacks-leaders-table" role="table" aria-label="Sacks statistics">
+                        <thead>
+                            <tr>
+                                <th scope="col" role="columnheader" aria-sort="none">Rank</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Player Name</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Team</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Games</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Sacks</th>
+                                <th scope="col" role="columnheader" aria-sort="none">TFL</th>
+                                <th scope="col" role="columnheader" aria-sort="none">QB Hits</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Tackles</th>
+                                <th scope="col" role="columnheader" aria-sort="none">FF</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Avg/Game</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="10" class="loading">Loading sacks statistics...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Interceptions Leaders -->
+            <div id="interceptions-section" class="stat-section">
+                <h3>Interceptions Leaders</h3>
+                
+                <!-- Search and Filter Controls -->
+                <div class="filter-controls">
+                    <div class="search-box">
+                        <label for="interceptions-search" class="sr-only">Search players</label>
+                        <input type="text" id="interceptions-search" placeholder="Search by player name..." aria-label="Search interceptions leaders by name">
+                    </div>
+                    <div class="team-filter">
+                        <label for="interceptions-team-filter" class="sr-only">Filter by team</label>
+                        <select id="interceptions-team-filter" aria-label="Filter interceptions leaders by team">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="interceptions-leaders-table" role="table" aria-label="Interceptions statistics">
+                        <thead>
+                            <tr>
+                                <th scope="col" role="columnheader" aria-sort="none">Rank</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Player Name</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Team</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Games</th>
+                                <th scope="col" role="columnheader" aria-sort="none">INTs</th>
+                                <th scope="col" role="columnheader" aria-sort="none">INT Yards</th>
+                                <th scope="col" role="columnheader" aria-sort="none">INT TDs</th>
+                                <th scope="col" role="columnheader" aria-sort="none">PD</th>
+                                <th scope="col" role="columnheader" aria-sort="none">FF</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Long</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="10" class="loading">Loading interceptions statistics...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NFL Stats Dashboard. All rights reserved.</p>
+            <p>Data sourced from publicly available NFL statistics. Not affiliated with the NFL.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top" title="Scroll to top">
+        ↑
+    </button>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
