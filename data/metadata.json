@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-12-09T11:07:17.420Z",
+  "lastUpdated": "2025-12-10T19:57:36.897Z",
   "recordCount": {
     "schedule": 77,
     "standings": 8,
@@ -8,6 +8,7 @@
       "qb": 0,
       "receivers": 0,
       "rushers": 0
-    }
+    },
+    "odds": 0
   }
 }
