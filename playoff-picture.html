@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Stats Dashboard - Playoff Picture</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header>
+        <div class="container">
+            <h1>NFL Stats Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="standings.html">Standings</a></li>
+                    <li><a href="team-stats.html">Team Stats</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">Player Stats</a>
+                        <div class="dropdown-content">
+                            <a href="qb-leaders.html">Quarterbacks Leaders</a>
+                            <a href="receiver-leaders.html">Receivers Leaders</a>
+                            <a href="rushing-leaders.html">Rushing Leaders</a>
+                            <a href="defensive-leaders.html">Defensive Leaders</a>
+                            <a href="special-teams.html">Special Teams</a>
+                        </div>
+                    </li>
+                    <li><a href="league-leaders.html">League Leaders</a></li>
+                    <li><a href="playoff-picture.html" class="active">Playoff Picture</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content area -->
+    <main class="container">
+        <section>
+            <h2>NFL Playoff Picture</h2>
+            <p class="subtitle playoff-subtitle">
+                <span class="playoff-status-badge">If Playoffs Started Today</span>
+                Current playoff seeding based on standings as of today
+            </p>
+
+            <!-- Legend -->
+            <div class="playoff-legend">
+                <div class="legend-item">
+                    <span class="legend-icon division-winner">★</span>
+                    <span>Division Winner</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon wild-card">•</span>
+                    <span>Wild Card</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon bye-week">⚡</span>
+                    <span>First Round Bye</span>
+                </div>
+            </div>
+
+            <!-- Playoff Conferences Grid -->
+            <div class="playoff-conferences">
+                
+                <!-- AFC Playoff Picture -->
+                <div class="conference-playoff">
+                    <h3 class="conference-header afc-header">
+                        <span class="conference-logo">AFC</span>
+                        American Football Conference
+                    </h3>
+                    
+                    <div class="playoff-seeds">
+                        <!-- Seeds 1-7 will be populated by JavaScript -->
+                        <div class="playoff-seed seed-1" data-seed="1">
+                            <div class="seed-number">
+                                <span class="seed-rank">1</span>
+                                <span class="bye-indicator" title="First Round Bye">⚡</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-2" data-seed="2">
+                            <div class="seed-number">
+                                <span class="seed-rank">2</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-3" data-seed="3">
+                            <div class="seed-number">
+                                <span class="seed-rank">3</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-4" data-seed="4">
+                            <div class="seed-number">
+                                <span class="seed-rank">4</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-5" data-seed="5">
+                            <div class="seed-number">
+                                <span class="seed-rank">5</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-6" data-seed="6">
+                            <div class="seed-number">
+                                <span class="seed-rank">6</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-7" data-seed="7">
+                            <div class="seed-number">
+                                <span class="seed-rank">7</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- In The Hunt -->
+                    <div class="in-the-hunt">
+                        <h4 class="hunt-title">In The Hunt</h4>
+                        <div class="hunt-teams" id="afc-hunt">
+                            <span class="loading">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NFC Playoff Picture -->
+                <div class="conference-playoff">
+                    <h3 class="conference-header nfc-header">
+                        <span class="conference-logo">NFC</span>
+                        National Football Conference
+                    </h3>
+                    
+                    <div class="playoff-seeds">
+                        <!-- Seeds 1-7 will be populated by JavaScript -->
+                        <div class="playoff-seed seed-1" data-seed="1">
+                            <div class="seed-number">
+                                <span class="seed-rank">1</span>
+                                <span class="bye-indicator" title="First Round Bye">⚡</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-2" data-seed="2">
+                            <div class="seed-number">
+                                <span class="seed-rank">2</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-3" data-seed="3">
+                            <div class="seed-number">
+                                <span class="seed-rank">3</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-4" data-seed="4">
+                            <div class="seed-number">
+                                <span class="seed-rank">4</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-5" data-seed="5">
+                            <div class="seed-number">
+                                <span class="seed-rank">5</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-6" data-seed="6">
+                            <div class="seed-number">
+                                <span class="seed-rank">6</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="playoff-seed seed-7" data-seed="7">
+                            <div class="seed-number">
+                                <span class="seed-rank">7</span>
+                            </div>
+                            <div class="seed-team loading">
+                                <span class="team-name">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- In The Hunt -->
+                    <div class="in-the-hunt">
+                        <h4 class="hunt-title">In The Hunt</h4>
+                        <div class="hunt-teams" id="nfc-hunt">
+                            <span class="loading">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tiebreaker Information -->
+            <div class="info-box tiebreaker-info">
+                <h3>🔍 Playoff Seeding & Tiebreakers</h3>
+                <div class="info-columns">
+                    <div class="info-column">
+                        <h4>Seeding Order</h4>
+                        <ol>
+                            <li><strong>Seeds 1-4:</strong> Division winners ranked by record</li>
+                            <li><strong>Seeds 5-7:</strong> Best remaining teams (Wild Cards)</li>
+                            <li><strong>Seed 1:</strong> Receives first-round bye</li>
+                        </ol>
+                    </div>
+                    <div class="info-column">
+                        <h4>Tiebreaker Rules (Summary)</h4>
+                        <ol>
+                            <li>Head-to-head record (if applicable)</li>
+                            <li>Division record (for division ties)</li>
+                            <li>Conference record</li>
+                            <li>Common games record</li>
+                            <li>Strength of victory</li>
+                            <li>Strength of schedule</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Playoff Format Information -->
+            <div class="info-box playoff-format-info">
+                <h3>📋 Playoff Format</h3>
+                <div class="format-explanation">
+                    <p><strong>Wild Card Weekend:</strong> #2 vs #7, #3 vs #6, #4 vs #5 (in each conference)</p>
+                    <p><strong>Divisional Round:</strong> #1 seed plays lowest remaining seed, other two winners face each other</p>
+                    <p><strong>Conference Championships:</strong> Two remaining teams in each conference</p>
+                    <p><strong>Super Bowl:</strong> AFC Champion vs NFC Champion</p>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NFL Stats Dashboard. All rights reserved.</p>
+            <p>Data sourced from publicly available NFL statistics. Not affiliated with the NFL.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top" title="Scroll to top">
+        ↑
+    </button>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

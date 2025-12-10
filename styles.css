@@ -774,6 +774,282 @@ select:focus {
     color: var(--text-light);
 }
 
+/* ==========================================
+   Playoff Picture Styles
+   ========================================== */
+.playoff-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.playoff-status-badge {
+    background: linear-gradient(135deg, var(--accent-color), #FFA500);
+    color: var(--text-dark);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 6px rgba(255, 182, 18, 0.3);
+}
+
+.playoff-legend {
+    display: flex;
+    gap: 24px;
+    padding: 16px 20px;
+    background: var(--bg-white);
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+.legend-icon {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.legend-icon.division-winner {
+    color: var(--accent-color);
+}
+
+.legend-icon.wild-card {
+    color: var(--secondary-color);
+    font-size: 1.8rem;
+}
+
+.legend-icon.bye-week {
+    color: #28a745;
+}
+
+.playoff-conferences {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.conference-playoff {
+    background: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.conference-header {
+    padding: 20px;
+    color: var(--text-light);
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.afc-header {
+    background: linear-gradient(135deg, #D50A0A, #A00808);
+}
+
+.nfc-header {
+    background: linear-gradient(135deg, #013369, #001F4D);
+}
+
+.conference-logo {
+    font-size: 1.6rem;
+    font-weight: 900;
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+}
+
+.playoff-seeds {
+    padding: 20px;
+}
+
+.playoff-seed {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    background: var(--bg-white);
+    transition: all 0.3s ease;
+}
+
+.playoff-seed:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary-color);
+}
+
+.playoff-seed.seed-1,
+.playoff-seed.seed-2,
+.playoff-seed.seed-3,
+.playoff-seed.seed-4 {
+    border-left: 4px solid var(--accent-color);
+    background: linear-gradient(to right, rgba(255, 182, 18, 0.05), var(--bg-white));
+}
+
+.playoff-seed.seed-5,
+.playoff-seed.seed-6,
+.playoff-seed.seed-7 {
+    border-left: 4px solid var(--secondary-color);
+}
+
+.seed-number {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 50px;
+}
+
+.seed-rank {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--primary-color);
+    min-width: 32px;
+}
+
+.bye-indicator {
+    font-size: 1.2rem;
+    color: #28a745;
+    animation: pulse 2s infinite;
+}
+
+.seed-team {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.team-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.team-record {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.team-division {
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.seed-team.loading {
+    color: #999;
+    font-style: italic;
+}
+
+.in-the-hunt {
+    padding: 20px;
+    background: var(--bg-light);
+    border-top: 2px solid var(--border-color);
+}
+
+.hunt-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hunt-teams {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hunt-team {
+    padding: 8px 14px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    transition: all 0.2s ease;
+}
+
+.hunt-team:hover {
+    background: var(--primary-color);
+    color: var(--text-light);
+    border-color: var(--primary-color);
+}
+
+.hunt-team .team-name {
+    font-weight: 600;
+}
+
+.hunt-team .team-record {
+    color: inherit;
+    opacity: 0.8;
+    margin-left: 6px;
+}
+
+.info-box {
+    background: var(--bg-white);
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 30px;
+    box-shadow: var(--shadow);
+}
+
+.info-box h3 {
+    margin: 0 0 16px 0;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.info-box h4 {
+    margin: 0 0 12px 0;
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+.info-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+}
+
+.info-column ol {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.info-column li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.format-explanation p {
+    margin: 12px 0;
+    line-height: 1.7;
+}
+
+.format-explanation strong {
+    color: var(--primary-color);
+}
+
 /* Print styles */
 @media print {
     header,

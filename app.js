@@ -460,13 +460,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Check if we're on the league leaders page
     if (document.getElementById('passing-yards-leaders')) {
         await populateLeagueLeaders();
-        // Initialize search and filters for each category
-        initializeSearch('kickers-search', 'kickers-leaders-table', 1);
-        initializeTeamFilter('kickers-team-filter', 'kickers-leaders-table', 2);
-        initializeSearch('punters-search', 'punters-leaders-table', 1);
-        initializeTeamFilter('punters-team-filter', 'punters-leaders-table', 2);
-        initializeSearch('returners-search', 'returners-leaders-table', 1);
-        initializeTeamFilter('returners-team-filter', 'returners-leaders-table', 2);
+    }
+    
+    // Check if we're on the playoff picture page
+    if (document.querySelector('.playoff-conferences')) {
+        await populatePlayoffPicture();
     }
     
     // Check if we're on the standings page
@@ -1326,4 +1324,156 @@ async function populateLeagueLeaders() {
     populateList('field-goals-leaders', fieldGoalsLeaders, 'fgm');
     populateList('points-leaders', pointsLeaders, 'pts');
     populateList('return-tds-leaders', returnTdsLeaders, 'tds');
+}
+
+// Populate playoff picture page
+async function populatePlayoffPicture() {
+    try {
+        // Fetch current standings data
+        const standingsData = await fetchStandings();
+        
+        if (!standingsData) {
+            console.error('Failed to fetch standings data for playoff picture');
+            return;
+        }
+        
+        // Calculate playoff seeding for each conference
+        const afcSeeds = calculatePlayoffSeeds(standingsData.afc);
+        const nfcSeeds = calculatePlayoffSeeds(standingsData.nfc);
+        
+        // Populate AFC seeds
+        populateConferenceSeeds('afc', afcSeeds);
+        
+        // Populate NFC seeds
+        populateConferenceSeeds('nfc', nfcSeeds);
+        
+    } catch (error) {
+        console.error('Error populating playoff picture:', error);
+    }
+}
+
+// Calculate playoff seeds from standings data
+function calculatePlayoffSeeds(conferenceData) {
+    // Flatten all division teams into one array with division info
+    const allTeams = [];
+    
+    for (const [divisionName, teams] of Object.entries(conferenceData)) {
+        teams.forEach(team => {
+            allTeams.push({
+                ...team,
+                division: divisionName
+            });
+        });
+    }
+    
+    // Sort by wins (descending), then losses (ascending)
+    allTeams.sort((a, b) => {
+        if (b.wins !== a.wins) {
+            return b.wins - a.wins;
+        }
+        return a.losses - b.losses;
+    });
+    
+    // Get division winners (best team from each division)
+    const divisions = ['East', 'North', 'South', 'West'];
+    const divisionWinners = [];
+    const wildCardCandidates = [];
+    
+    divisions.forEach(div => {
+        const divisionTeams = allTeams.filter(t => t.division === div);
+        if (divisionTeams.length > 0) {
+            divisionWinners.push({
+                ...divisionTeams[0],
+                isDivisionWinner: true
+            });
+            // Rest are wild card candidates
+            divisionTeams.slice(1).forEach(t => wildCardCandidates.push(t));
+        }
+    });
+    
+    // Sort division winners by record
+    divisionWinners.sort((a, b) => {
+        if (b.wins !== a.wins) {
+            return b.wins - a.wins;
+        }
+        return a.losses - b.losses;
+    });
+    
+    // Sort wild card candidates by record
+    wildCardCandidates.sort((a, b) => {
+        if (b.wins !== a.wins) {
+            return b.wins - a.wins;
+        }
+        return a.losses - b.losses;
+    });
+    
+    // Top 3 wild cards make playoffs
+    const wildCards = wildCardCandidates.slice(0, 3).map(t => ({
+        ...t,
+        isWildCard: true
+    }));
+    
+    // Seeds 1-4 are division winners, 5-7 are wild cards
+    const playoffTeams = [...divisionWinners, ...wildCards];
+    
+    // In the hunt are next 3 teams
+    const inTheHunt = wildCardCandidates.slice(3, 6);
+    
+    return {
+        seeds: playoffTeams.slice(0, 7),
+        inTheHunt: inTheHunt
+    };
+}
+
+// Populate conference seeds in the UI
+function populateConferenceSeeds(conference, seedsData) {
+    const { seeds, inTheHunt } = seedsData;
+    
+    // Find all playoff seed elements for this conference
+    const conferenceElement = document.querySelector(
+        `.conference-playoff .${conference}-header`
+    )?.closest('.conference-playoff');
+    
+    if (!conferenceElement) return;
+    
+    // Populate seeds 1-7
+    seeds.forEach((team, index) => {
+        const seedElement = conferenceElement.querySelector(
+            `.playoff-seed[data-seed="${index + 1}"]`
+        );
+        
+        if (seedElement) {
+            const teamElement = seedElement.querySelector('.seed-team');
+            
+            if (teamElement) {
+                teamElement.classList.remove('loading');
+                
+                let divisionBadge = '';
+                if (team.isDivisionWinner) {
+                    divisionBadge = `<span class="team-division">★ ${team.division} Champion</span>`;
+                } else if (team.isWildCard) {
+                    divisionBadge = `<span class="team-division">Wild Card</span>`;
+                }
+                
+                teamElement.innerHTML = `
+                    <span class="team-name">${team.name}</span>
+                    <span class="team-record">${team.wins}-${team.losses}-${team.ties || 0}</span>
+                    ${divisionBadge}
+                `;
+            }
+        }
+    });
+    
+    // Populate "In The Hunt" teams
+    const huntContainer = conferenceElement.querySelector('.hunt-teams');
+    if (huntContainer && inTheHunt.length > 0) {
+        huntContainer.innerHTML = inTheHunt.map(team => `
+            <div class="hunt-team">
+                <span class="team-name">${team.name}</span>
+                <span class="team-record">(${team.wins}-${team.losses}-${team.ties || 0})</span>
+            </div>
+        `).join('');
+    } else if (huntContainer) {
+        huntContainer.innerHTML = '<span style="color: #999;">No teams currently in the hunt</span>';
+    }
 }
