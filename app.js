@@ -440,6 +440,23 @@ document.addEventListener('DOMContentLoaded', async function() {
         initializeTeamFilter('interceptions-team-filter', 'interceptions-leaders-table', 2);
     }
     
+    // Check if we're on the special teams page
+    if (document.getElementById('kickers-leaders-table')) {
+        initializeStatTabs();
+        await populateSpecialTeamsTables();
+        // Make all special teams tables sortable
+        makeTableSortable('kickers-leaders-table');
+        makeTableSortable('punters-leaders-table');
+        makeTableSortable('returners-leaders-table');
+        // Initialize search and filters for each category
+        initializeSearch('kickers-search', 'kickers-leaders-table', 1);
+        initializeTeamFilter('kickers-team-filter', 'kickers-leaders-table', 2);
+        initializeSearch('punters-search', 'punters-leaders-table', 1);
+        initializeTeamFilter('punters-team-filter', 'punters-leaders-table', 2);
+        initializeSearch('returners-search', 'returners-leaders-table', 1);
+        initializeTeamFilter('returners-team-filter', 'returners-leaders-table', 2);
+    }
+    
     // Check if we're on the standings page
     if (document.getElementById('afc-east-table')) {
         await populateStandingsTables();
@@ -974,6 +991,136 @@ function populateInterceptionsLeadersTable() {
             <td>${player.pd}</td>
             <td>${player.ff}</td>
             <td>${player.long}</td>
+        </tr>
+    `).join('');
+    
+    tableBody.innerHTML = rows;
+}
+
+// ==========================================
+// Special Teams Stats Population
+// ==========================================
+
+/**
+ * Populate all special teams tables
+ */
+async function populateSpecialTeamsTables() {
+    populateKickersLeadersTable();
+    populatePuntersLeadersTable();
+    populateReturnersLeadersTable();
+}
+
+/**
+ * Populate kickers leaders table
+ */
+function populateKickersLeadersTable() {
+    const tableBody = document.querySelector('#kickers-leaders-table tbody');
+    if (!tableBody) return;
+    
+    // Placeholder data
+    const kickersData = [
+        { rank: 1, name: "Harrison Butker", team: "KC", fgm: 28, fga: 30, fgPct: "93.3%", long: 58, xpm: 45, xpa: 46, points: 129 },
+        { rank: 2, name: "Justin Tucker", team: "BAL", fgm: 27, fga: 31, fgPct: "87.1%", long: 61, xpm: 42, xpa: 43, points: 123 },
+        { rank: 3, name: "Jake Moody", team: "SF", fgm: 26, fga: 29, fgPct: "89.7%", long: 57, xpm: 44, xpa: 45, points: 122 },
+        { rank: 4, name: "Brandon Aubrey", team: "DAL", fgm: 29, fga: 32, fgPct: "90.6%", long: 60, xpm: 35, xpa: 36, points: 122 },
+        { rank: 5, name: "Cameron Dicker", team: "LAC", fgm: 25, fga: 28, fgPct: "89.3%", long: 55, xpm: 43, xpa: 44, points: 118 },
+        { rank: 6, name: "Jason Myers", team: "SEA", fgm: 24, fga: 27, fgPct: "88.9%", long: 56, xpm: 46, xpa: 47, points: 118 },
+        { rank: 7, name: "Tyler Bass", team: "BUF", fgm: 26, fga: 30, fgPct: "86.7%", long: 54, xpm: 40, xpa: 41, points: 118 },
+        { rank: 8, name: "Jake Elliott", team: "PHI", fgm: 25, fga: 29, fgPct: "86.2%", long: 59, xpm: 41, xpa: 42, points: 116 },
+        { rank: 9, name: "Younghoe Koo", team: "ATL", fgm: 23, fga: 26, fgPct: "88.5%", long: 53, xpm: 44, xpa: 45, points: 113 },
+        { rank: 10, name: "Chris Boswell", team: "PIT", fgm: 24, fga: 28, fgPct: "85.7%", long: 57, xpm: 38, xpa: 39, points: 110 }
+    ];
+    
+    const rows = kickersData.map(player => `
+        <tr>
+            <td>${player.rank}</td>
+            <td>${player.name}</td>
+            <td>${player.team}</td>
+            <td>${player.fgm}</td>
+            <td>${player.fga}</td>
+            <td>${player.fgPct}</td>
+            <td>${player.long}</td>
+            <td>${player.xpm}</td>
+            <td>${player.xpa}</td>
+            <td>${player.points}</td>
+        </tr>
+    `).join('');
+    
+    tableBody.innerHTML = rows;
+}
+
+/**
+ * Populate punters leaders table
+ */
+function populatePuntersLeadersTable() {
+    const tableBody = document.querySelector('#punters-leaders-table tbody');
+    if (!tableBody) return;
+    
+    // Placeholder data
+    const puntersData = [
+        { rank: 1, name: "Bryan Anger", team: "DAL", punts: 58, yards: 2784, avg: 48.0, netAvg: 42.8, long: 72, inside20: 22, tb: 8 },
+        { rank: 2, name: "AJ Cole", team: "LV", punts: 72, yards: 3456, avg: 48.0, netAvg: 42.1, long: 68, inside20: 28, tb: 10 },
+        { rank: 3, name: "Jake Bailey", team: "MIA", punts: 65, yards: 3120, avg: 48.0, netAvg: 41.9, long: 70, inside20: 25, tb: 9 },
+        { rank: 4, name: "Tommy Townsend", team: "HOU", punts: 60, yards: 2880, avg: 48.0, netAvg: 42.5, long: 69, inside20: 24, tb: 7 },
+        { rank: 5, name: "Logan Cooke", team: "JAX", punts: 68, yards: 3264, avg: 48.0, netAvg: 41.7, long: 71, inside20: 26, tb: 11 },
+        { rank: 6, name: "Bradley Pinion", team: "ATL", punts: 70, yards: 3360, avg: 48.0, netAvg: 41.5, long: 67, inside20: 27, tb: 12 },
+        { rank: 7, name: "Jack Fox", team: "DET", punts: 52, yards: 2496, avg: 48.0, netAvg: 43.2, long: 73, inside20: 20, tb: 6 },
+        { rank: 8, name: "Tress Way", team: "WSH", punts: 75, yards: 3600, avg: 48.0, netAvg: 41.3, long: 66, inside20: 29, tb: 13 },
+        { rank: 9, name: "Mitch Wishnowsky", team: "SF", punts: 55, yards: 2640, avg: 48.0, netAvg: 42.9, long: 68, inside20: 21, tb: 7 },
+        { rank: 10, name: "Ryan Stonehouse", team: "TEN", punts: 78, yards: 3744, avg: 48.0, netAvg: 41.0, long: 70, inside20: 30, tb: 14 }
+    ];
+    
+    const rows = puntersData.map(player => `
+        <tr>
+            <td>${player.rank}</td>
+            <td>${player.name}</td>
+            <td>${player.team}</td>
+            <td>${player.punts}</td>
+            <td>${player.yards}</td>
+            <td>${player.avg}</td>
+            <td>${player.netAvg}</td>
+            <td>${player.long}</td>
+            <td>${player.inside20}</td>
+            <td>${player.tb}</td>
+        </tr>
+    `).join('');
+    
+    tableBody.innerHTML = rows;
+}
+
+/**
+ * Populate return specialists leaders table
+ */
+function populateReturnersLeadersTable() {
+    const tableBody = document.querySelector('#returners-leaders-table tbody');
+    if (!tableBody) return;
+    
+    // Placeholder data
+    const returnersData = [
+        { rank: 1, name: "KaVontae Turpin", team: "DAL", kr: 28, krYards: 756, krAvg: 27.0, pr: 22, prYards: 308, prAvg: 14.0, tds: 2 },
+        { rank: 2, name: "Derius Davis", team: "LAC", kr: 30, krYards: 780, krAvg: 26.0, pr: 18, prYards: 252, prAvg: 14.0, tds: 1 },
+        { rank: 3, name: "DeeJay Dallas", team: "ARI", kr: 32, krYards: 800, krAvg: 25.0, pr: 15, prYards: 195, prAvg: 13.0, tds: 1 },
+        { rank: 4, name: "Jamal Agnew", team: "JAX", kr: 25, krYards: 625, krAvg: 25.0, pr: 20, prYards: 280, prAvg: 14.0, tds: 2 },
+        { rank: 5, name: "Brandon Powell", team: "MIN", kr: 22, krYards: 550, krAvg: 25.0, pr: 25, prYards: 325, prAvg: 13.0, tds: 1 },
+        { rank: 6, name: "Mecole Hardman", team: "NYJ", kr: 27, krYards: 675, krAvg: 25.0, pr: 16, prYards: 208, prAvg: 13.0, tds: 0 },
+        { rank: 7, name: "Kalif Raymond", team: "DET", kr: 18, krYards: 450, krAvg: 25.0, pr: 28, prYards: 364, prAvg: 13.0, tds: 1 },
+        { rank: 8, name: "Rondale Moore", team: "ATL", kr: 24, krYards: 600, krAvg: 25.0, pr: 19, prYards: 247, prAvg: 13.0, tds: 0 },
+        { rank: 9, name: "Richie James", team: "KC", kr: 26, krYards: 650, krAvg: 25.0, pr: 17, prYards: 221, prAvg: 13.0, tds: 1 },
+        { rank: 10, name: "Isaiah McKenzie", team: "IND", kr: 20, krYards: 500, krAvg: 25.0, pr: 23, prYards: 299, prAvg: 13.0, tds: 0 }
+    ];
+    
+    const rows = returnersData.map(player => `
+        <tr>
+            <td>${player.rank}</td>
+            <td>${player.name}</td>
+            <td>${player.team}</td>
+            <td>${player.kr}</td>
+            <td>${player.krYards}</td>
+            <td>${player.krAvg}</td>
+            <td>${player.pr}</td>
+            <td>${player.prYards}</td>
+            <td>${player.prAvg}</td>
+            <td>${player.tds}</td>
         </tr>
     `).join('');
     

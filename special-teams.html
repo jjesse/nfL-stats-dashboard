@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Stats Dashboard - Special Teams Leaders</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header>
+        <div class="container">
+            <h1>NFL Stats Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="standings.html">Standings</a></li>
+                    <li><a href="team-stats.html">Team Stats</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn active">Player Stats</a>
+                        <div class="dropdown-content">
+                            <a href="qb-leaders.html">Quarterbacks Leaders</a>
+                            <a href="receiver-leaders.html">Receivers Leaders</a>
+                            <a href="rushing-leaders.html">Rushing Leaders</a>
+                            <a href="defensive-leaders.html">Defensive Leaders</a>
+                            <a href="special-teams.html" class="active">Special Teams</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content area -->
+    <main class="container">
+        <section>
+            <h2>Special Teams Leaders</h2>
+            <p class="subtitle">Top special teams performers in the NFL</p>
+
+            <!-- Stat Category Tabs -->
+            <div class="stat-tabs">
+                <button class="stat-tab active" data-category="kickers" aria-label="View kickers leaders">Kickers</button>
+                <button class="stat-tab" data-category="punters" aria-label="View punters leaders">Punters</button>
+                <button class="stat-tab" data-category="returners" aria-label="View return specialists leaders">Return Specialists</button>
+            </div>
+
+            <!-- Kickers Leaders -->
+            <div id="kickers-section" class="stat-section active">
+                <h3>Kickers Leaders</h3>
+                
+                <!-- Search and Filter Controls -->
+                <div class="filter-controls">
+                    <div class="search-box">
+                        <label for="kickers-search" class="sr-only">Search kickers</label>
+                        <input type="text" id="kickers-search" placeholder="Search by player name..." aria-label="Search kickers by name">
+                    </div>
+                    <div class="team-filter">
+                        <label for="kickers-team-filter" class="sr-only">Filter by team</label>
+                        <select id="kickers-team-filter" aria-label="Filter kickers by team">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="kickers-leaders-table" role="table" aria-label="Kickers statistics">
+                        <thead>
+                            <tr>
+                                <th scope="col" role="columnheader" aria-sort="none">Rank</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Player Name</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Team</th>
+                                <th scope="col" role="columnheader" aria-sort="none">FGM</th>
+                                <th scope="col" role="columnheader" aria-sort="none">FGA</th>
+                                <th scope="col" role="columnheader" aria-sort="none">FG%</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Long</th>
+                                <th scope="col" role="columnheader" aria-sort="none">XPM</th>
+                                <th scope="col" role="columnheader" aria-sort="none">XPA</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="10" class="loading">Loading kickers statistics...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Punters Leaders -->
+            <div id="punters-section" class="stat-section">
+                <h3>Punters Leaders</h3>
+                
+                <!-- Search and Filter Controls -->
+                <div class="filter-controls">
+                    <div class="search-box">
+                        <label for="punters-search" class="sr-only">Search punters</label>
+                        <input type="text" id="punters-search" placeholder="Search by player name..." aria-label="Search punters by name">
+                    </div>
+                    <div class="team-filter">
+                        <label for="punters-team-filter" class="sr-only">Filter by team</label>
+                        <select id="punters-team-filter" aria-label="Filter punters by team">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="punters-leaders-table" role="table" aria-label="Punters statistics">
+                        <thead>
+                            <tr>
+                                <th scope="col" role="columnheader" aria-sort="none">Rank</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Player Name</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Team</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Punts</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Yards</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Avg</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Net Avg</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Long</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Inside 20</th>
+                                <th scope="col" role="columnheader" aria-sort="none">TB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="10" class="loading">Loading punters statistics...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Return Specialists Leaders -->
+            <div id="returners-section" class="stat-section">
+                <h3>Return Specialists</h3>
+                
+                <!-- Search and Filter Controls -->
+                <div class="filter-controls">
+                    <div class="search-box">
+                        <label for="returners-search" class="sr-only">Search returners</label>
+                        <input type="text" id="returners-search" placeholder="Search by player name..." aria-label="Search returners by name">
+                    </div>
+                    <div class="team-filter">
+                        <label for="returners-team-filter" class="sr-only">Filter by team</label>
+                        <select id="returners-team-filter" aria-label="Filter returners by team">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="returners-leaders-table" role="table" aria-label="Return specialists statistics">
+                        <thead>
+                            <tr>
+                                <th scope="col" role="columnheader" aria-sort="none">Rank</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Player Name</th>
+                                <th scope="col" role="columnheader" aria-sort="none">Team</th>
+                                <th scope="col" role="columnheader" aria-sort="none">KR</th>
+                                <th scope="col" role="columnheader" aria-sort="none">KR Yds</th>
+                                <th scope="col" role="columnheader" aria-sort="none">KR Avg</th>
+                                <th scope="col" role="columnheader" aria-sort="none">PR</th>
+                                <th scope="col" role="columnheader" aria-sort="none">PR Yds</th>
+                                <th scope="col" role="columnheader" aria-sort="none">PR Avg</th>
+                                <th scope="col" role="columnheader" aria-sort="none">TDs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="10" class="loading">Loading return specialists statistics...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NFL Stats Dashboard. All rights reserved.</p>
+            <p>Data sourced from publicly available NFL statistics. Not affiliated with the NFL.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top" title="Scroll to top">
+        ↑
+    </button>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
