@@ -184,6 +184,14 @@ Contributions are welcome! Here's how you can help:
    - Provide a clear description of changes
    - Reference any related issues
 
+### Working with GitHub Copilot Agent
+
+If you're using GitHub Copilot agent to make changes:
+- See [Agent Session Management Guide](AGENT_SESSION_MANAGEMENT.md) for best practices
+- Use the [Quick Cleanup Guide](QUICK_START_AGENT_CLEANUP.md) if sessions get stuck
+- Keep only 1-2 active agent sessions at a time
+- Provide clear, specific instructions in your prompts
+
 ### Code Style Guidelines
 
 - Use semantic HTML5 elements
@@ -238,6 +246,8 @@ Questions or feedback? Open an issue on GitHub or reach out to the repository ma
 - [Report a Bug](https://github.com/yourusername/nfl-stats-dashboard/issues)
 - [Request a Feature](https://github.com/yourusername/nfl-stats-dashboard/issues)
 - [View Roadmap](TODO.md)
+- [Agent Session Management](AGENT_SESSION_MANAGEMENT.md) - Guide for managing GitHub Copilot agent sessions
+- [Quick Cleanup Guide](QUICK_START_AGENT_CLEANUP.md) - Fast fix for stuck agent sessions
 
 ---
 
