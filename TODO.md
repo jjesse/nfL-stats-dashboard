@@ -21,7 +21,11 @@ This document tracks the development roadmap and future enhancements for the NFL
 
 ## 🚧 In Progress
 
-Currently, there are no tasks in progress. Ready to start Phase 5!
+**Phase 5: Additional Statistics Pages** - Creating new stat pages
+- ✅ Defensive Leaders page (Tackles, Sacks, Interceptions) - COMPLETE
+- 🔄 Special Teams page - Next up
+- 🔄 League Leaders summary page  
+- 🔄 Scores page
 
 ## 📋 Planned Features
 
@@ -55,11 +59,11 @@ Currently, there are no tasks in progress. Ready to start Phase 5!
 - [x] Add keyboard navigation support
 - [x] Improve accessibility (ARIA labels, screen reader support)
 
-### Phase 5: Additional Statistics Pages (Priority: Medium)
-- [ ] Create defensive leaders page
-  - Tackles
-  - Sacks
-  - Interceptions
+### Phase 5: Additional Statistics Pages (Priority: Medium) 🚧 IN PROGRESS
+- [x] Create defensive leaders page
+  - [x] Tackles
+  - [x] Sacks
+  - [x] Interceptions
 - [ ] Create special teams page
   - Kickers
   - Punters
@@ -151,7 +155,8 @@ These are ideas that need further discussion or planning:
 - **Phase 2**: ✅ 100% Complete (8/8 tasks)
 - **Phase 3**: ✅ 88% Complete (7/8 tasks)
 - **Phase 4**: ✅ 100% Complete (8/8 tasks)
-- **Overall Project**: 🚀 37% Complete (36/97 planned tasks)
+- **Phase 5**: 🚧 20% Complete (1/5 tasks)
+- **Overall Project**: 🚀 38% Complete (37/97 planned tasks)
 
 ## 🎯 Current Sprint Goals
 
@@ -192,13 +197,12 @@ Please:
 **Last Updated**: December 10, 2025
 
 **Recent Changes**:
+- 🚧 Phase 5 in progress - Additional Statistics Pages
+- ✅ Created Defensive Leaders page with tabbed interface
+- ✅ Added Tackles, Sacks, and Interceptions statistics
+- ✅ Implemented tab switching with keyboard navigation
+- ✅ Added search/filter for each defensive category
+- ✅ Updated navigation menu on all pages
 - ✅ Phase 4 complete - Enhanced Interactivity fully implemented
-- ✅ Added search/filter functionality for all player statistics tables
-- ✅ Implemented team filter dropdowns for player stats
-- ✅ Created scroll-to-top button for all pages
-- ✅ Added smooth scrolling and loading animations
-- ✅ Implemented keyboard navigation shortcuts (Alt+H, Alt+S, Alt+T, Alt+P, Esc)
-- ✅ Improved accessibility with ARIA labels and semantic HTML
-- ✅ Enhanced user experience with interactive features
 
 **Maintainer Notes**: This TODO list is a living document and will be updated regularly as the project evolves. Priorities may shift based on community feedback and practical considerations.
