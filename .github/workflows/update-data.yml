@@ -32,6 +32,8 @@ jobs:
           node-version: '18'
           
       - name: Fetch NFL data
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: node scripts/fetch-data.js
         
       - name: Check for changes

@@ -266,6 +266,38 @@ async function fetchPlayerStats() {
 }
 
 /**
+ * Fetch betting odds from The Odds API
+ */
+async function fetchOdds() {
+    console.log('Fetching betting odds...');
+    
+    const apiKey = process.env.ODDS_API_KEY;
+    
+    if (!apiKey) {
+        console.warn('  ⚠ ODDS_API_KEY not found - skipping odds fetch');
+        console.warn('  Set ODDS_API_KEY in GitHub Secrets to enable odds data');
+        return null;
+    }
+    
+    try {
+        const url = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${apiKey}&regions=us&markets=h2h,spreads,totals&oddsFormat=american`;
+        const data = await fetchUrl(url);
+        
+        console.log(`  ✓ Odds fetched for ${data.length || 0} games`);
+        
+        // Check remaining requests
+        if (data.length > 0) {
+            console.log(`  ℹ API requests used: Check response headers for remaining quota`);
+        }
+        
+        return data;
+    } catch (error) {
+        console.error(`  ✗ Failed to fetch odds: ${error.message}`);
+        return null;
+    }
+}
+
+/**
  * Save data to JSON file
  */
 function saveToFile(filename, data) {
@@ -304,12 +336,19 @@ async function main() {
         const playerStats = await fetchPlayerStats();
         console.log();
         
+        const odds = await fetchOdds();
+        console.log();
+        
         // Save to files
         console.log('Saving data files...');
         saveToFile('schedule.json', schedule);
         saveToFile('standings.json', standings);
         saveToFile('team-stats.json', teamStats);
         saveToFile('player-stats.json', playerStats);
+        
+        if (odds) {
+            saveToFile('odds.json', odds);
+        }
         
         // Save metadata
         const metadata = {
@@ -322,7 +361,8 @@ async function main() {
                     qb: playerStats.qb?.length || 0,
                     receivers: playerStats.receivers?.length || 0,
                     rushers: playerStats.rushers?.length || 0
-                }
+                },
+                odds: odds ? odds.length : 0
             }
         };
         saveToFile('metadata.json', metadata);
@@ -346,4 +386,4 @@ if (require.main === module) {
     main();
 }
 
-module.exports = { main, fetchSchedule, fetchStandings, fetchTeamStats, fetchPlayerStats };
+module.exports = { main, fetchSchedule, fetchStandings, fetchTeamStats, fetchPlayerStats, fetchOdds };
