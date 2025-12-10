@@ -1337,9 +1337,25 @@ async function populatePlayoffPicture() {
             return;
         }
         
+        // Reorganize standings data by conference
+        // fetchStandings returns keys like 'afc-east', 'nfc-west', etc.
+        const afcData = {
+            East: standingsData['afc-east'] || [],
+            North: standingsData['afc-north'] || [],
+            South: standingsData['afc-south'] || [],
+            West: standingsData['afc-west'] || []
+        };
+        
+        const nfcData = {
+            East: standingsData['nfc-east'] || [],
+            North: standingsData['nfc-north'] || [],
+            South: standingsData['nfc-south'] || [],
+            West: standingsData['nfc-west'] || []
+        };
+        
         // Calculate playoff seeding for each conference
-        const afcSeeds = calculatePlayoffSeeds(standingsData.afc);
-        const nfcSeeds = calculatePlayoffSeeds(standingsData.nfc);
+        const afcSeeds = calculatePlayoffSeeds(afcData);
+        const nfcSeeds = calculatePlayoffSeeds(nfcData);
         
         // Populate AFC seeds
         populateConferenceSeeds('afc', afcSeeds);
@@ -1456,7 +1472,7 @@ function populateConferenceSeeds(conference, seedsData) {
                 }
                 
                 teamElement.innerHTML = `
-                    <span class="team-name">${team.name}</span>
+                    <span class="team-name">${team.team || team.name}</span>
                     <span class="team-record">${team.wins}-${team.losses}-${team.ties || 0}</span>
                     ${divisionBadge}
                 `;
@@ -1469,7 +1485,7 @@ function populateConferenceSeeds(conference, seedsData) {
     if (huntContainer && inTheHunt.length > 0) {
         huntContainer.innerHTML = inTheHunt.map(team => `
             <div class="hunt-team">
-                <span class="team-name">${team.name}</span>
+                <span class="team-name">${team.team || team.name}</span>
                 <span class="team-record">(${team.wins}-${team.losses}-${team.ties || 0})</span>
             </div>
         `).join('');
