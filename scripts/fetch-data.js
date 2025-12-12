@@ -57,35 +57,35 @@ function fetchUrl(url) {
 }
 
 /**
- * Fetch schedule for weeks 14-18
+ * Fetch schedule for weeks 14-18 in parallel
  */
 async function fetchSchedule() {
     console.log('Fetching schedule data...');
     const year = 2024;
     const weeks = [14, 15, 16, 17, 18];
-    const allGames = [];
     
-    for (const week of weeks) {
-        try {
-            const url = `${API_CONFIG.baseUrl}/scoreboard?dates=${year}&seasontype=2&week=${week}`;
-            const data = await fetchUrl(url);
-            
-            if (data.events) {
-                allGames.push(...data.events);
-            }
-            
-            console.log(`  ✓ Week ${week}: ${data.events?.length || 0} games`);
-        } catch (error) {
-            console.error(`  ✗ Week ${week}: ${error.message}`);
-        }
-    }
+    // Fetch all weeks in parallel
+    const weekPromises = weeks.map(week => 
+        fetchUrl(`${API_CONFIG.baseUrl}/scoreboard?dates=${year}&seasontype=2&week=${week}`)
+            .then(data => {
+                console.log(`  ✓ Week ${week}: ${data.events?.length || 0} games`);
+                return data.events || [];
+            })
+            .catch(error => {
+                console.error(`  ✗ Week ${week}: ${error.message}`);
+                return [];
+            })
+    );
+    
+    const weekResults = await Promise.all(weekPromises);
+    const allGames = weekResults.flat();
     
     console.log(`Total games fetched: ${allGames.length}`);
     return allGames;
 }
 
 /**
- * Fetch team standings data
+ * Fetch team standings data in parallel batches
  */
 async function fetchStandings() {
     console.log('Fetching standings data...');
@@ -102,50 +102,67 @@ async function fetchStandings() {
     };
     
     const standings = {};
+    const allTeamIds = Object.values(divisions).flatMap(div => div.teams);
+    const teamDataMap = {};
     
-    for (const [divisionKey, divisionInfo] of Object.entries(divisions)) {
-        standings[divisionKey] = [];
+    // Fetch all teams in parallel with batching (8 at a time to avoid rate limits)
+    const BATCH_SIZE = 8;
+    for (let i = 0; i < allTeamIds.length; i += BATCH_SIZE) {
+        const batch = allTeamIds.slice(i, i + BATCH_SIZE);
+        const batchPromises = batch.map(teamId =>
+            fetchUrl(`${API_CONFIG.baseUrl}/teams/${teamId}`)
+                .then(teamData => {
+                    const team = teamData.team || teamData;
+                    const record = team.record?.items?.[0] || {};
+                    const stats = record.stats || [];
+                    
+                    const getStat = (name) => {
+                        const stat = stats.find(s => s.name === name);
+                        return stat ? stat.value : 0;
+                    };
+                    
+                    const wins = getStat('wins') || 0;
+                    const losses = getStat('losses') || 0;
+                    const ties = getStat('ties') || 0;
+                    const total = wins + losses + ties;
+                    const winPct = total > 0 ? (wins / total).toFixed(3) : '.000';
+                    const streak = getStat('streak') || 0;
+                    
+                    return {
+                        teamId,
+                        team: team.displayName,
+                        abbreviation: team.abbreviation,
+                        wins,
+                        losses,
+                        ties,
+                        winPct,
+                        pointsScored: getStat('pointsFor') || 0,
+                        pointsAllowed: getStat('pointsAgainst') || 0,
+                        differential: getStat('pointDifferential') || 0,
+                        streak: streak > 0 ? `W${Math.abs(streak)}` : streak < 0 ? `L${Math.abs(streak)}` : '-'
+                    };
+                })
+                .catch(error => {
+                    console.error(`  ✗ Team ${teamId}: ${error.message}`);
+                    return null;
+                })
+        );
         
-        for (const teamId of divisionInfo.teams) {
-            try {
-                const url = `${API_CONFIG.baseUrl}/teams/${teamId}`;
-                const teamData = await fetchUrl(url);
-                const team = teamData.team || teamData;
-                
-                const record = team.record?.items?.[0] || {};
-                const stats = record.stats || [];
-                
-                const getStat = (name) => {
-                    const stat = stats.find(s => s.name === name);
-                    return stat ? stat.value : 0;
-                };
-                
-                const wins = getStat('wins') || 0;
-                const losses = getStat('losses') || 0;
-                const ties = getStat('ties') || 0;
-                const total = wins + losses + ties;
-                const winPct = total > 0 ? (wins / total).toFixed(3) : '.000';
-                const streak = getStat('streak') || 0;
-                
-                standings[divisionKey].push({
-                    team: team.displayName,
-                    abbreviation: team.abbreviation,
-                    wins,
-                    losses,
-                    ties,
-                    winPct,
-                    pointsScored: getStat('pointsFor') || 0,
-                    pointsAllowed: getStat('pointsAgainst') || 0,
-                    differential: getStat('pointDifferential') || 0,
-                    streak: streak > 0 ? `W${Math.abs(streak)}` : streak < 0 ? `L${Math.abs(streak)}` : '-'
-                });
-            } catch (error) {
-                console.error(`  ✗ Team ${teamId}: ${error.message}`);
+        const batchResults = await Promise.all(batchPromises);
+        batchResults.forEach(result => {
+            if (result) {
+                teamDataMap[result.teamId] = result;
             }
-        }
+        });
+    }
+    
+    // Organize teams by division
+    for (const [divisionKey, divisionInfo] of Object.entries(divisions)) {
+        standings[divisionKey] = divisionInfo.teams
+            .map(teamId => teamDataMap[teamId])
+            .filter(team => team !== undefined && team !== null)
+            .sort((a, b) => parseFloat(b.winPct) - parseFloat(a.winPct));
         
-        // Sort by win percentage
-        standings[divisionKey].sort((a, b) => parseFloat(b.winPct) - parseFloat(a.winPct));
         console.log(`  ✓ ${divisionInfo.name}: ${standings[divisionKey].length} teams`);
     }
     
@@ -201,7 +218,7 @@ async function fetchTeamStats() {
 }
 
 /**
- * Fetch player stats (QB, Receivers, Rushers)
+ * Fetch player stats (QB, Receivers, Rushers) in parallel
  */
 async function fetchPlayerStats() {
     console.log('Fetching player stats...');
@@ -214,7 +231,8 @@ async function fetchPlayerStats() {
     
     const playerStats = {};
     
-    for (const category of categories) {
+    // Fetch all categories in parallel
+    const categoryPromises = categories.map(async (category) => {
         try {
             const url = `${API_CONFIG.coreUrl}/seasons/2024/types/2/leaders?limit=10`;
             const data = await fetchUrl(url);
@@ -228,10 +246,9 @@ async function fetchPlayerStats() {
                 }
             }
             
-            const players = [];
-            
-            for (const leader of leaders) {
-                if (!leader.athlete?.$ref) continue;
+            // Fetch all athletes in parallel
+            const playerPromises = leaders.map(async (leader) => {
+                if (!leader.athlete?.$ref) return null;
                 
                 try {
                     const athleteData = await fetchUrl(leader.athlete.$ref);
@@ -243,24 +260,32 @@ async function fetchPlayerStats() {
                         teamAbbr = teamData.abbreviation || 'N/A';
                     }
                     
-                    players.push({
+                    return {
                         name: athlete.displayName || leader.displayName,
                         team: teamAbbr,
                         value: leader.value,
                         displayValue: leader.displayValue
-                    });
+                    };
                 } catch (error) {
                     console.error(`    ✗ Athlete error: ${error.message}`);
+                    return null;
                 }
-            }
+            });
             
-            playerStats[category.key] = players;
+            const players = (await Promise.all(playerPromises)).filter(p => p !== null);
+            
             console.log(`  ✓ ${category.label}: ${players.length} players`);
+            return { key: category.key, players };
         } catch (error) {
             console.error(`  ✗ ${category.label}: ${error.message}`);
-            playerStats[category.key] = [];
+            return { key: category.key, players: [] };
         }
-    }
+    });
+    
+    const results = await Promise.all(categoryPromises);
+    results.forEach(({ key, players }) => {
+        playerStats[key] = players;
+    });
     
     return playerStats;
 }

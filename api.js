@@ -146,12 +146,17 @@ async function fetchTeamStats() {
         
         console.log('Fetching team stats for', teamIds.length, 'teams');
         
-        // Fetch all teams in parallel for better performance
-        const teamPromises = teamIds.map(async (teamId) => {
-            try {
-                const url = `${API_CONFIG.baseUrl}/teams/${teamId}`;
-                const teamData = await fetchWithTimeout(url);
-                const team = teamData.team;
+        // Fetch all teams in parallel with concurrency limit to avoid rate limiting
+        const BATCH_SIZE = 8; // Limit concurrent requests
+        const teamPromises = [];
+        
+        for (let i = 0; i < teamIds.length; i += BATCH_SIZE) {
+            const batch = teamIds.slice(i, i + BATCH_SIZE);
+            const batchPromises = batch.map(async (teamId) => {
+                try {
+                    const url = `${API_CONFIG.baseUrl}/teams/${teamId}`;
+                    const teamData = await fetchWithTimeout(url);
+                    const team = teamData.team;
                 
                 // Get record from team data
                 const record = team.record?.items?.[0] || {};
@@ -185,12 +190,14 @@ async function fetchTeamStats() {
                 return null;
             }
         });
-        
-        // Wait for all teams to be fetched
-        const allTeamsResults = await Promise.all(teamPromises);
+            
+            // Process batch
+            const batchResults = await Promise.all(batchPromises);
+            teamPromises.push(...batchResults);
+        }
         
         // Filter out any null results from errors
-        const allTeams = allTeamsResults.filter(team => team !== null);
+        const allTeams = teamPromises.filter(team => team !== null);
         
         // Sort by win percentage
         allTeams.sort((a, b) => parseFloat(b.winPct) - parseFloat(a.winPct));
@@ -209,6 +216,7 @@ async function fetchTeamStats() {
 
 /**
  * Fetch NFL standings organized by division
+ * Optimized to fetch teams in batches and reuse data
  * @returns {Promise<Object>} - Object with divisions as keys
  */
 async function fetchStandings() {
@@ -225,37 +233,15 @@ async function fetchStandings() {
             'nfc-west': { name: 'NFC West', groupId: '8', teams: [22, 14, 25, 26] }      // ARI, LAR, SF, SEA
         };
 
-        const standings = {};
+        // Flatten all team IDs for batch fetching
+        const allTeamIds = Object.values(divisions).flatMap(div => div.teams);
+        const teamDataMap = {};
         
-        // Fetch all teams data (reuse existing function)
-        const allTeamsData = await fetchTeamStats();
-        
-        // Organize teams by division
-        for (const [divisionKey, divisionInfo] of Object.entries(divisions)) {
-            const divisionTeams = allTeamsData
-                .filter(team => {
-                    // Match teams to division by checking if team name contains division team names
-                    return divisionInfo.teams.some(teamId => {
-                        // This is a simple approach; we'll match by checking the teams we fetched
-                        return true; // We'll filter properly below
-                    });
-                })
-                .map(team => ({
-                    ...team,
-                    divisionName: divisionInfo.name
-                }));
-            
-            standings[divisionKey] = divisionTeams;
-        }
-        
-        // Better approach: organize by matching team data
-        // Clear and rebuild with proper matching
-        const teamsByDivision = {};
-        
-        for (const [divisionKey, divisionInfo] of Object.entries(divisions)) {
-            teamsByDivision[divisionKey] = [];
-            
-            for (const teamId of divisionInfo.teams) {
+        // Fetch all teams in batches with concurrency limit
+        const BATCH_SIZE = 8;
+        for (let i = 0; i < allTeamIds.length; i += BATCH_SIZE) {
+            const batch = allTeamIds.slice(i, i + BATCH_SIZE);
+            const batchPromises = batch.map(async (teamId) => {
                 try {
                     const url = `${API_CONFIG.baseUrl}/teams/${teamId}`;
                     const teamData = await fetchWithTimeout(url);
@@ -276,7 +262,8 @@ async function fetchStandings() {
                     const winPct = total > 0 ? (wins / total).toFixed(3) : '.000';
                     const streak = getStat('streak') || 0;
                     
-                    teamsByDivision[divisionKey].push({
+                    return {
+                        teamId,
                         team: team.displayName,
                         abbreviation: team.abbreviation,
                         wins,
@@ -287,14 +274,28 @@ async function fetchStandings() {
                         pointsAllowed: getStat('pointsAgainst') || 0,
                         differential: getStat('pointDifferential') || 0,
                         streak: streak > 0 ? `W${Math.abs(streak)}` : streak < 0 ? `L${Math.abs(streak)}` : '-'
-                    });
+                    };
                 } catch (error) {
                     console.error(`Error fetching team ${teamId}:`, error.message);
+                    return null;
                 }
-            }
+            });
             
-            // Sort by win percentage within division
-            teamsByDivision[divisionKey].sort((a, b) => parseFloat(b.winPct) - parseFloat(a.winPct));
+            const batchResults = await Promise.all(batchPromises);
+            batchResults.forEach(result => {
+                if (result) {
+                    teamDataMap[result.teamId] = result;
+                }
+            });
+        }
+        
+        // Organize teams by division
+        const teamsByDivision = {};
+        for (const [divisionKey, divisionInfo] of Object.entries(divisions)) {
+            teamsByDivision[divisionKey] = divisionInfo.teams
+                .map(teamId => teamDataMap[teamId])
+                .filter(team => team !== undefined)
+                .sort((a, b) => parseFloat(b.winPct) - parseFloat(a.winPct));
         }
         
         console.log('Fetched standings for all divisions');
@@ -574,6 +575,53 @@ async function fetchRushingStats() {
 // ==========================================
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+const MAX_CACHE_ITEMS = 20; // Maximum number of cached items
+const CACHE_PREFIX = 'nfl_cache_';
+
+/**
+ * Get all cache keys
+ * @returns {Array<string>} - Array of cache keys
+ */
+function getCacheKeys() {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(CACHE_PREFIX)) {
+            keys.push(key);
+        }
+    }
+    return keys;
+}
+
+/**
+ * Enforce cache size limit by removing oldest entries
+ */
+function enforceCacheLimit() {
+    const cacheKeys = getCacheKeys();
+    
+    if (cacheKeys.length <= MAX_CACHE_ITEMS) return;
+    
+    // Get all cache entries with timestamps
+    const entries = cacheKeys.map(key => {
+        try {
+            const cached = localStorage.getItem(key);
+            if (!cached) return null;
+            const { timestamp } = JSON.parse(cached);
+            return { key, timestamp };
+        } catch {
+            return null;
+        }
+    }).filter(entry => entry !== null);
+    
+    // Sort by timestamp (oldest first)
+    entries.sort((a, b) => a.timestamp - b.timestamp);
+    
+    // Remove oldest entries to get under the limit
+    const toRemove = entries.length - MAX_CACHE_ITEMS;
+    for (let i = 0; i < toRemove; i++) {
+        localStorage.removeItem(entries[i].key);
+    }
+}
 
 /**
  * Get cached data if available and not expired
@@ -582,14 +630,15 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
  */
 function getCachedData(key) {
     try {
-        const cached = localStorage.getItem(key);
+        const fullKey = CACHE_PREFIX + key;
+        const cached = localStorage.getItem(fullKey);
         if (!cached) return null;
         
         const { data, timestamp } = JSON.parse(cached);
         const now = Date.now();
         
         if (now - timestamp > CACHE_DURATION) {
-            localStorage.removeItem(key);
+            localStorage.removeItem(fullKey);
             return null;
         }
         
@@ -601,7 +650,7 @@ function getCachedData(key) {
 }
 
 /**
- * Store data in cache
+ * Store data in cache with size management
  * @param {string} key - Cache key
  * @param {any} data - Data to cache
  */
@@ -611,9 +660,25 @@ function setCachedData(key, data) {
             data: data,
             timestamp: Date.now()
         };
-        localStorage.setItem(key, JSON.stringify(cacheObject));
+        const fullKey = CACHE_PREFIX + key;
+        localStorage.setItem(fullKey, JSON.stringify(cacheObject));
+        
+        // Enforce cache size limit after adding new item
+        enforceCacheLimit();
     } catch (error) {
-        console.error('Cache storage error:', error);
+        // If localStorage is full, clear old cache and try again
+        if (error.name === 'QuotaExceededError') {
+            console.warn('localStorage quota exceeded, clearing old cache');
+            const cacheKeys = getCacheKeys();
+            cacheKeys.forEach(k => localStorage.removeItem(k));
+            try {
+                localStorage.setItem(fullKey, JSON.stringify(cacheObject));
+            } catch (e) {
+                console.error('Failed to cache data even after cleanup:', e);
+            }
+        } else {
+            console.error('Cache storage error:', error);
+        }
     }
 }
 
@@ -703,13 +768,9 @@ const NFLAPI = {
      * Clear all cached data
      */
     clearCache() {
-        const keys = Object.keys(localStorage);
-        keys.forEach(key => {
-            if (key.includes('schedule') || key.includes('stats')) {
-                localStorage.removeItem(key);
-            }
-        });
-        console.log('Cache cleared');
+        const cacheKeys = getCacheKeys();
+        cacheKeys.forEach(key => localStorage.removeItem(key));
+        console.log(`Cache cleared (${cacheKeys.length} items removed)`);
     }
 };
 

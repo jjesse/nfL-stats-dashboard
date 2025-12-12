@@ -135,21 +135,33 @@ async function populateScheduleTable() {
         const currentWeek = 14;
         const finalWeek = 18; // Regular season ends at week 18
         
-        // Fetch remaining weeks of the season
+        // Fetch remaining weeks of the season in parallel for better performance
+        const weekPromises = [];
         for (let week = currentWeek; week <= finalWeek; week++) {
-            try {
-                const weekGames = await NFLAPI.getSchedule(week);
-                if (weekGames && weekGames.length > 0) {
-                    // Add week header information to each game
-                    weekGames.forEach(game => {
-                        game.week = week;
-                    });
-                    allGames.push(...weekGames);
-                }
-            } catch (error) {
-                console.warn(`Could not load week ${week}:`, error.message);
-            }
+            weekPromises.push(
+                NFLAPI.getSchedule(week)
+                    .then(weekGames => {
+                        if (weekGames && weekGames.length > 0) {
+                            // Add week header information to each game
+                            weekGames.forEach(game => {
+                                game.week = week;
+                            });
+                            return weekGames;
+                        }
+                        return [];
+                    })
+                    .catch(error => {
+                        console.warn(`Could not load week ${week}:`, error.message);
+                        return [];
+                    })
+            );
         }
+        
+        // Wait for all weeks to load in parallel
+        const weekResults = await Promise.all(weekPromises);
+        weekResults.forEach(weekGames => {
+            allGames.push(...weekGames);
+        });
         
         if (allGames.length === 0) {
             tbody.innerHTML = '<tr><td colspan="10" class="loading">No games scheduled.</td></tr>';
@@ -523,6 +535,7 @@ function cacheData() {
 
 /**
  * Make a table sortable by clicking column headers
+ * Optimized with memoization and efficient parsing
  * @param {string} tableId - The ID of the table element
  */
 function makeTableSortable(tableId) {
@@ -531,6 +544,9 @@ function makeTableSortable(tableId) {
 
     const headers = table.querySelectorAll('thead th');
     const tbody = table.querySelector('tbody');
+    
+    // Cache for parsed numeric values to avoid re-parsing
+    const numericCache = new WeakMap();
     
     headers.forEach((header, columnIndex) => {
         // Skip if header is not sortable (has class 'no-sort')
@@ -561,31 +577,49 @@ function makeTableSortable(tableId) {
                 header.dataset.sortDirection = 'desc';
             }
             
+            // Helper to parse numeric value with caching
+            const parseNumeric = (cell) => {
+                if (!numericCache.has(cell)) {
+                    const text = cell.textContent.trim();
+                    // Remove common numeric formatting characters
+                    const cleaned = text.replace(/[,%+]/g, '');
+                    const num = parseFloat(cleaned);
+                    numericCache.set(cell, isNaN(num) ? null : num);
+                }
+                return numericCache.get(cell);
+            };
+            
             // Sort rows
             rows.sort((rowA, rowB) => {
-                const cellA = rowA.cells[columnIndex]?.textContent.trim() || '';
-                const cellB = rowB.cells[columnIndex]?.textContent.trim() || '';
+                const cellA = rowA.cells[columnIndex];
+                const cellB = rowB.cells[columnIndex];
                 
-                // Try to parse as numbers (handle percentages, decimals, commas)
-                const numA = parseFloat(cellA.replace(/[,%+]/g, ''));
-                const numB = parseFloat(cellB.replace(/[,%+]/g, ''));
+                if (!cellA || !cellB) return 0;
+                
+                // Try numeric comparison first
+                const numA = parseNumeric(cellA);
+                const numB = parseNumeric(cellB);
                 
                 let comparison = 0;
                 
-                // If both are valid numbers, compare numerically
-                if (!isNaN(numA) && !isNaN(numB)) {
+                if (numA !== null && numB !== null) {
+                    // Both are numbers, compare numerically
                     comparison = numA - numB;
-                } 
-                // Otherwise compare as strings
-                else {
-                    comparison = cellA.localeCompare(cellB, undefined, { numeric: true });
+                } else {
+                    // String comparison with natural sorting
+                    const textA = cellA.textContent.trim();
+                    const textB = cellB.textContent.trim();
+                    comparison = textA.localeCompare(textB, undefined, { numeric: true });
                 }
                 
                 return isAscending ? comparison : -comparison;
             });
             
-            // Re-append sorted rows
+            // Re-append sorted rows (more efficient than innerHTML)
             rows.forEach(row => tbody.appendChild(row));
+            
+            // Clear numeric cache after sort to free memory
+            setTimeout(() => numericCache.clear = new WeakMap(), 1000);
         });
     });
 }
@@ -689,6 +723,24 @@ function initializeTableSorting() {
 // ==========================================
 
 /**
+ * Debounce utility function
+ * @param {Function} func - Function to debounce
+ * @param {number} wait - Wait time in milliseconds
+ * @returns {Function} - Debounced function
+ */
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+/**
  * Initialize search functionality for a table
  * @param {string} searchInputId - ID of the search input
  * @param {string} tableId - ID of the table to search
@@ -700,7 +752,7 @@ function initializeSearch(searchInputId, tableId, nameColumnIndex = 1) {
     
     if (!searchInput || !table) return;
     
-    searchInput.addEventListener('input', (e) => {
+    const performSearch = (e) => {
         const searchTerm = e.target.value.toLowerCase();
         const tbody = table.querySelector('tbody');
         const rows = tbody.querySelectorAll('tr');
@@ -738,10 +790,14 @@ function initializeSearch(searchInputId, tableId, nameColumnIndex = 1) {
             }
         }
     });
+    
+    // Add debounced search listener (300ms delay)
+    searchInput.addEventListener('input', debounce(performSearch, 300));
 }
 
 /**
  * Initialize team filter functionality for a table
+ * Optimized with Set-based filtering and reduced DOM operations
  * @param {string} selectId - ID of the select dropdown
  * @param {string} tableId - ID of the table to filter
  * @param {number} teamColumnIndex - Index of the column containing team abbreviations
@@ -771,16 +827,12 @@ function initializeTeamFilter(selectId, tableId, teamColumnIndex = 2) {
         // Sort teams alphabetically
         const sortedTeams = Array.from(teams).sort();
         
-        // Clear existing options (except "All Teams")
-        select.innerHTML = '<option value="">All Teams</option>';
-        
-        // Add team options
+        // Build options HTML in one go (more efficient than individual appendChild)
+        const optionsHTML = ['<option value="">All Teams</option>'];
         sortedTeams.forEach(team => {
-            const option = document.createElement('option');
-            option.value = team;
-            option.textContent = team;
-            select.appendChild(option);
+            optionsHTML.push(`<option value="${team}">${team}</option>`);
         });
+        select.innerHTML = optionsHTML.join('');
     };
     
     // Filter table by selected team
@@ -789,6 +841,7 @@ function initializeTeamFilter(selectId, tableId, teamColumnIndex = 2) {
         const tbody = table.querySelector('tbody');
         const rows = tbody.querySelectorAll('tr');
         
+        // Batch DOM updates using DocumentFragment or direct style changes
         rows.forEach(row => {
             const cells = row.querySelectorAll('td');
             if (cells.length === 0) return;
@@ -796,19 +849,21 @@ function initializeTeamFilter(selectId, tableId, teamColumnIndex = 2) {
             const teamCell = cells[teamColumnIndex];
             if (!teamCell) return;
             
-            if (selectedTeam === '' || teamCell.textContent.trim() === selectedTeam) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+            const shouldShow = selectedTeam === '' || teamCell.textContent.trim() === selectedTeam;
+            row.style.display = shouldShow ? '' : 'none';
         });
     });
     
-    // Populate options when table data is loaded
+    // Use more efficient table observation
+    // Only observe once when table first loads data
+    let optionsPopulated = false;
     const observer = new MutationObserver(() => {
+        if (optionsPopulated) return;
+        
         const tbody = table.querySelector('tbody');
         if (tbody && tbody.querySelectorAll('tr:not(.loading)').length > 0) {
             populateTeamOptions();
+            optionsPopulated = true;
             observer.disconnect();
         }
     });
