@@ -322,14 +322,20 @@ The schedule page includes an optional betting odds feature that displays spread
 
 Key upcoming features:
 
-- Complete betting odds testing and documentation (Phase 6 - 15% remaining)
+- **Additional Statistics** - See [STATISTICS_RECOMMENDATIONS.md](STATISTICS_RECOMMENDATIONS.md) for comprehensive list
+  - Red Zone efficiency stats (team & player)
+  - Third/Fourth down conversion rates
+  - Turnover differential analysis
+  - Time of possession metrics
+  - Advanced QB metrics (YPA, AY/A, sack percentage)
+  - Team defensive statistics page
+  - And 15+ more statistical categories!
 - Player comparison tools (Phase 6)
 - Historical statistics and season archives (Phase 6)
 - Advanced filtering with date ranges (Phase 7)
 - Interactive charts and visualizations (Phase 8)
 - Dark mode toggle (Phase 9)
 - User preferences and favorites (Phase 10)
-- And much more!
 
 ## 📄 License
 
@@ -351,10 +357,16 @@ Questions or feedback? Open an issue on GitHub or reach out to the repository ma
 
 ## 🔗 Quick Links
 
+### User Resources
 - [Live Demo](https://yourusername.github.io/nfl-stats-dashboard/) (Update with your URL)
 - [Report a Bug](https://github.com/yourusername/nfl-stats-dashboard/issues)
 - [Request a Feature](https://github.com/yourusername/nfl-stats-dashboard/issues)
 - [View Roadmap](TODO.md)
+
+### Developer Resources
+- **[Statistics Recommendations](STATISTICS_RECOMMENDATIONS.md)** - Comprehensive analysis of recommended additional statistics
+- **[Implementation Guide](IMPLEMENTATION_GUIDE.md)** - Step-by-step guide for implementing new statistics
+- **[Statistics Coverage Matrix](STATISTICS_MATRIX.md)** - Visual overview of current vs. recommended stats
 - [Agent Session Management](AGENT_SESSION_MANAGEMENT.md) - Guide for managing GitHub Copilot agent sessions
 - [Quick Cleanup Guide](QUICK_START_AGENT_CLEANUP.md) - Fast fix for stuck agent sessions
 
