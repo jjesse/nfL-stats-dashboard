@@ -12,7 +12,7 @@ A modern, responsive web dashboard for viewing NFL statistics, schedules, and pl
 
 The NFL Stats Dashboard provides an easy-to-navigate interface for accessing comprehensive NFL data including:
 
-- **Schedule**: View upcoming games with team records and venue information (Weeks 14-18)
+- **Schedule**: View upcoming games with team records and venue information (displays remaining weeks of the current season automatically)
 - **Betting Odds**: Toggle to display spreads, moneylines, and totals for upcoming games (requires setup)
 - **Standings**: NFL standings organized by division and conference
 - **Team Statistics**: Compare team performance across the league

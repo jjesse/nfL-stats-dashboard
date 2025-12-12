@@ -54,7 +54,7 @@ A Node.js script that fetches NFL data from ESPN's public API.
 - Player Leaders: `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/{year}/types/2/leaders`
 
 **Data Collected**:
-- **Schedule** (weeks 14-18): Game matchups, scores, venues, dates/times
+- **Schedule** (dynamically shows remaining weeks of current season): Game matchups, scores, venues, dates/times
 - **Standings**: Division-by-division standings with win/loss records
 - **Team Stats**: All 32 NFL teams with comprehensive statistics
 - **Player Stats**: Top 10 leaders in QB, Receiving, and Rushing categories

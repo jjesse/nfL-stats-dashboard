@@ -132,8 +132,11 @@ async function populateScheduleTable() {
 
     try {
         const allGames = [];
-        const currentWeek = 14;
+        // Use the dynamically calculated current week from API_CONFIG (defined in api.js)
+        const currentWeek = typeof API_CONFIG !== 'undefined' ? API_CONFIG.currentWeek : 1;
         const finalWeek = 18; // Regular season ends at week 18
+        
+        console.log(`Loading schedule from Week ${currentWeek} to Week ${finalWeek}`);
         
         // Fetch remaining weeks of the season
         for (let week = currentWeek; week <= finalWeek; week++) {
@@ -195,6 +198,16 @@ async function populateScheduleTable() {
         });
         
         console.log(`Loaded ${allGames.length} games from weeks ${currentWeek}-${finalWeek}`);
+        
+        // Update the subtitle to show which weeks are being displayed
+        const subtitle = document.getElementById('schedule-subtitle');
+        if (subtitle) {
+            if (currentWeek === finalWeek) {
+                subtitle.textContent = `Showing Week ${currentWeek} (Final week of regular season)`;
+            } else {
+                subtitle.textContent = `Showing Weeks ${currentWeek}-${finalWeek} (Remaining games of the ${API_CONFIG.currentSeason} NFL regular season)`;
+            }
+        }
         
         // Initialize odds toggle functionality
         initializeOddsToggle();
