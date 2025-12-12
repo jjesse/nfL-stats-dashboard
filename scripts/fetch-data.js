@@ -21,6 +21,44 @@ const API_CONFIG = {
 };
 
 /**
+ * Calculate the current NFL week based on the current date
+ * The 2025 NFL regular season runs from Week 1 (September 4, 2025) to Week 18 (January 5, 2026)
+ * @returns {number} Current NFL week (1-18 for regular season, 18 for playoffs/offseason)
+ */
+function getCurrentNFLWeek() {
+    const now = new Date();
+    
+    // 2025 NFL Season dates (regular season)
+    // Week 1 starts: Thursday, September 4, 2025
+    const seasonStart = new Date('2025-09-04T00:00:00-04:00'); // EDT
+    const regularSeasonEnd = new Date('2026-01-05T23:59:59-05:00'); // EST - End of Week 18
+    
+    // If before season starts, return 1 (show Week 1 games)
+    if (now < seasonStart) {
+        console.log('Before season start - defaulting to Week 1');
+        return 1;
+    }
+    
+    // If after regular season ends, return 18 (show final week or playoffs)
+    if (now > regularSeasonEnd) {
+        console.log('After regular season - defaulting to Week 18');
+        return 18;
+    }
+    
+    // Calculate weeks since season start
+    // Each week is 7 days, starting Thursday
+    const millisecondsPerWeek = 7 * 24 * 60 * 60 * 1000;
+    const timeSinceStart = now - seasonStart;
+    const weeksSinceStart = Math.floor(timeSinceStart / millisecondsPerWeek);
+    
+    // Week number is 1-based (Week 1, Week 2, etc.)
+    const currentWeek = Math.min(weeksSinceStart + 1, 18);
+    
+    console.log(`Current NFL week calculated: ${currentWeek}`);
+    return currentWeek;
+}
+
+/**
  * Make an HTTPS GET request
  */
 function fetchUrl(url) {
@@ -57,12 +95,21 @@ function fetchUrl(url) {
 }
 
 /**
- * Fetch schedule for weeks 14-18
+ * Fetch schedule for remaining weeks of the season
  */
 async function fetchSchedule() {
     console.log('Fetching schedule data...');
-    const year = 2024;
-    const weeks = [14, 15, 16, 17, 18];
+    const year = 2025;
+    const currentWeek = getCurrentNFLWeek();
+    const finalWeek = 18; // Regular season ends at week 18
+    const weeks = [];
+    
+    // Build array of weeks from current week to end of season
+    for (let week = currentWeek; week <= finalWeek; week++) {
+        weeks.push(week);
+    }
+    
+    console.log(`Fetching weeks ${currentWeek}-${finalWeek} for ${year} season`);
     const allGames = [];
     
     for (const week of weeks) {
