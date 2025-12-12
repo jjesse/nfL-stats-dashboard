@@ -148,7 +148,7 @@ async function fetchTeamStats() {
         
         // Fetch all teams in parallel with concurrency limit to avoid rate limiting
         const BATCH_SIZE = 8; // Limit concurrent requests
-        const teamPromises = [];
+        const allTeams = [];
         
         for (let i = 0; i < teamIds.length; i += BATCH_SIZE) {
             const batch = teamIds.slice(i, i + BATCH_SIZE);
@@ -191,13 +191,10 @@ async function fetchTeamStats() {
             }
         });
             
-            // Process batch
+            // Process batch and collect results
             const batchResults = await Promise.all(batchPromises);
-            teamPromises.push(...batchResults);
+            allTeams.push(...batchResults.filter(team => team !== null));
         }
-        
-        // Filter out any null results from errors
-        const allTeams = teamPromises.filter(team => team !== null);
         
         // Sort by win percentage
         allTeams.sort((a, b) => parseFloat(b.winPct) - parseFloat(a.winPct));
@@ -616,8 +613,8 @@ function enforceCacheLimit() {
     // Sort by timestamp (oldest first)
     entries.sort((a, b) => a.timestamp - b.timestamp);
     
-    // Remove oldest entries to get under the limit
-    const toRemove = entries.length - MAX_CACHE_ITEMS;
+    // Remove oldest entries to get below the limit
+    const toRemove = entries.length - MAX_CACHE_ITEMS + 1;
     for (let i = 0; i < toRemove; i++) {
         localStorage.removeItem(entries[i].key);
     }

@@ -617,9 +617,6 @@ function makeTableSortable(tableId) {
             
             // Re-append sorted rows (more efficient than innerHTML)
             rows.forEach(row => tbody.appendChild(row));
-            
-            // Clear numeric cache after sort to free memory
-            setTimeout(() => numericCache.clear = new WeakMap(), 1000);
         });
     });
 }
@@ -789,7 +786,7 @@ function initializeSearch(searchInputId, tableId, nameColumnIndex = 1) {
                 noResultsRow.remove();
             }
         }
-    });
+    };
     
     // Add debounced search listener (300ms delay)
     searchInput.addEventListener('input', debounce(performSearch, 300));
